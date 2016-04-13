@@ -133,52 +133,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected Integer doInBackground(String... params) {
-            try {
+            //try {
                 String username = params[0];
                 String pwd = params[1];
                 String myLoginString = "LOGIN," + username + "," + pwd;//
-                Log.i(TAG, "Connecting to " + SERVER_NAME + " on port " + PORT);
-                Socket client = new Socket();
-                client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
-                Log.i(TAG, "Just connected to " + client.getRemoteSocketAddress());
-                OutputStream outToServer = client.getOutputStream();
-                DataOutputStream out = new DataOutputStream(outToServer);
-                out.writeUTF(myLoginString);
-                InputStream inFromServer = client.getInputStream();
-                DataInputStream in = new DataInputStream(inFromServer);
-
-                String readFromInBuffer = in.readUTF();
-                Log.i(TAG, readFromInBuffer);
-                client.close();
-                if (readFromInBuffer == "") {
-                    return -2;
+                ConnectionToServer connToServer=new ConnectionToServer();
+            ArrayList<String> dataFromServer=new ArrayList<>();
+                if(connToServer.sendToServer(myLoginString)) {
+                    System.out.println("Data sent correctly");
+                    dataFromServer = connToServer.receiveFromServer();
+                    System.out.println("Data received correctly");
+                    System.out.println(dataFromServer.toString());
                 }
-                if (getParsedDataFromBuffer(readFromInBuffer).get(1).equals("OK")) {
+                connToServer.closeConnection();
+                if (dataFromServer.get(1).equals("OK")) {
                     return 1;
                 } else {
                     return -1;
 
                 }
-            } catch (SocketTimeoutException ste){
+            //}
+             /*catch (SocketTimeoutException ste){
                 ste.printStackTrace();
                 return -3;
             } catch (IOException e) {
                 e.printStackTrace();
                 return -2;
-            }
+            }*/
         }
 
         protected void onPostExecute(Integer a) {
-            if (a == 1) {
-                Toast.makeText(getApplicationContext(), "Login correct", Toast.LENGTH_SHORT).show();
-            } else if (a == -1) {
-                Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
-            } else if (a == -2) {
-                Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
-            }
-            else if (a == -3) {
-                Toast.makeText(getApplicationContext(), "Error during login. Server down", Toast.LENGTH_SHORT).show();
-            }
+            if (a == 1) Toast.makeText(getApplicationContext(), "Login correct", Toast.LENGTH_SHORT).show();
+            else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
+            else if (a == -2) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
+            else if (a == -3) Toast.makeText(getApplicationContext(), "Error during login. Server down", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -48,7 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        new ClientConnection().execute("pippo", "pippo");
+
+        ClientConnection cc= new ClientConnection();
+        if(cc.getStatus() == AsyncTask.Status.PENDING){
+            cc.execute("pipdpo", "pippo");
+        }
+
 
     }
 
@@ -94,37 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private class ClientConnection extends AsyncTask<String, Void, Integer> {
-        private final static String SERVER_NAME = "192.168.0.112";//TO MODIFY EACH TIME
-        private final static int PORT = 8080;
-        private final static String TAG = "ClientConnection";
-        private final String DELIMITS = "[,]";
-        private final int TIMEOUT=10000;
-
-        private ArrayList<String> getParsedDataFromBuffer(String dataFromBuffer) {
-            ArrayList<String> parsedInput = new ArrayList<>();
-            if (dataFromBuffer != null) {
-
-                System.out.println("From the client:" + dataFromBuffer);
-                String[] myData = dataFromBuffer.split(DELIMITS);
-                parsedInput.addAll(Arrays.asList(myData));
-                return parsedInput;
-
-            } else {
-                return null;
-            }
-        }
-
-
-        private String getMyIP() {
-            try {
-                return Inet4Address.getLocalHost().getHostAddress();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-
 
         @Override
         protected void onPreExecute() {
@@ -137,36 +111,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String username = params[0];
                 String pwd = params[1];
                 String myLoginString = "LOGIN," + username + "," + pwd;//
+                ArrayList<String> dataFromServer;
                 ConnectionToServer connToServer=new ConnectionToServer();
-            ArrayList<String> dataFromServer=new ArrayList<>();
-                if(connToServer.sendToServer(myLoginString)) {
-                    System.out.println("Data sent correctly");
+                int connServerResult=connToServer.sendToServer(myLoginString);
+                if(connServerResult==ConnectionToServer.OK) {
+                   // System.out.println("Data sent correctly");
                     dataFromServer = connToServer.receiveFromServer();
-                    System.out.println("Data received correctly");
-                    System.out.println(dataFromServer.toString());
-                }
-                connToServer.closeConnection();
-                if (dataFromServer.get(1).equals("OK")) {
-                    return 1;
-                } else {
-                    return -1;
+                 //   System.out.println("Data received correctly"+dataFromServer.toString());
+                }else return connServerResult;
+            connToServer.closeConnection();
+                if (dataFromServer.get(1).equals("OK")) return 1;
+                 else return -1;
 
-                }
-            //}
-             /*catch (SocketTimeoutException ste){
-                ste.printStackTrace();
-                return -3;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return -2;
-            }*/
+
         }
 
         protected void onPostExecute(Integer a) {
             if (a == 1) Toast.makeText(getApplicationContext(), "Login correct", Toast.LENGTH_SHORT).show();
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
-            else if (a == -2) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
-            else if (a == -3) Toast.makeText(getApplicationContext(), "Error during login. Server down", Toast.LENGTH_SHORT).show();
+            else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
+            else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
         }
     }
 }

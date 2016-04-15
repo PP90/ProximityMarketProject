@@ -7,17 +7,23 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.112";//TO MODIFY EACH TIME
+    private final static String SERVER_NAME = "192.168.0.107";//TO MODIFY EACH TIME
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
     private Socket client;
+    static final int OK=1;
+    static final int TIMEOUT_EXCEPTION=-2;
+    static final int IO_EXCEPTION=-3;
 
     private OutputStream outToServer;
     DataOutputStream out;
@@ -40,13 +46,26 @@ public class ConnectionToServer {
         }
     }
 
-    public boolean sendToServer(String sendToServer){
+    public int sendToServer(String sendToServer){
+        System.out.println("Send to server string"+sendToServer);
         try {
-            this.out.writeUTF(sendToServer);
-            return true;
+            out.writeUTF(sendToServer);
+            return this.OK;
+
+        }
+        catch(NullPointerException npe){
+            System.out.println("Timeout reached");
+            npe.printStackTrace();
+            return this.TIMEOUT_EXCEPTION;
+        }
+        catch (SocketTimeoutException ste){
+            System.out.println("Timeout reached");
+            ste.printStackTrace();
+            return this.TIMEOUT_EXCEPTION;
         } catch (IOException e) {
+            System.out.println("IOERROR");
             e.printStackTrace();
-            return false;
+            return this.IO_EXCEPTION;
         }
 
     }
@@ -55,12 +74,23 @@ public class ConnectionToServer {
         try {
             String dataFromServer=in.readUTF();
             ArrayList<String> data=getParsedDataFromBuffer(dataFromServer);
-            System.out.println("Received"+data.toString());
+            System.out.println("Received" + data.toString());
             return data;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    private String getMyIP() {
+        try {
+            return Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public boolean closeConnection(){

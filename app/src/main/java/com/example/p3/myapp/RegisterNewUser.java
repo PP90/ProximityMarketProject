@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class RegisterNewUser extends AppCompatActivity implements View.OnClickListener {
     static final String TAG="RegisterNewUser";
-
+    private final String INSERT_USER="INSERT_USER";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,6 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
             ConnectionToServer connectionToServer=new ConnectionToServer();
             String insertUserString=connectionToServer.getStringtoSendToServer(INSERT_USER, params);
             connectionToServer.connectToTheServer();
-            connectionToServer.sendToServer(insertUserString);
             int connServerResult=connectionToServer.sendToServer(insertUserString);
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");
@@ -45,9 +45,19 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
             }else return connServerResult;
             connectionToServer.closeConnection();
-            if (dataFromServer.get(1).equals("OK")) return 1;
-            else return -1;
-
+            if(dataFromServer.get(0).equals("INSERT_USER")) {
+                if (dataFromServer.get(1).equals("OK")) return 1;
+                else if (dataFromServer.get(1).equals("NO")) return -1;
+                else if (dataFromServer.get(1).equals("DUPLICATE")) return -2;
+            }
+            return -1;
         }
+
+        protected void onPostExecute(Integer a) {
+            if (a == 1) Toast.makeText(getApplicationContext(), "Registration goes Good", Toast.LENGTH_SHORT).show();
+            else if (a == -2) Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
+            else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
+            else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
+       }
     }
 }

@@ -22,7 +22,7 @@ public class ConnectionToServer {
     private final String DELIMITS = "[,]";
     private Socket client;
     static final int OK=1;
-    static final int TIMEOUT_EXCEPTION=-2;
+    static final int TIMEOUT_EXCEPTION=-5;
     static final int IO_EXCEPTION=-3;
 
     private OutputStream outToServer;

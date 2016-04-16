@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.107";//TO MODIFY EACH TIME
+    private final static String SERVER_NAME = "192.168.0.107";//TO MODIFY EACH TIME OPEN YOUR IDE
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
@@ -32,7 +32,11 @@ public class ConnectionToServer {
     DataInputStream in;
 
     public ConnectionToServer(){
-       client = new Socket();
+
+    }
+
+    public void connectToTheServer(){
+        client = new Socket();
         try {
             client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
             outToServer = client.getOutputStream();
@@ -44,8 +48,8 @@ public class ConnectionToServer {
         }catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+    }
     public int sendToServer(String sendToServer){
         System.out.println("Send to server string"+sendToServer);
         try {
@@ -115,5 +119,12 @@ public class ConnectionToServer {
         } else {
             return null;
         }
+    }
+    String getStringtoSendToServer(String typeOfMsg, String ...params){
+        for(int i=0; i<params.length; i++){
+            typeOfMsg+=","+params[i];
+        }
+        System.out.println("The parsed message is: "+typeOfMsg);
+        return typeOfMsg;
     }
 }

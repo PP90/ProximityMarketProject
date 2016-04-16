@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +41,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button b = (Button) findViewById(R.id.async_button);
         b.setOnClickListener(this);
         Log.i(TAG, "onCreate Method");
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public void onClick(View v) {
 
-        ClientConnection cc= new ClientConnection();
-        if(cc.getStatus() == AsyncTask.Status.PENDING){
-            cc.execute("pipdpo", "pippo");
+        LoginTask loginTask= new LoginTask();
+        if(loginTask.getStatus() == AsyncTask.Status.PENDING){
+            loginTask.execute("pippo", "pippo");
         }
 
 
@@ -60,45 +57,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.p3.myapp/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.p3.myapp/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 
 
-    private class ClientConnection extends AsyncTask<String, Void, Integer> {
+    private class LoginTask extends AsyncTask<String, Void, Integer> {
 
         @Override
         protected void onPreExecute() {
@@ -107,12 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected Integer doInBackground(String... params) {
-            //try {
-                String username = params[0];
-                String pwd = params[1];
-                String myLoginString = "LOGIN," + username + "," + pwd;//
                 ArrayList<String> dataFromServer;
                 ConnectionToServer connToServer=new ConnectionToServer();
+                String myLoginString=connToServer.getStringtoSendToServer("LOGIN", params);
+                 connToServer.connectToTheServer();
                 int connServerResult=connToServer.sendToServer(myLoginString);
                 if(connServerResult==ConnectionToServer.OK) {
                    // System.out.println("Data sent correctly");

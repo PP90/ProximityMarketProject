@@ -26,7 +26,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         AddNewUser addNewUser= new AddNewUser();
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
-            addNewUser.execute("gesu", "DiNazgul","a","a","1");
+            addNewUser.execute("Fava", "vdvd","w","qq","0");
         }
     }
 
@@ -45,7 +45,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
             }else return connServerResult;
             connectionToServer.closeConnection();
-            if(dataFromServer.get(0).equals("INSERT_USER")) {
+            if(dataFromServer.get(0).equals(INSERT_USER)) {
                 if (dataFromServer.get(1).equals("OK")) return 1;
                 else if (dataFromServer.get(1).equals("NO")) return -1;
                 else if (dataFromServer.get(1).equals("DUPLICATE")) return -2;

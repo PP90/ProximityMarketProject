@@ -26,6 +26,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import EntityClasses.Ad;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MainActivity";
     /**
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button b = (Button) findViewById(R.id.async_button);
         b.setOnClickListener(this);
         Log.i(TAG, "onCreate Method");
+      
     }
 
     @Override

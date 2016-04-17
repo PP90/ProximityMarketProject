@@ -10,9 +10,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import EntityClasses.FormatMessage;
+
 public class RegisterNewUser extends AppCompatActivity implements View.OnClickListener {
     static final String TAG="RegisterNewUser";
-    private final String INSERT_USER="INSERT_USER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +33,12 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
     }
 
     private class AddNewUser extends AsyncTask<String, Void, Integer>{
-        private final String INSERT_USER="INSERT_USER";
+
         @Override
         protected Integer doInBackground(String... params) {
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
-            String insertUserString=connectionToServer.getStringtoSendToServer(INSERT_USER, params);
+            String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
             connectionToServer.connectToTheServer();
             int connServerResult=connectionToServer.sendToServer(insertUserString);
             if(connServerResult==ConnectionToServer.OK) {
@@ -45,8 +47,8 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
             }else return connServerResult;
             connectionToServer.closeConnection();
-            if(dataFromServer.get(0).equals(INSERT_USER)) {
-                if (dataFromServer.get(1).equals("OK")) return 1;
+            if(dataFromServer.get(0).equals(FormatMessage.INSERT_USER)) {
+                if (dataFromServer.get(1).equals("OK")) return 1;//these 3 strings should be in format message (?)
                 else if (dataFromServer.get(1).equals("NO")) return -1;
                 else if (dataFromServer.get(1).equals("DUPLICATE")) return -2;
             }

@@ -54,7 +54,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         }
 
         protected void onPostExecute(Integer a) {
-            if (a == 1) Toast.makeText(getApplicationContext(), "Registration goes Good", Toast.LENGTH_SHORT).show();
+            if (a == 1) Toast.makeText(getApplicationContext(), "Registration goes good", Toast.LENGTH_SHORT).show();
             else if (a == -2) Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();

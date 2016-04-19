@@ -1,5 +1,6 @@
 package com.example.p3.myapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,19 +18,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button b = (Button) findViewById(R.id.button_login);
-        b.setOnClickListener(this);
+        Button loginButton = (Button) findViewById(R.id.button_login);
+        loginButton.setOnClickListener(this);
+        Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
+        registerButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
 
+        if(v.getId()==R.id.button_login){
         LoginTask loginTask= new LoginTask();
         if(loginTask.getStatus() == AsyncTask.Status.PENDING){
             EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
             EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
             loginTask.execute( user.toString(), pwd.toString());
+            }
+        }
+
+        if(v.getId()==R.id.button_registerNewAccount){
+            Intent i=new Intent(this, RegisterNewUser.class);
+            startActivity(i);
         }
     }
 
@@ -62,6 +72,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
         protected void onPostExecute(Integer a) {
+          //  Intent a=new Intent(this, MyProfile.class);
+           // startActivity(a);
             if (a == 1) Toast.makeText(getApplicationContext(), "Login correct", Toast.LENGTH_SHORT).show();
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();

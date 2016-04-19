@@ -17,7 +17,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_user);
-        Button b = (Button) findViewById(R.id.new_user_button);
+        Button b = (Button) findViewById(R.id.button_create_new_account);
         b.setOnClickListener(this);
         Log.i(TAG, "onCreate Method");
     }

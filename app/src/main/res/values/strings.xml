@@ -7,4 +7,14 @@
     <string name="insert_login_credential_text">Insert credential</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
+    <string name="insert_email_text">Insert e-mail</string>
+    <string name="register_password">Insert password</string>
+    <string name="confirm_reg_pwd_text">Confirm password</string>
+    <string name="insert_your_name_here_to_reg">Insert your name here</string>
+    <string name="insert_your_surname_here_to_reg">Insert your surname here</string>
+    <string name="insert_your_email_here_to_reg_text">Insert your e-mail here</string>
+    <string name="male_radiobutton">Male</string>
+    <string name="female_radiobuttonv8">Female</string>
+    <string name="button_create_new_account">Create new account</string>
+    <string name="agreeTermOfUse_text">Agree term of use</string>
 </resources>

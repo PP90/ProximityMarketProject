@@ -9,11 +9,133 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.p3.myapp.RegisterNewUser">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/insert_email_text"
+        android:id="@+id/textView_insert_email"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/editText_insert_surname_to_reg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/register_password"
+        android:id="@+id/textView_register_password_"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/textView_insert_email"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/confirm_reg_pwd_text"
+        android:id="@+id/textView_confirm_reg_pwd"
+        android:layout_below="@+id/editText_insert_pwd_to_reg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="51dp"
+        android:layout_alignRight="@+id/textView_register_password_"
+        android:layout_alignEnd="@+id/textView_register_password_" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:hint="@string/insert_your_name_here_to_reg"
+        android:id="@+id/editText_insert_name_to_reg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:hint="@string/insert_your_surname_here_to_reg"
+        android:id="@+id/editText_insert_surname_to_reg"
+        android:layout_below="@+id/editText_insert_name_to_reg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint="@string/insert_your_email_here_to_reg_text"
+        android:id="@+id/editText_email_here_to_reg"
+        android:layout_alignBottom="@+id/textView_insert_email"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText_insert_pwd_to_reg"
+        android:layout_alignBottom="@+id/textView_register_password_"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText_confirm_insert_pwd_to_reg"
+        android:layout_alignBottom="@+id/textView_confirm_reg_pwd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/editText_insert_surname_to_reg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/editText_insert_name_to_reg">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/male_radiobutton"
+            android:id="@+id/male_radiobutton"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/female_radiobuttonv8"
+            android:id="@+id/female_radiobutton"
+            android:checked="false" />
+    </RadioGroup>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert new user"
-        android:id="@+id/new_user_button"
-        android:layout_centerVertical="true"
+        android:text="@string/button_create_new_account"
+        android:id="@+id/button_create_new_account"
+        android:layout_marginTop="47dp"
+        android:layout_below="@+id/textView_confirm_reg_pwd"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/agreeTermOfUse_text"
+        android:id="@+id/textView_agreeTermsOfUse"
+        android:layout_below="@+id/button_create_new_account"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

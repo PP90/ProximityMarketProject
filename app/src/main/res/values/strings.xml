@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MyApp</string>
     <string name="async_butto">Start Async Task</string>
+    <string name="login_button">Login</string>
+    <string name="register_new_account_text">Register new account</string>
+    <string name="register_new_account_button">Register new account</string>
+    <string name="insert_login_credential_text">Insert credential</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
 </resources>

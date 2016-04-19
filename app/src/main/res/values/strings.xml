@@ -17,4 +17,8 @@
     <string name="female_radiobuttonv8">Female</string>
     <string name="button_create_new_account">Create new account</string>
     <string name="agreeTermOfUse_text">Agree term of use</string>
+    <string name="see_my_ads_btn">See my ads</string>
+    <string name="add_ad_btn">Add ads</string>
+    <string name="see_near_ads_btn">See near ads</string>
+    <string name="log_out_btn">Logout</string>
 </resources>

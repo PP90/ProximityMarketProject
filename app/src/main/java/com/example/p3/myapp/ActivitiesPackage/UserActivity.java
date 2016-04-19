@@ -1,7 +1,9 @@
-package com.example.p3.myapp;
+package com.example.p3.myapp.ActivitiesPackage;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.p3.myapp.R;
 
 public class UserActivity extends AppCompatActivity {
 

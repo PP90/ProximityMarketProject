@@ -1,4 +1,4 @@
-package com.example.p3.myapp;
+package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.p3.myapp.ActivitiesPackage.RegisterNewUser;
+import com.example.p3.myapp.ActivitiesPackage.UserActivity;
+import com.example.p3.myapp.ConnectionToServer;
+import com.example.p3.myapp.R;
 
 import java.util.ArrayList;
 

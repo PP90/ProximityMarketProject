@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
@@ -27,6 +28,7 @@ public class ConnectionToServer {
 
     private OutputStream outToServer;
     DataOutputStream out;
+    ObjectOutputStream outObject;
 
     InputStream inFromServer;
     DataInputStream in;
@@ -57,6 +59,7 @@ public class ConnectionToServer {
             return this.OK;
 
         }
+
         catch(NullPointerException npe){
             System.out.println("Timeout reached");
             npe.printStackTrace();
@@ -74,6 +77,20 @@ public class ConnectionToServer {
 
     }
 
+
+    public int genericSend(String s, Object o){
+        try {
+            outObject=new ObjectOutputStream(client.getOutputStream());
+            outObject.writeObject(s+","+o);
+            client.close();
+            return this.OK;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+
+    }
     public ArrayList<String> receiveFromServer(){
         try {
             String dataFromServer=in.readUTF();

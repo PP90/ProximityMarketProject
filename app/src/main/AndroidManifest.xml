@@ -27,7 +27,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".InsertAd" />
-        <activity android:name=".RegisterNewUser" />
+        <activity android:name=".ActivitiesPackage.RegisterNewUser" />
         <activity android:name=".UserActivity"></activity>
     </application>
 

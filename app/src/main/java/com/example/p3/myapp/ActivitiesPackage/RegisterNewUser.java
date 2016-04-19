@@ -1,4 +1,4 @@
-package com.example.p3.myapp;
+package com.example.p3.myapp.ActivitiesPackage;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.p3.myapp.ConnectionToServer;
+import com.example.p3.myapp.R;
+
 import java.util.ArrayList;
 import EntityClasses.FormatMessage;
 

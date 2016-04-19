@@ -21,9 +21,9 @@ public class ConnectionToServer {
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
     private Socket client;
-    static final int OK=1;
-    static final int TIMEOUT_EXCEPTION=-5;
-    static final int IO_EXCEPTION=-3;
+    public static final int OK=1;
+    public static final int TIMEOUT_EXCEPTION=-5;
+    public static final int IO_EXCEPTION=-3;
 
     private OutputStream outToServer;
     DataOutputStream out;
@@ -120,7 +120,7 @@ public class ConnectionToServer {
             return null;
         }
     }
-    String getStringtoSendToServer(String typeOfMsg, String ...params){
+    public String getStringtoSendToServer(String typeOfMsg, String ...params){
         for(int i=0; i<params.length; i++){
             typeOfMsg+=","+params[i];
         }

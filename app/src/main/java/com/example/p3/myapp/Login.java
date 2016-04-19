@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.p3.myapp.ActivitiesPackage.RegisterNewUser;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if(loginTask.getStatus() == AsyncTask.Status.PENDING){
             EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
             EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
-            loginTask.execute( user.toString(), pwd.toString());
+            loginTask.execute( user.getText().toString(), pwd.getText().toString());
             }
         }
 
@@ -72,9 +73,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
         protected void onPostExecute(Integer a) {
-          //  Intent a=new Intent(this, MyProfile.class);
-           // startActivity(a);
-            if (a == 1) Toast.makeText(getApplicationContext(), "Login correct", Toast.LENGTH_SHORT).show();
+            Intent goToProfile=new Intent(getBaseContext(), UserActivity.class);
+
+            if (a == 1)  startActivity(goToProfile);
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();

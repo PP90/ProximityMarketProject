@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.3";//TO MODIFY EACH TIME OPEN YOUR IDE
+    private final static String SERVER_NAME = "192.168.0.111";//TO MODIFY EACH TIME OPEN YOUR IDE
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
@@ -29,10 +29,8 @@ public class ConnectionToServer {
 
     private OutputStream outToServer;
     private DataOutputStream out;
-    private ObjectOutputStream outObject;
 
     private InputStream inFromServer;
-    private ObjectInputStream inObject;
     private DataInputStream in;
     private boolean isConnected;
     public ConnectionToServer(){
@@ -44,6 +42,7 @@ public class ConnectionToServer {
         try {
             client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
             outToServer = client.getOutputStream();
+
             out = new DataOutputStream(outToServer);
             inFromServer = client.getInputStream();
             in = new DataInputStream(inFromServer);
@@ -55,32 +54,18 @@ public class ConnectionToServer {
 
     }
 
-    public boolean connectToServerObject(){
-        client = new Socket();
-        try {
-            client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
-            outObject = new ObjectOutputStream(client.getOutputStream());
-            isConnected=true;
-            inObject = new ObjectInputStream(client.getInputStream());
-            return isConnected;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return isConnected;
-        }
-
-    }
     public int sendToServer(String sendToServer){
         System.out.println("Send to server string"+sendToServer);
         try {
             out.writeUTF(sendToServer);
-            return this.OK;
+            return OK;
 
         }
 
         catch(NullPointerException npe){
             System.out.println("Timeout reached");
             npe.printStackTrace();
-            return this.TIMEOUT_EXCEPTION;
+            return TIMEOUT_EXCEPTION;
         }
         catch (SocketTimeoutException ste){
             System.out.println("Timeout reached");
@@ -94,20 +79,6 @@ public class ConnectionToServer {
 
     }
 
-
-    public int genericSend(String s, Object o){
-        try {
-            outObject=new ObjectOutputStream(client.getOutputStream());
-            outObject.writeObject(s+","+o);
-            client.close();
-            return this.OK;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
-
-
-    }
     public ArrayList<String> receiveFromServer(){
         try {
             String dataFromServer=in.readUTF();

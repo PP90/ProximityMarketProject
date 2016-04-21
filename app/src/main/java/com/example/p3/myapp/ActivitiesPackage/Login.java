@@ -31,21 +31,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         if(v.getId()==R.id.button_login){
-            boolean variableToRemove=false;
             LoginTask loginTask= new LoginTask();
-            LoginTaskThroughObjects loginTaskThroughObjects=new LoginTaskThroughObjects();
             UserT userCredential=new UserT();
 
             EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
             EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
             userCredential.setCredential( user.getText().toString(),pwd.getText().toString());
 
-            if(loginTaskThroughObjects.getStatus() == AsyncTask.Status.PENDING){
-                loginTaskThroughObjects.execute(userCredential);
-
-            }
-
-        if(loginTask.getStatus() == AsyncTask.Status.PENDING & variableToRemove){
+        if(loginTask.getStatus() == AsyncTask.Status.PENDING){
             loginTask.execute(user.getText().toString(), pwd.getText().toString());
             }
         }
@@ -56,22 +49,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-
-    private class LoginTaskThroughObjects extends AsyncTask<UserT, Void, Integer>{
-
-
-        @Override
-        protected Integer doInBackground(UserT... params) {
-            ConnectionToServer connToServer=new ConnectionToServer();
-            if(connToServer.connectToServerObject()){
-                int result=connToServer.genericSend("stuff,", params[0]);
-                if(result== ConnectionToServer.OK) System.out.println("Object sent");
-                else System.out.println("Error");
-            }
-            connToServer.closeConnection();
-            return -1;
-        }
-    }
     private class LoginTask extends AsyncTask<String, Void, Integer> {
 
         @Override

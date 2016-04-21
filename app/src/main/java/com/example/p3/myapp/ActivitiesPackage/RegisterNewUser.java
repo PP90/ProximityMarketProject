@@ -51,7 +51,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
         private void sendObject(UserT u){
             ConnectionToServer connectionToServer=new ConnectionToServer();
-            connectionToServer.genericSend("pippo",u);
+
         }
         @Override
         protected Integer doInBackground(UserT... params) {

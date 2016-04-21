@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
-import com.example.FormatMessage;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+
+import EntityClasses.Ad;
 
 
 public class RegisterNewUser extends AppCompatActivity implements View.OnClickListener {
@@ -29,10 +29,10 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        System.out.println(FormatMessage.DELETE_USER);
-        System.out.println(FormatMessage.DELETE_USER2);
+
+
         AddNewUserTask addNewUser= new AddNewUserTask();
-        UserEntity userEntity =new UserEntity();
+        UserT userEntity =new UserT();
 
         EditText name=(EditText) findViewById(R.id.editText_insert_name_to_reg);
         EditText surname=(EditText) findViewById(R.id.editText_insert_surname_to_reg);
@@ -47,14 +47,14 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private class AddNewUserTask extends AsyncTask<UserEntity, Void, Integer>{
+    private class AddNewUserTask extends AsyncTask<UserT, Void, Integer>{
 
-        private void sendObject(UserEntity u){
+        private void sendObject(UserT u){
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.genericSend("pippo",u);
         }
         @Override
-        protected Integer doInBackground(UserEntity... params) {
+        protected Integer doInBackground(UserT... params) {
             sendObject(params[0]);
             /*
             ArrayList<String> dataFromServer;

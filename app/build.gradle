@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -31,5 +34,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0-alpha1'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    provided project(':proximitymarketlibrary')
+    provided files('src/main/java/com/example/p3/myapp/ProximityMarketLibrary.jar')
 }

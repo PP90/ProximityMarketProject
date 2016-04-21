@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
@@ -27,14 +28,15 @@ public class ConnectionToServer {
     public static final int IO_EXCEPTION=-3;
 
     private OutputStream outToServer;
-    DataOutputStream out;
-    ObjectOutputStream outObject;
+    private DataOutputStream out;
+    private ObjectOutputStream outObject;
 
-    InputStream inFromServer;
-    DataInputStream in;
-
+    private InputStream inFromServer;
+    private ObjectInputStream inObject;
+    private DataInputStream in;
+    private boolean isConnected;
     public ConnectionToServer(){
-
+        isConnected=false;
     }
 
     public void connectToTheServer(){
@@ -49,6 +51,21 @@ public class ConnectionToServer {
 
         }catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public boolean connectToServerObject(){
+        client = new Socket();
+        try {
+            client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
+            outObject = new ObjectOutputStream(client.getOutputStream());
+            isConnected=true;
+            inObject = new ObjectInputStream(client.getInputStream());
+            return isConnected;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return isConnected;
         }
 
     }
@@ -104,7 +121,7 @@ public class ConnectionToServer {
     }
 
 
-    private String getMyIP() {
+    private String getServerIP() {
         try {
             return Inet4Address.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {

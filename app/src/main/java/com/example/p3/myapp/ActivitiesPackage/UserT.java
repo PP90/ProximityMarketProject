@@ -1,15 +1,23 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
+import java.io.Serializable;
+
+//THIS CLASS SHOULD BE PLACED IN THE LIBRARY, BUT FOR SOME UNKOW REASON DOESN'T WORK
 /**
  * Created by p3 on 19/04/2016.
  */
-public class UserEntity {//Problem: if this class is moved within the library a bug occures.
+public class UserT implements Serializable{
     private String username;
     private String password;
     private String name;
     private String surname;
     private boolean sex;
 
+    public void setCredential(String username, String password){
+        this.username=username;
+        this.password=password;
+
+    }
     public String getUsername() {
         return username;
     }

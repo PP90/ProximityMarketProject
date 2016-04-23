@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
+import java.util.ArrayList;
+
 import EntityClasses.Ad;
+import EntityClasses.FormatMessage;
 
 
 public class RegisterNewUser extends AppCompatActivity implements View.OnClickListener {
@@ -32,37 +36,29 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
 
         AddNewUserTask addNewUser= new AddNewUserTask();
-        UserT userEntity =new UserT();
 
         EditText name=(EditText) findViewById(R.id.editText_insert_name_to_reg);
         EditText surname=(EditText) findViewById(R.id.editText_insert_surname_to_reg);
         EditText username=(EditText) findViewById(R.id.editText_email_here_to_reg);
         EditText pwd=(EditText) findViewById(R.id.editText_insert_pwd_to_reg);
-        userEntity.setName(name.getText().toString());
-        userEntity.setSurname(surname.getText().toString());
-        userEntity.setUsername(username.getText().toString());
-        userEntity.setPassword(pwd.getText().toString());
+        RadioButton isMale=(RadioButton) findViewById(R.id.male_radiobutton);
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
-            addNewUser.execute(userEntity);
+            addNewUser.execute( username.getText().toString(),  pwd.getText().toString(), name.getText().toString(), surname.getText().toString(), String.valueOf(isMale.isSelected()));
         }
     }
 
-    private class AddNewUserTask extends AsyncTask<UserT, Void, Integer>{
+    private class AddNewUserTask extends AsyncTask<String, Void, Integer>{
 
-        private void sendObject(UserT u){
-            ConnectionToServer connectionToServer=new ConnectionToServer();
 
-        }
         @Override
-        protected Integer doInBackground(UserT... params) {
-            sendObject(params[0]);
-            /*
+        protected Integer doInBackground(String... params) {
+;
+
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
-           // String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
+            String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
             connectionToServer.connectToTheServer();
-           // int connServerResult=connectionToServer.sendToServer(params);
-            int connServerResult=0;
+            int connServerResult=connectionToServer.sendToServer(insertUserString);
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");
                 dataFromServer = connectionToServer.receiveFromServer();
@@ -74,8 +70,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
                 else if (dataFromServer.get(1).equals("NO")) return -1;
                 else if (dataFromServer.get(1).equals("DUPLICATE")) return -2;
             }
-            return -1;*/
-            return -5;
+            return -1;
         }
 
         protected void onPostExecute(Integer a) {

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.111";//TO MODIFY EACH TIME OPEN YOUR IDE
+    private final static String SERVER_NAME = "10.0.2.2";//TO MODIFY EACH TIME OPEN YOUR IDE
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";

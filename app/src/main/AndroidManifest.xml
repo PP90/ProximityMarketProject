@@ -28,7 +28,10 @@
 
         <activity android:name=".ActivitiesPackage.InsertAd" />
         <activity android:name=".ActivitiesPackage.RegisterNewUser" />
-        <activity android:name=".ActivitiesPackage.UserActivity"></activity>
+        <activity android:name=".ActivitiesPackage.UserActivity" />
+        <activity android:name=".ActivitiesPackage.AdActivity" />
+        <activity android:name=".ActivitiesPackage.SeeNearAds" />
+        <activity android:name=".ActivitiesPackage.MyAds"></activity>
     </application>
 
 </manifest>

@@ -42,8 +42,11 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         EditText username=(EditText) findViewById(R.id.editText_email_here_to_reg);
         EditText pwd=(EditText) findViewById(R.id.editText_insert_pwd_to_reg);
         RadioButton isMale=(RadioButton) findViewById(R.id.male_radiobutton);
+        String sexString;
+        if(isMale.isSelected()) sexString="1";
+        else sexString="0";
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
-            addNewUser.execute( username.getText().toString(),  pwd.getText().toString(), name.getText().toString(), surname.getText().toString(), String.valueOf(isMale.isSelected()));
+            addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
         }
     }
 
@@ -74,8 +77,10 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         }
 
         protected void onPostExecute(Integer a) {
-            if (a == 1) Toast.makeText(getApplicationContext(), "Registration goes good", Toast.LENGTH_SHORT).show();
-            else if (a == -2) Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
+            if (a == 1) {
+                Toast.makeText(getApplicationContext(), "Registration goes good", Toast.LENGTH_SHORT).show();
+                finish();
+            } else if (a == -2) Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
        }

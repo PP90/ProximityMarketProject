@@ -55,7 +55,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
         @Override
         protected Integer doInBackground(String... params) {
-;
+
 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();

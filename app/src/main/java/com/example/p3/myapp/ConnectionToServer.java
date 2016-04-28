@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "10.0.2.2";//TO MODIFY EACH TIME OPEN YOUR IDE
-    private final static int PORT = 8080;
+    private final static String SERVER_NAME = "192.168.0.3";//TO MODIFY EACH TIME OPEN YOUR IDE
+    private final static int PORT = 8085;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
     private Socket client;
@@ -36,13 +36,15 @@ public class ConnectionToServer {
     public ConnectionToServer(){
         isConnected=false;
     }
+    private final static String TAG="ConnectionToTheServer";
 
     public void connectToTheServer(){
         client = new Socket();
         try {
+            Log.i(TAG,"Try to connect to "+SERVER_NAME+" at "+PORT);
             client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
+            Log.i(TAG, "Connected to " + SERVER_NAME + " at " + PORT);
             outToServer = client.getOutputStream();
-
             out = new DataOutputStream(outToServer);
             inFromServer = client.getInputStream();
             in = new DataInputStream(inFromServer);

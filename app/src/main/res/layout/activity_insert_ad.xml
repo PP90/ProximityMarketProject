@@ -131,7 +131,8 @@
         android:id="@+id/FromEditText"
         android:layout_alignBottom="@+id/textView4"
         android:layout_toRightOf="@+id/textView2"
-         />
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button" />
 
     <EditText
         android:layout_width="120dp"
@@ -145,26 +146,6 @@
         android:layout_alignStart="@+id/FromEditText"
         android:layout_alignRight="@+id/FromEditText"
         android:layout_alignEnd="@+id/FromEditText" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_alignTop="@+id/FromEditText"
-        android:layout_alignLeft="@+id/editText3"
-        android:layout_alignStart="@+id/editText3" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:layout_below="@+id/FromEditText"
-        android:layout_alignLeft="@+id/buttonSendAd"
-        android:layout_alignStart="@+id/buttonSendAd" />
 
     <ImageView
         android:layout_width="150dp"

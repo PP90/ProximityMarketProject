@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyApp</string>
+    <string name="app_name">ProximityMarket</string>
     <string name="async_butto">Start Async Task</string>
     <string name="login_button">Login</string>
     <string name="register_new_account_text">Register new account</string>

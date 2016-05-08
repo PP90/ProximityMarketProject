@@ -60,7 +60,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
-            connectionToServer.connectToTheServer();
+            connectionToServer.connectToTheServer(true, true);
             int connServerResult=connectionToServer.sendToServer(insertUserString);
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");

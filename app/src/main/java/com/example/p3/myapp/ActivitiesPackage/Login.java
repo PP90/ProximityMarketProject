@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             ArrayList<String> dataFromServer;
             ConnectionToServer connToServer=new ConnectionToServer();
             String myLoginString=connToServer.getStringtoSendToServer("LOGIN", params);
-            connToServer.connectToTheServer();
+            connToServer.connectToTheServer(true, true);
             int connServerResult=connToServer.sendToServer(myLoginString);
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");

@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class ConnectionToServer {
     private final static String SERVER_NAME = "192.168.0.3";//TO MODIFY EACH TIME OPEN YOUR IDE
-    private final static int PORT = 8085;
+    private final static int PORT = 8080;
     private final int TIMEOUT=10000;
     private final String DELIMITS = "[,]";
     private Socket client;
@@ -31,27 +31,39 @@ public class ConnectionToServer {
     private DataOutputStream out;
 
     private InputStream inFromServer;
+    ObjectInputStream ois;
+
     private DataInputStream in;
     private boolean isConnected;
+
+
+    private final static String TAG="ConnectionToTheServer";
+
     public ConnectionToServer(){
         isConnected=false;
     }
-    private final static String TAG="ConnectionToTheServer";
 
-    public void connectToTheServer(){
+    public boolean connectToTheServer(boolean inputBuffer, boolean outputBuffer){
         client = new Socket();
         try {
             Log.i(TAG,"Try to connect to "+SERVER_NAME+" at "+PORT);
             client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
             Log.i(TAG, "Connected to " + SERVER_NAME + " at " + PORT);
-            outToServer = client.getOutputStream();
-            out = new DataOutputStream(outToServer);
-            inFromServer = client.getInputStream();
-            in = new DataInputStream(inFromServer);
 
+            if(inputBuffer){
+                inFromServer = client.getInputStream();
+                in = new DataInputStream(inFromServer);
+            }
+
+            if(outputBuffer){
+                outToServer = client.getOutputStream();
+                out = new DataOutputStream(outToServer);
+            }
+            return true;
 
         }catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
     }
@@ -65,7 +77,7 @@ public class ConnectionToServer {
         }
 
         catch(NullPointerException npe){
-            System.out.println("Timeout reached");
+            System.out.println("Null point exception");
             npe.printStackTrace();
             return TIMEOUT_EXCEPTION;
         }
@@ -91,6 +103,29 @@ public class ConnectionToServer {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+
+    public byte[] receiveImageFromTheServer(){
+        try {
+            //A socket is opened and after to have estabilished the connection with the server, the image is received.
+            ois=new ObjectInputStream(client.getInputStream());
+            byte[] buffer= (byte[]) ois.readObject();
+            Log.i(TAG,"Buffer correctly received");
+            return buffer;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i(TAG, "IO Error");
+            return null;
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            Log.i(TAG, "Class not found");
+            return null;
+        }
+
     }
 
 

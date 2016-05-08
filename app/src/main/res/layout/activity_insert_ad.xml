@@ -13,10 +13,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Insert your Ad"
-        android:hint="Insert title"
+        android:text="@string/title_ad_text"
         android:id="@+id/textView_title_ad"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/pricea_text"
+        android:id="@+id/textView_priceA"
+        android:layout_below="@+id/textView_title_ad"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -25,136 +34,65 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:background="@drawable/edit_text_style"
-        android:id="@+id/DescriptionEditText"
+        android:id="@+id/editText_ins_desc_ad"
         android:hint="@string/insert_description_text"
-        android:layout_below="@+id/EditTextTitle"
-        android:layout_alignRight="@+id/button_upload_img_ad"
-        android:layout_alignEnd="@+id/button_upload_img_ad"
-        android:layout_above="@+id/FromEditText" />
+        android:layout_below="@+id/textView_priceA"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:max="100"
+        android:progress="@android:integer/config_longAnimTime"
+        android:indeterminate="false"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_below="@+id/DescriptionEditText"
+        android:layout_below="@+id/editText_ins_desc_ad"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/button_upload_img_ad"
         android:layout_alignBottom="@+id/button_upload_img_ad" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take a photo"
+        android:text="@string/upload_btn"
         android:id="@+id/button_upload_img_ad"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/button" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert ad"
-        android:id="@+id/buttonSendAd"
+        android:text="@string/send_ad_btn"
+        android:id="@+id/button_send_ad"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
- <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Description"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/EditTextTitle"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Title"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView_title_ad"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="47dp" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chose from gallery"
-        android:id="@+id/button"
-        android:layout_above="@+id/buttonSendAd"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="numberSigned"
         android:ems="10"
-        android:id="@+id/EditTextTitle"
-        android:hint="Insert title"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignLeft="@+id/DescriptionEditText"
-        android:layout_alignStart="@+id/DescriptionEditText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="From"
-        android:id="@+id/textView4"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Until"
-        android:id="@+id/textView5"
-        android:layout_alignBottom="@+id/UntilEditText"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
-
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:hint="Now"
-        android:ems="10"
-        android:id="@+id/FromEditText"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
-
-    <EditText
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/UntilEditText"
-        android:hint="Tomorrow"
-        android:layout_below="@+id/FromEditText"
-        android:layout_alignLeft="@+id/FromEditText"
-        android:layout_alignStart="@+id/FromEditText"
-        android:layout_alignRight="@+id/FromEditText"
-        android:layout_alignEnd="@+id/FromEditText" />
-
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageView2"
-        android:background="@drawable/edit_text_style"
-        android:layout_alignTop="@+id/button_upload_img_ad"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_alignBottom="@+id/button" />
-
+        android:id="@+id/editText"
+        android:layout_toRightOf="@+id/textView_priceA"
+        android:layout_toEndOf="@+id/textView_priceA"
+        android:layout_below="@+id/textView_title_ad"
+        android:layout_above="@+id/editText_ins_desc_ad" />
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,12 +44,21 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd();
 
-                registerNewAd.execute(getAdTitle(),  getAdDescription(),imageBase64String);
+                registerNewAd.execute(getAdTitle(),  getAdDescription());
                 break;
 
         }
     }
 
+    private class UploadPhoto extends  AsyncTask<Image, Void, Integer>{
+
+
+        @Override
+        protected Integer doInBackground(Image... params) {
+            //This method must be called when the image must be uploaded
+            return null;
+        }
+    }
 
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
 

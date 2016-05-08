@@ -60,8 +60,9 @@ public class MyAds extends AppCompatActivity {
                 if(receivedImage!=null) {
                     File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                     String pathDir = storageDir.getPath() + "/ProximityMarket";
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     Log.i(TAG, "The buffer size is " + receivedImage.length + "\nThe path is " + pathDir);
-                    File file = new File(pathDir, "Filename122.jpg"); // TODO: put the timestamp
+                    File file = new File(pathDir, "JPEG_"+timeStamp+".jpg");
                     FileOutputStream fos = new FileOutputStream(file);
                     fos.write(receivedImage);
                     fos.flush();

@@ -29,15 +29,17 @@ public class ConnectionToServer {
 
     private OutputStream outToServer;
     private DataOutputStream out;
+    private ObjectOutputStream oos;
 
     private InputStream inFromServer;
-    ObjectInputStream ois;
+    private ObjectInputStream ois;
 
     private DataInputStream in;
     private boolean isConnected;
 
 
     private final static String TAG="ConnectionToTheServer";
+
 
     public ConnectionToServer(){
         isConnected=false;
@@ -75,7 +77,6 @@ public class ConnectionToServer {
             return OK;
 
         }
-
         catch(NullPointerException npe){
             System.out.println("Null point exception");
             npe.printStackTrace();
@@ -93,6 +94,8 @@ public class ConnectionToServer {
 
     }
 
+
+
     public ArrayList<String> receiveFromServer(){
         try {
             String dataFromServer=in.readUTF();
@@ -106,6 +109,19 @@ public class ConnectionToServer {
     }
 
 
+
+    public boolean sendImageToServer(byte[] buffer){
+        try {
+            oos=new ObjectOutputStream(client.getOutputStream());
+            oos.write(buffer);
+            Log.i(TAG, "Buffer written received");
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
     public byte[] receiveImageFromTheServer(){
         try {

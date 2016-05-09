@@ -18,8 +18,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class InsertAd extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,6 +31,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
    static EditText dateEditUntil;
    static boolean fromSelected;
    static boolean untilSelected;
+    final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
+    final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +81,29 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         return descriptionEditText.getText().toString();
     }
 
+
+    public  String changeDateFormat(String oldDateFormat){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat(OLD_FORMAT).parse(oldDateFormat);
+        } catch (ParseException e) {
+            Log.i("Error", "Bad format error");
+            e.printStackTrace();
+        }
+        String dateNewFormat = new SimpleDateFormat(NEW_FORMAT).format(date);
+        Log.i("420","The new format is: "+dateNewFormat);
+        return dateNewFormat;
+    }
+
     @Override
     public void onClick(View v) {
         int idView=v.getId();
         switch(idView){
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd();
-                registerNewAd.execute(getAdTitle(),  getAdDescription(), dateEditFrom.getText().toString(), dateEditUntil.getText().toString());
+                String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
+                String untilDBFormat= changeDateFormat(dateEditFrom.getText().toString());
+                registerNewAd.execute(getAdTitle(),  getAdDescription(),fromDBFormat, untilDBFormat);
                 break;
         }
     }
@@ -120,10 +142,10 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
             //2. The fields from the activity must be get
-            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,", params);
+            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW", params);
             int resultSend=connectionToServer.sendToServer(newAdString);
             if(resultSend==ConnectionToServer.OK){
-                dataFromServer = connectionToServer.receiveFromServer();
+                dataFromServer = connectionToServer.receiveFromServer();//It produces error
                 Log.i(TAG, dataFromServer.toString());
             }else return resultSend;
             connectionToServer.closeConnection();
@@ -180,8 +202,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            if(fromSelected) dateEditFrom.setText(dateEditFrom.getText() + " -" + hourOfDay + ":" + minute);
-            if(untilSelected) dateEditUntil.setText(dateEditUntil.getText() + " -" + hourOfDay + ":" + minute);
+            if(fromSelected) dateEditFrom.setText(dateEditFrom.getText() + " " + hourOfDay + ":" + minute);
+            if(untilSelected) dateEditUntil.setText(dateEditUntil.getText() + " " + hourOfDay + ":" + minute);
         }
     }
 }

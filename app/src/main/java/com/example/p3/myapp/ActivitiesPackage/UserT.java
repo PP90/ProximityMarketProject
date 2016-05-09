@@ -1,7 +1,7 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import java.io.Serializable;
-
+//TODO: this class is not used. To be deleted.
 //THIS CLASS SHOULD BE PLACED IN THE LIBRARY, BUT FOR SOME UNKOW REASON DOESN'T WORK
 /**
  * Created by p3 on 19/04/2016.

@@ -14,9 +14,6 @@ import com.example.p3.myapp.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,22 +23,19 @@ public class MyAds extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ads);
-        ReceiveImageFromServer rifs=new ReceiveImageFromServer();
-        if(rifs.getStatus() == AsyncTask.Status.PENDING){
-            rifs.execute();
+        ReceiveImageFromServer receiveImageFromServer=new ReceiveImageFromServer();
+        if(receiveImageFromServer.getStatus() == AsyncTask.Status.PENDING){
+            receiveImageFromServer.execute();
 
         }
     }
 
+    //TODO: This task must be tested with the timestamp filename
+    private class ReceiveImageFromServer extends AsyncTask<Void, Void, Integer>{
 
-    private class ReceiveImageFromServer extends AsyncTask<Void, Void, Void>{
-
-    private final String SERVER_ADDRESS="192.168.0.3";
-        private final int PORT=8086;
-        private final int TIMEOUT=10000;
         private final String TAG="ReceiverImage";
 
-        private void receiveImage(){
+        private int receiveImage(){
             try {
                 byte[] receivedImage=null;
                 ConnectionToServer connectionToServer=new ConnectionToServer();
@@ -50,12 +44,6 @@ public class MyAds extends AppCompatActivity {
                 if(reqMyIdImages==ConnectionToServer.OK) {
                      receivedImage=connectionToServer.receiveImageFromTheServer();
                 }
-
-               /* Socket s=new Socket();
-                s.connect(new InetSocketAddress(SERVER_ADDRESS, PORT), TIMEOUT);
-                ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
-                byte[] buffer= (byte[]) ois.readObject();*/
-
                 //The path of images is get and then the file is saved there.
                 if(receivedImage!=null) {
                     File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -67,19 +55,24 @@ public class MyAds extends AppCompatActivity {
                     fos.write(receivedImage);
                     fos.flush();
                     fos.close();
+                    connectionToServer.closeConnection();
+                    return 1;
+                }else{
+                    connectionToServer.closeConnection();
+                    return -1;
                 }
-                connectionToServer.closeConnection();
-
             } catch (IOException e) {
                 e.printStackTrace();
+                return -2;
             }
 
 
         }
         @Override
-        protected Void doInBackground(Void... params) {
-            receiveImage();
-            return null;
+        protected Integer doInBackground(Void... params) {
+            return receiveImage();
         }
+
+        //TODO: implement onPostExecuteMethod in which a message is shown to the user
     }
 }

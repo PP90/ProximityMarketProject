@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 import java.util.ArrayList;
@@ -21,22 +20,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button loginButton = (Button) findViewById(R.id.button_login);
-        loginButton.setOnClickListener(this);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
+        loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
     }
 
 
     @Override
-    public void onClick(View v) {
-
+    public void onClick(View v) {//TODO: when the application comes back to this activity and the login button is pressed with the
+        //TODO: correct username and password, the Login doesn't work. BUG TO FIX.
         if(v.getId()==R.id.button_login){
             LoginTask loginTask= new LoginTask();
-            UserT userCredential=new UserT();
-
             EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
             EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
-            userCredential.setCredential( user.getText().toString(),pwd.getText().toString());
 
         if(loginTask.getStatus() == AsyncTask.Status.PENDING){
             loginTask.execute(user.getText().toString(), pwd.getText().toString());
@@ -52,11 +48,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private class LoginTask extends AsyncTask<String, Void, Integer> {
 
         @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
         protected Integer doInBackground(String... params) {
             ArrayList<String> dataFromServer;
             ConnectionToServer connToServer=new ConnectionToServer();
@@ -66,6 +57,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");
                 dataFromServer = connToServer.receiveFromServer();
+                connToServer.closeConnection();//Added.
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
             }else return connServerResult;
             connToServer.closeConnection();
@@ -82,9 +74,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
-
         }
     }
-
-
 }

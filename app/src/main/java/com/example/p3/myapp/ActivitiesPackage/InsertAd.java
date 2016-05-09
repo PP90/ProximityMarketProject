@@ -15,11 +15,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-
+import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -27,19 +25,19 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
    static EditText dateEditFrom;
    static EditText dateEditUntil;
-    static boolean fromSelected;
-    static boolean untilSelected;
+   static boolean fromSelected;
+   static boolean untilSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
-        sendAd.setOnClickListener(this);
-        fromSelected=false;
-        untilSelected=false;
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
+        fromSelected=false;
+        untilSelected=false;
+        sendAd.setOnClickListener(this);
         dateEditFrom.setOnClickListener(this);
         dateEditFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -67,9 +65,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         });
     }
 
-
-
-
     private String getAdTitle(){
         EditText titleEditText=(EditText) findViewById(R.id.EditTextTitle);
          return titleEditText.getText().toString();
@@ -84,13 +79,10 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         int idView=v.getId();
         switch(idView){
-
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd();
-                registerNewAd.execute(getAdTitle(),  getAdDescription());
+                registerNewAd.execute(getAdTitle(),  getAdDescription(), dateEditFrom.getText().toString(), dateEditUntil.getText().toString());
                 break;
-
-
         }
     }
 
@@ -109,28 +101,42 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         protected Integer doInBackground(Image... params) {
-            //This method must be called when the image must be uploaded
+            //TODO: This method must be called when the image must be uploaded
             return null;
         }
     }
 
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
-
+        private final String TAG="RegisterNewAD";
 
         @Override
         protected Integer doInBackground(String... params) {
-
-
             //3. The data must be in the correct format
-            //4. The image must be added, too and then compressed
+            //4. The image must be added, too and then compressed. See Upload Image asyncTask
             //5. Send all stuff to the server
+
             //1. The connection to the server must be established
+            ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
             //2. The fields from the activity must be get
-            connectionToServer.sendToServer("AD, new_AD, ... and the other fileds");
+            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,", params);
+            int resultSend=connectionToServer.sendToServer(newAdString);
+            if(resultSend==ConnectionToServer.OK){
+                dataFromServer = connectionToServer.receiveFromServer();
+                Log.i(TAG, dataFromServer.toString());
+            }else return resultSend;
+            connectionToServer.closeConnection();
+            if (dataFromServer.get(1).equals("OK")) return 1;
+            else return -1;
+        }
 
-            return -1;
+
+        protected void onPostExecute(Integer a) {
+
+           if (a == 1) Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
+            else if (a == -1) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
+
         }
     }
 

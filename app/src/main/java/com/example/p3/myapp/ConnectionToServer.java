@@ -71,23 +71,25 @@ public class ConnectionToServer {
     }
 
     public int sendToServer(String sendToServer){
-        System.out.println("Send to server string"+sendToServer);
+        System.out.println("Send to server string: "+sendToServer);
         try {
             out.writeUTF(sendToServer);
             return OK;
-
         }
+
         catch(NullPointerException npe){
             System.out.println("Null point exception");
             npe.printStackTrace();
             return TIMEOUT_EXCEPTION;
         }
+
         catch (SocketTimeoutException ste){
             System.out.println("Timeout reached");
             ste.printStackTrace();
             return this.TIMEOUT_EXCEPTION;
-        } catch (IOException e) {
-            System.out.println("IOERROR");
+        }
+        catch (IOException e) {
+            System.out.println("IO ERROR");
             e.printStackTrace();
             return this.IO_EXCEPTION;
         }
@@ -100,7 +102,7 @@ public class ConnectionToServer {
         try {
             String dataFromServer=in.readUTF();
             ArrayList<String> data=getParsedDataFromBuffer(dataFromServer);
-            System.out.println("Received" + data.toString());
+            System.out.println("Received: " + data.toString());
             return data;
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,12 +111,10 @@ public class ConnectionToServer {
     }
 
 
-
     public boolean sendImageToServer(byte[] buffer){
         try {
             oos=new ObjectOutputStream(client.getOutputStream());
             oos.write(buffer);
-            Log.i(TAG, "Buffer written received");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,7 +125,7 @@ public class ConnectionToServer {
 
     public byte[] receiveImageFromTheServer(){
         try {
-            //A socket is opened and after to have estabilished the connection with the server, the image is received.
+            //A socket is opened and after to have established the connection with the server, the image is received.
             ois=new ObjectInputStream(client.getInputStream());
             byte[] buffer= (byte[]) ois.readObject();
             Log.i(TAG,"Buffer correctly received");
@@ -143,8 +143,7 @@ public class ConnectionToServer {
         }
 
     }
-
-
+   // TODO: It doesn't work. delete ?
     private String getServerIP() {
         try {
             return Inet4Address.getLocalHost().getHostAddress();
@@ -160,6 +159,7 @@ public class ConnectionToServer {
             client.close();
             return true;
         } catch (IOException e) {
+            System.out.println("Cannot close connection. ERROR");
             e.printStackTrace();
             return false;
         }
@@ -168,8 +168,7 @@ public class ConnectionToServer {
     private ArrayList<String> getParsedDataFromBuffer(String dataFromBuffer) {
         ArrayList<String> parsedInput = new ArrayList<>();
         if (dataFromBuffer != null) {
-
-            System.out.println("From the client:" + dataFromBuffer);
+            System.out.println("Data (not parsed) to send to the server: " + dataFromBuffer);
             String[] myData = dataFromBuffer.split(DELIMITS);
             parsedInput.addAll(Arrays.asList(myData));
             return parsedInput;

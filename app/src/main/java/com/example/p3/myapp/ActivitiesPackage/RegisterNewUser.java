@@ -12,10 +12,7 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
-
 import java.util.ArrayList;
-
-import EntityClasses.Ad;
 import EntityClasses.FormatMessage;
 
 
@@ -28,12 +25,10 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_register_new_user);
         Button b = (Button) findViewById(R.id.button_create_new_account);
         b.setOnClickListener(this);
-        Log.i(TAG, "onCreate Method");
     }
 
     @Override
     public void onClick(View v) {
-
 
         AddNewUserTask addNewUser= new AddNewUserTask();
 
@@ -52,10 +47,8 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
     private class AddNewUserTask extends AsyncTask<String, Void, Integer>{
 
-
         @Override
         protected Integer doInBackground(String... params) {
-
 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();

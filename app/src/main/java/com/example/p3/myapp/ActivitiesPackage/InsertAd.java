@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
@@ -103,7 +104,10 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 RegisterNewAd registerNewAd=new RegisterNewAd();
                 String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
                 String untilDBFormat= changeDateFormat(dateEditFrom.getText().toString());
-                registerNewAd.execute(getAdTitle(),  getAdDescription(),fromDBFormat, untilDBFormat);
+                RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
+                boolean find=findRadioButton.isChecked();
+                String findString=String.valueOf(find);
+                registerNewAd.execute(getAdTitle(),  getAdDescription(),findString, fromDBFormat, untilDBFormat);
                 break;
         }
     }

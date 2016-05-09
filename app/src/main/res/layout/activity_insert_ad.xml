@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Insert Ad"
+        android:text="Insert your AD"
         android:hint="Insert title"
         android:id="@+id/textView_title_ad"
         android:layout_alignParentTop="true"
@@ -24,12 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
+        android:background="@drawable/edit_text_style"
         android:ems="10"
         android:id="@+id/DescriptionEditText"
-        android:hint="@string/insert_description_text"
         android:layout_below="@+id/EditTextTitle"
         android:layout_alignRight="@+id/button_upload_img_ad"
-        android:layout_alignEnd="@+id/button_upload_img_ad" />
+        android:layout_alignEnd="@+id/button_upload_img_ad"
+        android:layout_above="@+id/FromEditText" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
@@ -71,28 +72,35 @@
         android:id="@+id/buttonSendAd"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberSigned"
+        android:background="@drawable/edit_text_style"
         android:ems="10"
         android:id="@+id/Description"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/button"
-        android:layout_alignTop="@+id/button_upload_img_ad" />
+        android:layout_alignTop="@+id/button_upload_img_ad"
+        android:layout_toStartOf="@+id/UntilEditText"
+        android:layout_alignRight="@+id/textView5"
+        android:layout_alignEnd="@+id/textView5" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Description"
+        android:text="Add description"
         android:id="@+id/textView2"
-        android:layout_alignBottom="@+id/DescriptionEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/DescriptionEditText"
+        android:layout_toStartOf="@+id/DescriptionEditText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -100,7 +108,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Title"
         android:id="@+id/textView3"
-        android:layout_marginTop="71dp"
         android:layout_below="@+id/textView_title_ad"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -114,8 +121,9 @@
         android:layout_above="@+id/buttonSendAd"
         android:layout_alignRight="@+id/buttonSendAd"
         android:layout_alignEnd="@+id/buttonSendAd"
-        android:layout_toRightOf="@+id/Description"
-        android:layout_toEndOf="@+id/Description" />
+        android:layout_toEndOf="@+id/Description"
+        android:layout_alignLeft="@+id/button_upload_img_ad"
+        android:layout_alignStart="@+id/button_upload_img_ad" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -135,8 +143,8 @@
         android:text="From"
         android:id="@+id/textView4"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toRightOf="@+id/radioGroup"
+        android:layout_toEndOf="@+id/radioGroup" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -145,8 +153,8 @@
         android:text="Until"
         android:id="@+id/textView5"
         android:layout_alignBottom="@+id/UntilEditText"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -156,9 +164,10 @@
         android:ems="10"
         android:id="@+id/FromEditText"
         android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_alignRight="@+id/Description"
-        android:layout_alignEnd="@+id/Description" />
+        android:layout_alignRight="@+id/progressBar"
+        android:layout_alignEnd="@+id/progressBar"
+        android:layout_alignLeft="@+id/button_upload_img_ad"
+        android:layout_alignStart="@+id/button_upload_img_ad" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -172,6 +181,34 @@
         android:layout_alignStart="@+id/FromEditText"
         android:layout_alignRight="@+id/FromEditText"
         android:layout_alignEnd="@+id/FromEditText" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/radioGroup"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_above="@+id/Description">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find"
+            android:id="@+id/findradioButton"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Offer"
+            android:id="@+id/radioButton2"
+            android:checked="true" />
+    </RadioGroup><![CDATA[
+
+
 
     EditText
         android:layout_width="wrap_content"
@@ -193,4 +230,6 @@
         android:layout_alignLeft="@+id/editText2"
         android:layout_alignStart="@+id/editText2" />
 
+
+]]>
 </RelativeLayout>

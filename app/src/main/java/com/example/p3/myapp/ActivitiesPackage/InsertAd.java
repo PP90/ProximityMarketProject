@@ -3,8 +3,12 @@ package com.example.p3.myapp.ActivitiesPackage;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +24,8 @@ import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,23 +34,33 @@ import java.util.Date;
 
 public class InsertAd extends AppCompatActivity implements View.OnClickListener {
 
-   static EditText dateEditFrom;
-   static EditText dateEditUntil;
-   static boolean fromSelected;
-   static boolean untilSelected;
+    static EditText dateEditFrom;
+    static EditText dateEditUntil;
+    static boolean fromSelected;
+    static boolean untilSelected;
     final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
     final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
+    String mCurrentPhotoPath;
+    File img;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    String pathImage;
+    String nameFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
+
+        Button shot=(Button)findViewById(R.id.button_upload_img_ad);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
         fromSelected=false;
         untilSelected=false;
         sendAd.setOnClickListener(this);
+        shot.setOnClickListener(this);
+
         dateEditFrom.setOnClickListener(this);
         dateEditFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -70,6 +86,50 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 }
             }
         });
+    }
+
+    private void dispatchTakePictureIntent() {
+        Log.i("dispatchTakePicIntent", "startPIC");
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.i("IOEXCEPTION", "IOEXCEPTION");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        Log.i("createImageFile", "start");
+        Long tsLong = System.currentTimeMillis()/1000;
+        String timeStamp= tsLong.toString();
+        nameFile = "JPEG_" + timeStamp;
+        Log.i("AAA","The filename is "+nameFile);
+        File storageDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        pathImage=storageDir.getPath();
+        Log.i("Percorso Immagine","Il path è:"+pathImage);
+        File image = File.createTempFile(
+                nameFile,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        img = image;
+        return image;
     }
 
     private String getAdTitle(){
@@ -101,13 +161,16 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         int idView=v.getId();
         switch(idView){
             case R.id.buttonSendAd:
-                RegisterNewAd registerNewAd=new RegisterNewAd();
+                RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?
                 String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
                 String untilDBFormat= changeDateFormat(dateEditFrom.getText().toString());
                 RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
                 boolean find=findRadioButton.isChecked();
-                String findString=String.valueOf(find);
-                registerNewAd.execute(getAdTitle(),  getAdDescription(),findString, fromDBFormat, untilDBFormat);
+                String findString=String.valueOf(find);registerNewAd.execute(getAdTitle(),
+                    getAdDescription(),findString, fromDBFormat, untilDBFormat);
+                break;
+            case R.id.button_upload_img_ad:
+                dispatchTakePictureIntent();
                 break;
         }
     }

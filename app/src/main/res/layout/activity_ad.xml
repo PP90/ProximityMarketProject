@@ -25,9 +25,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/da_text"
         android:id="@+id/textView_from"
-        android:layout_below="@+id/textView_inserito_il"
-        android:layout_alignRight="@+id/textView_inserito_il"
-        android:layout_alignEnd="@+id/textView_inserito_il" />
+        android:layout_below="@+id/textView_pricea"
+        android:layout_alignRight="@+id/textView_user_from"
+        android:layout_alignEnd="@+id/textView_user_from" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -102,11 +102,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/userfromB_text"
         android:id="@+id/textView_user_from"
-        android:layout_below="@+id/textView_valid_from"
+        android:layout_alignTop="@+id/textView_from"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/textView_inserito_il"
-        android:layout_toEndOf="@+id/textView_inserito_il" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -114,9 +112,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/price_adB"
         android:id="@+id/textView_price_ad"
-        android:layout_alignTop="@+id/textView_pricea"
-        android:layout_toRightOf="@+id/textView_pricea"
-        android:layout_toEndOf="@+id/textView_pricea" />
+        android:layout_alignTop="@+id/textView_user_from"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"

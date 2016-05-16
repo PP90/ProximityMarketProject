@@ -21,6 +21,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
+        Button gpsButton=(Button) findViewById(R.id.gpsButton);
+        gpsButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
     }
@@ -41,6 +43,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         if(v.getId()==R.id.button_registerNewAccount){
             Intent i=new Intent(this, RegisterNewUser.class);
+            startActivity(i);
+        }
+        if(v.getId()==R.id.gpsButton){
+            Intent i=new Intent(this, MainActivityGps.class);
             startActivity(i);
         }
     }

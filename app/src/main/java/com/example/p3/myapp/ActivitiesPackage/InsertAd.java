@@ -28,6 +28,7 @@ import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,17 +42,22 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     static EditText dateEditFrom;
     static EditText dateEditUntil;
+    static EditText priceEditText;
     static boolean fromSelected;
     static boolean untilSelected;
+
     final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
     final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
-    private File img;
+
     static final int REQUEST_TAKE_PHOTO = 1;
+
     static String TAG="InsertAd";
-    private static final int SELECT_PICTURE = 1;
-    private String pathImage;
+
+    private static final int SELECT_PICTURE = 10;
+
     private String nameFile;
 
+    ImageView thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
+        thumbnail=(ImageView) findViewById(R.id.thumbtailImage);
+        priceEditText=(EditText)findViewById(R.id.priceEditText);
         fromSelected=false;
         untilSelected=false;
         sendAd.setOnClickListener(this);
@@ -102,9 +110,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = null;
-                //photoFile = createImageFile();
-                photoFile = createImageFile2();
+            File photoFile = createImageFile();
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -122,34 +128,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private void setThumbtail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
         Log.i(TAG, "Size of image(byte): " + image.getByteCount());
-        ImageView imageView=(ImageView) findViewById(R.id.thumbtailImage);
-        imageView.setImageBitmap(image);
+        thumbnail.setImageBitmap(image);
         Log.i(TAG, "The image has been set");
 
     }
 
-    //TODO: Since that the image is created in the default folder pictures, it has to be changed.
-    private File createImageFile() throws IOException {
-        Log.i(TAG, "start");
-        Long tsLong = System.currentTimeMillis()/1000;
-        String timeStamp= tsLong.toString();
-        nameFile = "JPEG_" + timeStamp;
-        Log.i(TAG,"The filename is " + nameFile);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        pathImage=storageDir.getPath();
-        Log.i(TAG, "Il path è:" + pathImage);
-
-        File image = File.createTempFile(
-                nameFile,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        img = image;
-        return image;
-    }
 
 
-    private File createImageFile2(){
+    private File createImageFile(){
 
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String pathDir = storageDir.getPath() + "/ProximityMarket";
@@ -157,8 +143,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         nameFile="JPEG_"+timeStamp+".jpg";
         File file = new File(pathDir, nameFile);
         Log.i(TAG, "The file path is "+file.getPath());
-      // FileOutputStream fos = new FileOutputStream(file);
-        img=file;
         return file;
     }
 
@@ -189,22 +173,30 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         int idView=v.getId();
+
         switch(idView){
             case R.id.buttonSendAd:
-                RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?
+                RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?//Sara fanculizzati :D
                 String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
                 String untilDBFormat= changeDateFormat(dateEditFrom.getText().toString());
                 RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
+                String priceString=(priceEditText.getText().toString());
+
                 boolean find=findRadioButton.isChecked();
-                String findString=String.valueOf(find);registerNewAd.execute(getAdTitle(),
-                    getAdDescription(),findString, fromDBFormat, untilDBFormat);
+                String findString=String.valueOf(find);
+                registerNewAd.execute(getAdTitle(),
+                    getAdDescription(),
+                        findString,
+                        priceString,
+                        fromDBFormat, untilDBFormat);
                 break;
+
             case R.id.button_upload_img_ad:
                 dispatchTakePictureIntent();
                 break;
+
             case R.id.choseFromGallery:
-                Intent intent=new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
                 break;
         }
@@ -213,17 +205,22 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-              //  setThumbtail();TODO: GET IMAGE PATH AND SET IT AS THUMBTAIL
-                //   Uri selectedImageUri = data.getData();
-                //   selectedImagePath = getPath(selectedImageUri);
+                   Uri selectedImageUri = data.getData();
+                Log.i(TAG,"The path form galley is"+selectedImageUri.getPath());
+                String path=selectedImageUri.getPath();
+                Log.i(TAG, "The encoded path form galley is" + selectedImageUri.getEncodedPath());
+                thumbnail.setImageURI(selectedImageUri);
+              //  UploadPhoto uploadPhoto=new UploadPhoto();
+
+                return;
             }
-            ///TODO ARRIVER EFEGJEIJGIEJIEJGI
+
             if(requestCode==REQUEST_TAKE_PHOTO){
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 String path=storageDir.getPath()+"/ProximityMarket/"+nameFile;
-                Log.i(TAG, "The path to retrieve the image from is: "+path);
+                Log.i(TAG, "The path to retrieve the image from is: " +path);
                 setThumbtail(path);
-
+                return;
              }
             }
         }
@@ -238,12 +235,24 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    private class UploadPhoto extends  AsyncTask<Image, Void, Integer>{
+    private class UploadPhoto extends  AsyncTask<String, Void, Integer>{
 
 
         @Override
-        protected Integer doInBackground(Image... params) {
+        protected Integer doInBackground(String... params) {
             //TODO: This method must be called when the image must be uploaded
+            try {
+                FileInputStream fis= new FileInputStream(params[0]);
+                int fisSize=fis.available();
+                byte[] buffer=new byte[fisSize];
+                ConnectionToServer connectionToServer=new ConnectionToServer();
+                connectionToServer.connectToTheServer(true,true);
+                connectionToServer. sendImageToServer(buffer);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }

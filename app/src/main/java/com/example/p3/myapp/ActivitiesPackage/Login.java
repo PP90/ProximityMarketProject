@@ -22,33 +22,44 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
         Button gpsButton=(Button) findViewById(R.id.gpsButton);
+        Button goOnButton=(Button) findViewById(R.id.GoOnButton);
         gpsButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
+        goOnButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {//TODO: when the application comes back to this activity and the login button is pressed with the
         //TODO: correct username and password, the Login doesn't work. BUG TO FIX.
-        if(v.getId()==R.id.button_login){
-            LoginTask loginTask= new LoginTask();
-            EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
-            EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
+        switch(v.getId()){
+            case R.id.button_login:
+                LoginTask loginTask= new LoginTask();
+                EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
+                EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
+                if(loginTask.getStatus() == AsyncTask.Status.PENDING){
+                    loginTask.execute(user.getText().toString(), pwd.getText().toString());
+                }
+                break;
 
-        if(loginTask.getStatus() == AsyncTask.Status.PENDING){
-            loginTask.execute(user.getText().toString(), pwd.getText().toString());
-            }
+            case R.id.button_registerNewAccount:
+                Intent i=new Intent(this, RegisterNewUser.class);
+                startActivity(i);
+                break;
+
+            case R.id.gpsButton:
+                Intent i2=new Intent(this, MainActivityGps.class);
+                startActivity(i2);
+                break;
+
+            case R.id.GoOnButton:
+                Intent i3=new Intent(this, UserActivity.class);
+                startActivity(i3);
+                break;
         }
 
-        if(v.getId()==R.id.button_registerNewAccount){
-            Intent i=new Intent(this, RegisterNewUser.class);
-            startActivity(i);
-        }
-        if(v.getId()==R.id.gpsButton){
-            Intent i=new Intent(this, MainActivityGps.class);
-            startActivity(i);
-        }
+
     }
 
     private class LoginTask extends AsyncTask<String, Void, Integer> {

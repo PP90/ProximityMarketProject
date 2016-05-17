@@ -96,4 +96,14 @@
         android:layout_below="@+id/button_login"
         android:layout_toLeftOf="@+id/editText_insert_password"
         android:layout_toStartOf="@+id/editText_insert_password" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GoOn"
+        android:id="@+id/GoOnButton"
+        android:layout_below="@+id/button_login"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

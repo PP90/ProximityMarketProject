@@ -15,6 +15,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,11 +28,14 @@ import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,14 +60,15 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private static final int SELECT_PICTURE = 10;
 
     private String nameFile;
-
     ImageView thumbnail;
+    GPSClass gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
-
+        gps=new GPSClass(this);
+        gps.onCreateActivity(this);
         Button shot=(Button)findViewById(R.id.button_upload_img_ad);
         Button chooseFromGalley=(Button) findViewById(R.id.choseFromGallery);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
@@ -104,6 +109,17 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gps.onStartActivity();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gps.onStopActivity();
+    }
     private void dispatchTakePictureIntent() {
         Log.i("dispatchTakePicIntent", "startPIC");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Ensure that there's a camera activity to handle the intent
@@ -125,7 +141,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     }
 
 
-    private void setThumbtail(String pathImage){
+    private void setThumbnail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
         Log.i(TAG, "Size of image(byte): " + image.getByteCount());
         thumbnail.setImageBitmap(image);
@@ -133,7 +149,17 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    private byte[] imageViewToByteConverter(ImageView imageView){
 
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bm = imageView.getDrawingCache();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        Log.i(TAG,"The size is:"+byteArray.length);
+        return byteArray;
+    }
 
     private File createImageFile(){
 
@@ -178,17 +204,19 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?//Sara fanculizzati :D
                 String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
-                String untilDBFormat= changeDateFormat(dateEditFrom.getText().toString());
+                String untilDBFormat= changeDateFormat(dateEditUntil.getText().toString());
                 RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
                 String priceString=(priceEditText.getText().toString());
-
+                String latitude=String.valueOf(gps.getLatitude());
+                String longitude=String.valueOf(gps.getLongitude());
                 boolean find=findRadioButton.isChecked();
-                String findString=String.valueOf(find);
-                registerNewAd.execute(getAdTitle(),
-                    getAdDescription(),
-                        findString,
-                        priceString,
-                        fromDBFormat, untilDBFormat);
+                String findOfferString=String.valueOf(find);
+                registerNewAd.execute(getAdTitle(),//title
+                    getAdDescription(),//descr
+                        findOfferString,//true or false
+                        priceString,//the price
+                        latitude,longitude,//the position
+                        fromDBFormat, untilDBFormat);//The parsed data
                 break;
 
             case R.id.button_upload_img_ad:
@@ -211,15 +239,21 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 Log.i(TAG, "The encoded path form galley is" + selectedImageUri.getEncodedPath());
                 thumbnail.setImageURI(selectedImageUri);
               //  UploadPhoto uploadPhoto=new UploadPhoto();
-
+                byte[] byteArray=imageViewToByteConverter(thumbnail);
+               UploadPhoto uploadPhoto=new UploadPhoto();
+                if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
                 return;
+
             }
 
             if(requestCode==REQUEST_TAKE_PHOTO){
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String path=storageDir.getPath()+"/ProximityMarket/"+nameFile;
-                Log.i(TAG, "The path to retrieve the image from is: " +path);
-                setThumbtail(path);
+                String path=storageDir.getPath()+"/ProximityMarket/" + nameFile;
+                Log.i(TAG, "The path to retrieve the image from is: " + path);
+                setThumbnail(path);
+                byte[] byteArray=imageViewToByteConverter(thumbnail);
+                UploadPhoto uploadPhoto=new UploadPhoto();
+                if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
                 return;
              }
             }
@@ -235,24 +269,23 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    private class UploadPhoto extends  AsyncTask<String, Void, Integer>{
+    private class UploadPhoto extends  AsyncTask<byte[], Void, Integer>{
 
 
         @Override
-        protected Integer doInBackground(String... params) {
-            //TODO: This method must be called when the image must be uploaded
-            try {
-                FileInputStream fis= new FileInputStream(params[0]);
-                int fisSize=fis.available();
-                byte[] buffer=new byte[fisSize];
+        protected Integer doInBackground(byte[]... params) {
+                String strImage="";
                 ConnectionToServer connectionToServer=new ConnectionToServer();
-                connectionToServer.connectToTheServer(true,true);
-                connectionToServer. sendImageToServer(buffer);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                connectionToServer.connectToTheServer(true, true);
+
+                strImage = Base64.encodeToString(params[0] , Base64.DEFAULT);
+                Log.i(TAG,"The size of image sent is: "+params[0].length);
+
+            if(connectionToServer.sendToServer("AD,IMG,"+strImage)==ConnectionToServer.OK) {
+                    connectionToServer.closeConnection();
+                }
+
+
             return null;
         }
     }
@@ -313,6 +346,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             if(untilSelected) dateEditUntil.setText(day + "/" + (month + 1) + "/" + year);
         }
     }
+
 
 
     public static class TimePickerFragment extends DialogFragment implements

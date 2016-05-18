@@ -27,15 +27,12 @@ public class GPSClass implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, ResultCallback<Status>,LocationListener {
 
-
-    protected static final String TAG = "MainActivityGps";
-
-
-    protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
-    public Location mCurrentLoc; //this is the last location valid
-    private TextView tvlocation;
-    private Context context;
-
+        protected static final String TAG = "MainActivityGps";
+        protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
+        public Location mCurrentLoc; //this is the last location valid
+        private Context context;
+        double latitude;
+        double longitude;
 
     public GPSClass (Context context){
         this.context=context;
@@ -58,10 +55,7 @@ public void onCreateActivity(Context context){
     buildGoogleApiClient();
 }
 
-    public void onPauseActivity(){
 
-
-    }
 
     public void onStartActivity(){
         mGoogleApiClient.connect();
@@ -82,6 +76,10 @@ public void onCreateActivity(Context context){
     }
 
 
+    public void positionOnDemand(){//TO BE IMPLEMENTED ????
+
+       LocationRequest LR = createLocationRequest();
+    }
     @Override
     public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_FINE_LOCATION) //ActivityCompat -> use ContextCompat as this has compatibility with older API levels
@@ -104,20 +102,21 @@ public void onCreateActivity(Context context){
         mCurrentLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mCurrentLoc != null) {
-            tvlocation.setText("Location: " + "Latitude "
-                    + String.valueOf(mCurrentLoc.getLatitude()) + " , Longitude "
-                    + String.valueOf(mCurrentLoc.getLongitude()));
-
-
-            /*String LATI = String.valueOf(mCurrentLoc.getLatitude()).substring(0,6);
-            mLatitudeText.setText(LATI);
-            String LONGI = String.valueOf(mCurrentLoc.getLongitude()).substring(0,6);
-            mLongitudeText.setText(LONGI);
-            */
+            latitude=mCurrentLoc.getLatitude();
+            longitude=+mCurrentLoc.getLongitude();
+         //   Toast.makeText(context, "Your position is: LAT: "+latitude+" LONG: "+longitude, Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText( this.context, "No location detected", Toast.LENGTH_LONG).show();
         }
         return;
+    }
+
+    double getLatitude(){
+        return latitude;
+    }
+
+    double getLongitude(){
+        return longitude;
     }
 
     @Override

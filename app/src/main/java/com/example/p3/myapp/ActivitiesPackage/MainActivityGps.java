@@ -123,11 +123,7 @@ public class MainActivityGps extends AppCompatActivity implements
                     + String.valueOf(mCurrentLoc.getLongitude()));
 
 
-            /*String LATI = String.valueOf(mCurrentLoc.getLatitude()).substring(0,6);
-            mLatitudeText.setText(LATI);
-            String LONGI = String.valueOf(mCurrentLoc.getLongitude()).substring(0,6);
-            mLongitudeText.setText(LONGI);
-            */
+
         }else {
             Toast.makeText(this, "No location detected", Toast.LENGTH_LONG).show();
         }

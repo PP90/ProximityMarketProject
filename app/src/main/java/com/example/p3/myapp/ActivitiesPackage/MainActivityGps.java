@@ -31,26 +31,15 @@ public class MainActivityGps extends AppCompatActivity implements
 
 
     protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
-    // private Button mGPSButton;
     public Location mCurrentLoc; //this is the last location valid
-    //private TextView mLatitudeText;
-    //private TextView mLongitudeText;
-    //protected String mLatitudeLabel;
-    //protected String mLongitudeLabel;
     private TextView tvlocation;
-//provaggggfff
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_gps);
-        //mGPSButton= (Button) findViewById(R.id.mGPSButton);
         tvlocation = (TextView) findViewById(R.id.tvLocation);
-        //mLatitudeLabel = getResources().getString(R.string.latitude_label);
-        //mLongitudeLabel = getResources().getString(R.string.longitude_label);
-        //mLatitudeText = (TextView) findViewById((R.id.mLatitudeText));
-        //mLongitudeText = (TextView) findViewById((R.id.mLongitudeText));
         buildGoogleApiClient();
-        //setmGPSButton();
     }
 
     /**

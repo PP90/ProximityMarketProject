@@ -19,6 +19,8 @@ import java.util.Date;
 
 public class MyAds extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

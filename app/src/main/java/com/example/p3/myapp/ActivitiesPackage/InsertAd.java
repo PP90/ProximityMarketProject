@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -30,12 +29,6 @@ import com.example.p3.myapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +45,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
     final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
-
+    final private String directoryName="/ProximityMarket";
     static final int REQUEST_TAKE_PHOTO = 1;
 
     static String TAG="InsertAd";
@@ -60,8 +53,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private static final int SELECT_PICTURE = 10;
 
     private String nameFile;
-    ImageView thumbnail;
-    GPSClass gps;
+    private ImageView thumbnail;
+    private GPSClass gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +74,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         sendAd.setOnClickListener(this);
         shot.setOnClickListener(this);
         chooseFromGalley.setOnClickListener(this);
-
         dateEditFrom.setOnClickListener(this);
+        //If there is a focus on the date edit texts, then the date and time picker are shown
         dateEditFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -121,7 +114,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         gps.onStopActivity();
     }
     private void dispatchTakePictureIntent() {
-        Log.i("dispatchTakePicIntent", "startPIC");
+        Log.i(TAG, "startPIC");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Ensure that there's a camera activity to handle the intent
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -134,7 +127,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
             else{
-                Log.i(TAG, "Photofile is NULL");
+                Log.i(TAG, "photo file is NULL");
 
             }
         }
@@ -149,22 +142,23 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    //An image view is converted to byte array in order to be sent to the server through the socket.
     private byte[] imageViewToByteConverter(ImageView imageView){
-
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
         Bitmap bm = imageView.getDrawingCache();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         Log.i(TAG,"The size is:"+byteArray.length);
         return byteArray;
     }
 
+    //A file is created in the ProximityMarket folder. It is under the directory picture folder.
+    //The file format is shown below.
     private File createImageFile(){
-
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        String pathDir = storageDir.getPath() + "/ProximityMarket";
+        String pathDir = storageDir.getPath() + directoryName;
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         nameFile="JPEG_"+timeStamp+".jpg";
         File file = new File(pathDir, nameFile);
@@ -182,20 +176,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         return descriptionEditText.getText().toString();
     }
 
-
-    public  String changeDateFormat(String oldDateFormat){
-        Date date = null;
-        try {
-            date = new SimpleDateFormat(OLD_FORMAT).parse(oldDateFormat);
-        } catch (ParseException e) {
-            Log.i("Error", "Bad format error");
-            e.printStackTrace();
-        }
-        String dateNewFormat = new SimpleDateFormat(NEW_FORMAT).format(date);
-        Log.i("420","The new format is: "+dateNewFormat);
-        return dateNewFormat;
-    }
-
     @Override
     public void onClick(View v) {
         int idView=v.getId();
@@ -203,8 +183,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         switch(idView){
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?//Sara fanculizzati :D
-                String fromDBFormat= changeDateFormat(dateEditFrom.getText().toString());
-                String untilDBFormat= changeDateFormat(dateEditUntil.getText().toString());
+                String fromDBFormat=Util.changeDateFormat(dateEditFrom.getText().toString());
+                String untilDBFormat= Util.changeDateFormat(dateEditUntil.getText().toString());
                 RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
                 String priceString=(priceEditText.getText().toString());
                 String latitude=String.valueOf(gps.getLatitude());
@@ -212,7 +192,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 boolean find=findRadioButton.isChecked();
                 String findOfferString=String.valueOf(find);
                 registerNewAd.execute(getAdTitle(),//title
-                    getAdDescription(),//descr
+                    getAdDescription(),//description
                         findOfferString,//true or false
                         priceString,//the price
                         latitude,longitude,//the position
@@ -233,22 +213,17 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                   Uri selectedImageUri = data.getData();
-                Log.i(TAG,"The path form galley is"+selectedImageUri.getPath());
-                String path=selectedImageUri.getPath();
-                Log.i(TAG, "The encoded path form galley is" + selectedImageUri.getEncodedPath());
+                Uri selectedImageUri = data.getData();
                 thumbnail.setImageURI(selectedImageUri);
-              //  UploadPhoto uploadPhoto=new UploadPhoto();
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
-               UploadPhoto uploadPhoto=new UploadPhoto();
+                UploadPhoto uploadPhoto=new UploadPhoto();
                 if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
                 return;
-
             }
 
             if(requestCode==REQUEST_TAKE_PHOTO){
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String path=storageDir.getPath()+"/ProximityMarket/" + nameFile;
+                String path=storageDir.getPath()+directoryName + nameFile;
                 Log.i(TAG, "The path to retrieve the image from is: " + path);
                 setThumbnail(path);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
@@ -274,7 +249,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         protected Integer doInBackground(byte[]... params) {
-                String strImage="";
+                String strImage;
                 ConnectionToServer connectionToServer=new ConnectionToServer();
                 connectionToServer.connectToTheServer(true, true);
 
@@ -290,6 +265,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    //This async task is called when the user wants insert a new AD.
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
         private final String TAG="RegisterNewAD";
 
@@ -317,10 +293,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
 
         protected void onPostExecute(Integer a) {
-
            if (a == 1) Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
             else if (a == -1) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
-
         }
     }
 

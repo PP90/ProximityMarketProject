@@ -4,16 +4,22 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    private final String TAG="LOGIN";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -21,9 +27,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
-        Button gpsButton=(Button) findViewById(R.id.gpsButton);
         Button goOnButton=(Button) findViewById(R.id.GoOnButton);
-        gpsButton.setOnClickListener(this);
+       // ConnectionToServer.getServerIP();
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         goOnButton.setOnClickListener(this);
@@ -46,11 +51,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.button_registerNewAccount:
                 Intent i=new Intent(this, RegisterNewUser.class);
                 startActivity(i);
-                break;
-
-            case R.id.gpsButton:
-                Intent i2=new Intent(this, MainActivityGps.class);
-                startActivity(i2);
                 break;
 
             case R.id.GoOnButton:

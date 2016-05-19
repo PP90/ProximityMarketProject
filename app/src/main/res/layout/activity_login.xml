@@ -89,15 +89,6 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GPS"
-        android:id="@+id/gpsButton"
-        android:layout_below="@+id/button_login"
-        android:layout_toLeftOf="@+id/editText_insert_password"
-        android:layout_toStartOf="@+id/editText_insert_password" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

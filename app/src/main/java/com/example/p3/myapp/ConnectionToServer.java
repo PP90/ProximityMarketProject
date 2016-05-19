@@ -1,13 +1,11 @@
 package com.example.p3.myapp;
 
 import android.util.Log;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
@@ -21,22 +19,21 @@ public class ConnectionToServer {
     private final static String SERVER_NAME = "192.168.0.107";//TO MODIFY EACH TIME OPEN YOUR IDE
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
-    private final String DELIMITS = "[,]";
+    private final String DELIMITS = "[,]";//Delimiter to parse the data
     private Socket client;
     public static final int OK=1;
     public static final int TIMEOUT_EXCEPTION=-5;
     public static final int IO_EXCEPTION=-3;
-
+    public static final int NULL_POINTER_EXC=-7;
     private OutputStream outToServer;
     private DataOutputStream out;
-    private ObjectOutputStream oos;
 
     private InputStream inFromServer;
     private ObjectInputStream ois;
 
     private DataInputStream in;
-    private boolean isConnected;
 
+    private boolean isConnected;
 
     private final static String TAG="ConnectionToTheServer";
 
@@ -48,7 +45,7 @@ public class ConnectionToServer {
     public boolean connectToTheServer(boolean inputBuffer, boolean outputBuffer){
         client = new Socket();
         try {
-            Log.i(TAG,"Try to connect to "+SERVER_NAME+" at "+PORT);
+            Log.i(TAG, "Try to connect to "+SERVER_NAME+" at "+PORT);
             client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
             Log.i(TAG, "Connected to " + SERVER_NAME + " at " + PORT);
 
@@ -80,7 +77,7 @@ public class ConnectionToServer {
         catch(NullPointerException npe){
             System.out.println("Null point exception");
             npe.printStackTrace();
-            return TIMEOUT_EXCEPTION;
+            return NULL_POINTER_EXC;
         }
 
         catch (SocketTimeoutException ste){
@@ -96,13 +93,11 @@ public class ConnectionToServer {
 
     }
 
-
-
     public ArrayList<String> receiveFromServer(){
         try {
             String dataFromServer=in.readUTF();
             ArrayList<String> data=getParsedDataFromBuffer(dataFromServer);
-            System.out.println("Received: " + data.toString());
+            System.out.println("Received from the server: " + data.toString());
             return data;
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,21 +105,7 @@ public class ConnectionToServer {
         }
     }
 
-
-    public boolean sendImageToServer(byte[] buffer){
-        try {
-            Log.i(TAG, "Send image to the server");
-            oos=new ObjectOutputStream(client.getOutputStream());
-            oos.write(buffer);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-    public byte[] receiveImageFromTheServer(){
+    public byte[] receiveImageFromTheServer(){//TODO: this function has to be modified. It is better to get the encoded base 64 string instead of the byte array.
         try {
             //A socket is opened and after to have established the connection with the server, the image is received.
             ois=new ObjectInputStream(client.getInputStream());
@@ -145,12 +126,15 @@ public class ConnectionToServer {
 
     }
    // TODO: It doesn't work. delete ?
-    private String getServerIP() {
+    public static void getServerIP() {
         try {
-            return Inet4Address.getLocalHost().getHostAddress();
+            String myIP;
+         //  Log.i(TAG,Inet4Address.getLocalHost().getAddress().toString());
+            Log.i(TAG, Inet4Address.getLocalHost().getHostAddress().toString());
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return null;
+
         }
 
     }
@@ -159,8 +143,9 @@ public class ConnectionToServer {
         try {
             client.close();
             return true;
+
         } catch (IOException e) {
-            System.out.println("Cannot close connection. ERROR");
+            Log.i(TAG,"Error: can't close connection");
             e.printStackTrace();
             return false;
         }
@@ -169,7 +154,6 @@ public class ConnectionToServer {
     private ArrayList<String> getParsedDataFromBuffer(String dataFromBuffer) {
         ArrayList<String> parsedInput = new ArrayList<>();
         if (dataFromBuffer != null) {
-            System.out.println("Data (not parsed) to send to the server: " + dataFromBuffer);
             String[] myData = dataFromBuffer.split(DELIMITS);
             parsedInput.addAll(Arrays.asList(myData));
             return parsedInput;
@@ -178,6 +162,8 @@ public class ConnectionToServer {
             return null;
         }
     }
+
+    //TODO: Is this function used ??
     public String getStringtoSendToServer(String typeOfMsg, String ...params){
         for(int i=0; i<params.length; i++){
             typeOfMsg+=","+params[i];

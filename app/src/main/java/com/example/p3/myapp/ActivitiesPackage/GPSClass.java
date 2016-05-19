@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,12 +32,15 @@ public class GPSClass implements
         private Context context;
         double latitude;
         double longitude;
+        private final int MIN_SDK_VERSION=16;
+        private final int FASTEST_INTERVAL_MS=5000;
+    private final int INTERVAL_MS=10000;
 
     public GPSClass (Context context){
         this.context=context;
     }
     protected synchronized void buildGoogleApiClient() {
-        if ( Build.VERSION.SDK_INT >= 16 &&
+        if ( Build.VERSION.SDK_INT >= MIN_SDK_VERSION &&
                 ContextCompat.checkSelfPermission( this.context, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
             Log.i(TAG, "build GoogleApiClient is not possible");
             return  ;
@@ -67,8 +69,8 @@ public void onCreateActivity(Context context){
 
     protected LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000); // 5 seconds ogni update = molto veloce
+        mLocationRequest.setInterval(INTERVAL_MS);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL_MS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(mLocationRequest);
@@ -76,9 +78,10 @@ public void onCreateActivity(Context context){
     }
 
 
-    public void positionOnDemand(){//TO BE IMPLEMENTED ????
+    public void positionOnDemand(){//TODO: TO BE IMPLEMENTED ????
 
-       LocationRequest LR = createLocationRequest();
+       LocationRequest lr = createLocationRequest();
+
     }
     @Override
     public void onConnected(Bundle bundle) {
@@ -87,13 +90,6 @@ public void onCreateActivity(Context context){
                 && ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
         {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             Log.i(TAG, "Connection to GoogleApiClient is not possible, you needs permissions");
             return;
         }
@@ -114,7 +110,6 @@ public void onCreateActivity(Context context){
     double getLatitude(){
         return latitude;
     }
-
     double getLongitude(){
         return longitude;
     }
@@ -128,7 +123,9 @@ public void onCreateActivity(Context context){
 
     @Override
     public void onLocationChanged(Location location) {
-
+        longitude=location.getLongitude();
+        latitude=location.getLatitude();
+        Log.i(TAG,"Position changed. Latitude: "+latitude+" Longitude: "+longitude);
     }
 
     @Override

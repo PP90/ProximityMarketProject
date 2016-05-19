@@ -17,7 +17,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_user);
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
         addNewAd.setOnClickListener(this);
-        Button seeNearAds=(Button) findViewById(R.id.button_see_near_ads);
+        Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
         seeNearAds.setOnClickListener(this);
         Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
         seeMyAds.setOnClickListener(this);
@@ -32,9 +32,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(goToAddNewAddActivity);
                 break;
 
-            case R.id.button_see_near_ads:
+            case R.id.buttonSeeNearAds:
                 Intent goToSeeNearAdActivity=new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
+                //The result of the query must be passed to the next activity
+                goToSeeNearAdActivity.putExtra("searchResult",10);
                 startActivity(goToSeeNearAdActivity);
                 break;
 

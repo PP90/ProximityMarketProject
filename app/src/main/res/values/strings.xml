@@ -35,4 +35,7 @@
     <string name="userfromB_text">Published from</string>
     <string name="price_adB">Price</string>
     <string name="title_adB_text">Title</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

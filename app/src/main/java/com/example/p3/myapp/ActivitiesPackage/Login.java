@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG="LOGIN";
+    String uname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +45,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
                 EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
                 if(loginTask.getStatus() == AsyncTask.Status.PENDING){
-                    loginTask.execute(user.getText().toString(), pwd.getText().toString());
+                    uname=user.getText().toString();
+                    loginTask.execute(uname, pwd.getText().toString());
                 }
                 break;
 
@@ -87,7 +89,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         protected void onPostExecute(Integer a) {
             Intent goToProfile=new Intent(getBaseContext(), UserActivity.class);
 
-            if (a == 1)  startActivity(goToProfile);
+            if (a == 1){
+                UserStatus.username=uname;
+                UserStatus.isLogged=true;
+                startActivity(goToProfile);
+            }
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();

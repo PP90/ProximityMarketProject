@@ -280,11 +280,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
             //2. The fields from the activity must be get
-            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW", params);
+            UserStatus.username="pippo"; //TODO: to delete when it works
+            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
             int resultSend=connectionToServer.sendToServer(newAdString);
             if(resultSend==ConnectionToServer.OK){
                 dataFromServer = connectionToServer.receiveFromServer();//It produces error
-                Log.i(TAG, dataFromServer.toString());
+//                Log.i(TAG, dataFromServer.toString());
             }else return resultSend;
             connectionToServer.closeConnection();
             if (dataFromServer.get(1).equals("OK")) return 1;

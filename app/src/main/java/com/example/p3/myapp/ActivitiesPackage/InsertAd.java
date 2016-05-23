@@ -255,8 +255,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
                 strImage = Base64.encodeToString(params[0] , Base64.DEFAULT);
                 Log.i(TAG,"The size of image sent is: "+params[0].length);
-
-            if(connectionToServer.sendToServer("AD,IMG,"+strImage)==ConnectionToServer.OK) {
+            UserStatus.username="pippo";
+            if(connectionToServer.sendToServer("AD,IMG,"+UserStatus.username+","+strImage)==ConnectionToServer.OK) {
                     connectionToServer.closeConnection();
                 }
 
@@ -284,18 +284,21 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
             int resultSend=connectionToServer.sendToServer(newAdString);
             if(resultSend==ConnectionToServer.OK){
-                dataFromServer = connectionToServer.receiveFromServer();//It produces error
+                dataFromServer = connectionToServer.receiveFromServer();
 //                Log.i(TAG, dataFromServer.toString());
             }else return resultSend;
             connectionToServer.closeConnection();
-            if (dataFromServer.get(1).equals("OK")) return 1;
+            if (dataFromServer.get(2).equals("OK")) return 1;
             else return -1;
         }
 
 
         protected void onPostExecute(Integer a) {
-           if (a == 1) Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
-            else if (a == -1) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
+           if (a == 1) {
+               Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
+               finish();
+           }
+            else if (a == -1) Toast.makeText(getApplicationContext(), "Network error. Retry", Toast.LENGTH_SHORT).show();
         }
     }
 

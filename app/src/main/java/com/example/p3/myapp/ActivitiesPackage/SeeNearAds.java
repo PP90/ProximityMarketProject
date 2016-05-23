@@ -104,7 +104,7 @@ public class SeeNearAds extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
            View rootView = inflater.inflate(R.layout.fragment_ad, container, false);
-          //  TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+          //  TextView textView = (TextView) rootView.findViewById(R.id.);
            // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }

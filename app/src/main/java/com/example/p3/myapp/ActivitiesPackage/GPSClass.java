@@ -30,11 +30,11 @@ public class GPSClass implements
         protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
         public Location mCurrentLoc; //this is the last location valid
         private Context context;
-        double latitude;
-        double longitude;
+        private double latitude;
+        private double longitude;
         private final int MIN_SDK_VERSION=16;
         private final int FASTEST_INTERVAL_MS=5000;
-    private final int INTERVAL_MS=10000;
+        private final int INTERVAL_MS=10000;
 
     public GPSClass (Context context){
         this.context=context;

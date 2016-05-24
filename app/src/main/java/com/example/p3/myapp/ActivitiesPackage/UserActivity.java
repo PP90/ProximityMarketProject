@@ -1,16 +1,19 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.p3.myapp.R;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private String distance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +24,29 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         seeNearAds.setOnClickListener(this);
         Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
         seeMyAds.setOnClickListener(this);
+        SeekBar seekBar=(SeekBar)findViewById(R.id.distance);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.i("UserActivity","Progress: "+progress);
+                TextView meters=(TextView) findViewById(R.id.meters);
+                distance=String.valueOf(progress);
+                meters.setText(distance);
+                if(progress==5000) Log.i("UserActivity","Progress max");
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -48,6 +74,17 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
             default:
                 break;
+        }
+    }
+
+    private class SearchNearAds extends AsyncTask<String, Void, Integer>{
+
+
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            //
+            return null;
         }
     }
 }

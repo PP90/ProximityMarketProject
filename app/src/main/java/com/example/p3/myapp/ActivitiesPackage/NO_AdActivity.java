@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.example.p3.myapp.R;
 
-public class AdActivity extends AppCompatActivity {
+public class NO_AdActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

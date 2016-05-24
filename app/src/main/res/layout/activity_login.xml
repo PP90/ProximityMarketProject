@@ -87,7 +87,6 @@
         android:layout_height="wrap_content"
         android:text="@string/register_new_account_button"
         android:id="@+id/button_registerNewAccount"
-        android:layout_marginTop="27dp"
         android:layout_below="@+id/textView_register_new_account"
         android:layout_centerHorizontal="true" />
 
@@ -98,6 +97,28 @@
         android:text="GoOn"
         android:id="@+id/GoOnButton"
         android:layout_below="@+id/button_login"
+        android:layout_alignRight="@+id/space2"
+        android:layout_alignEnd="@+id/space2"
+        android:layout_marginTop="47dp" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/textView_username"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView_loginCredential" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space2"
+        android:layout_below="@+id/button_login"
+        android:layout_alignRight="@+id/editText_insert_password"
+        android:layout_alignEnd="@+id/editText_insert_password" />
+
 </RelativeLayout>

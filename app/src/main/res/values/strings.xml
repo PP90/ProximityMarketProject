@@ -26,13 +26,13 @@
     <string name="insert_description_text">Insert description</string>
     <string name="upload_btn">Upload</string>
     <string name="send_ad_btn">Send</string>
-    <string name="inserito_il_text">Insert at</string>
-    <string name="da_text">from</string>
-    <string name="where_text">Where</string>
+    <string name="inserito_il_text">From</string>
+    <string name="da_text">from :</string>
+    <string name="where_text">Where :</string>
     <string name="showdescription_text">Show description</string>
     <string name="where_descriprionB_text">Where</string>
-    <string name="validfromB_text">Valid from</string>
-    <string name="userfromB_text">Published from</string>
+    <string name="validfromB_text">Until</string>
+    <string name="userfromB_text">Dealer</string>
     <string name="price_adB">Price</string>
     <string name="title_adB_text">Title</string>
 

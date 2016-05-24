@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.p3.myapp.R;
 
@@ -103,7 +102,7 @@ public class SeeNearAds extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-           View rootView = inflater.inflate(R.layout.fragment_ad, container, false);
+           View rootView = inflater.inflate(R.layout.fragment_see_near_ads, container, false);
           //  TextView textView = (TextView) rootView.findViewById(R.id.section_label);
            // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
@@ -138,6 +137,7 @@ public class SeeNearAds extends AppCompatActivity {
              Log.i(TAG, "The value passed from previous activity is " + intent.getIntExtra("searchResult", 1));
              numberOfAds =intent.getIntExtra("searchResult", 1);
             return numberOfAds;
+            //return 3;
         }
 
         @Override

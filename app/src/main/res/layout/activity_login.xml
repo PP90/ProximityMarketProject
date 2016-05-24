@@ -12,33 +12,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/insert_login_credential_text"
         android:id="@+id/textView_loginCredential"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/username_text"
         android:id="@+id/textView_username"
-        android:layout_below="@+id/textView_loginCredential"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="61dp" />
+        android:layout_above="@+id/editText_insertEmailAsUsername"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/password_text"
         android:id="@+id/textView_password"
-        android:layout_below="@+id/editText_insertEmailAsUsername"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="38dp" />
+        android:layout_above="@+id/editText_insert_password"
+        android:layout_alignLeft="@+id/textView_username"
+        android:layout_alignStart="@+id/textView_username"
+        android:textColor="#000000" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -46,9 +46,11 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText_insertEmailAsUsername"
-        android:layout_alignBottom="@+id/textView_username"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_above="@+id/textView_password"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/editText_insert_password"
+        android:layout_alignEnd="@+id/editText_insert_password" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -56,9 +58,11 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editText_insert_password"
-        android:layout_alignBottom="@+id/textView_password"
-        android:layout_alignRight="@+id/editText_insertEmailAsUsername"
-        android:layout_alignEnd="@+id/editText_insertEmailAsUsername" />
+        android:layout_above="@+id/button_login"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -74,10 +78,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/register_new_account_text"
         android:id="@+id/textView_register_new_account"
-        android:layout_marginTop="77dp"
-        android:layout_below="@+id/button_login"
-        android:layout_alignRight="@+id/textView_loginCredential"
-        android:layout_alignEnd="@+id/textView_loginCredential" />
+        android:layout_below="@+id/GoOnButton"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <Button
         android:layout_width="wrap_content"

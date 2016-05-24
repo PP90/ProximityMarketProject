@@ -37,7 +37,7 @@ public class MainActivityGps extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_activity_gps);
+        setContentView(R.layout.NO_activity_main_activity_gps);
         tvlocation = (TextView) findViewById(R.id.tvLocation);
         buildGoogleApiClient();
     }

@@ -10,6 +10,6 @@ public class AdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ad);
+        setContentView(R.layout.NO_activity_ad);
     }
 }

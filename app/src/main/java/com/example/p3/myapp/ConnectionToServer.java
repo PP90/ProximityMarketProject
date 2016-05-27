@@ -79,7 +79,6 @@ public class ConnectionToServer {
             npe.printStackTrace();
             return NULL_POINTER_EXC;
         }
-
         catch (SocketTimeoutException ste){
             System.out.println("Timeout reached");
             ste.printStackTrace();

@@ -1,9 +1,9 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+
 import java.util.ArrayList;
+
 import EntityClasses.FormatMessage;
 
 
@@ -41,10 +43,20 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         if(isMale.isSelected()) sexString="1";
         else sexString="0";
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
+            // added email check - controllo correttezza email aggiunto
+            boolean emailOK= isValidEmail(username.getText().toString());
+            if(emailOK){
             addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
+            } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
         }
     }
-
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
     private class AddNewUserTask extends AsyncTask<String, Void, Integer>{
 
         @Override

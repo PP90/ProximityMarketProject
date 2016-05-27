@@ -2,37 +2,44 @@ package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG="LOGIN";
     String uname;
+    String upwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // ConnectionToServer.getServerIP();
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
         Button goOnButton=(Button) findViewById(R.id.GoOnButton);
-       // ConnectionToServer.getServerIP();
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         goOnButton.setOnClickListener(this);
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 
 
@@ -45,8 +52,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
                 EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
                 if(loginTask.getStatus() == AsyncTask.Status.PENDING){
-                    uname=user.getText().toString();
-                    loginTask.execute(uname, pwd.getText().toString());
+                    // added email check - controllo correttezza email aggiunto
+                    boolean emailOK= isValidEmail(user.getText().toString());
+                    if(emailOK){
+                        uname=user.getText().toString();
+                        upwd=pwd.getText().toString();
+                        loginTask.execute(uname,upwd);
+                    } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
+
                 }
                 break;
 
@@ -91,7 +104,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             if (a == 1){
                 UserStatus.username=uname;
-                UserStatus.isLogged=true;
+                UserStatus.isLogged=true; // dove sta isLogged ?
                 startActivity(goToProfile);
             }
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();

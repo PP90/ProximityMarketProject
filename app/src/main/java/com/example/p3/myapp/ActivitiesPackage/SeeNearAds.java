@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.p3.myapp.R;
 
@@ -51,19 +53,45 @@ public class SeeNearAds extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "SWIPE >> to Cancel , or CLICK ON :", Snackbar.LENGTH_LONG)
+                        .setAction("SEND", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view1) {
+
+                                //TODO: take email of seller and put in EXTRA_EMAIL and remove my email
+                                //TODO: take title ad and put it in (EXTRA_SUBJECT, "..."+ID)
+                                //TODO: take email address from the account of the user of the app (from Login?) and put inside Intent Email
+                                Intent Email = new Intent(Intent.ACTION_SEND);
+                                Email.setType("text/email");
+                                Email.putExtra(Intent.EXTRA_EMAIL,new String[]{"fabiogreco3@gmail.com"});  //seller's email
+                                Email.putExtra(Intent.EXTRA_SUBJECT,"Hi, I'm interested in your Ad"); // Email's Object
+                                Email.putExtra(Intent.EXTRA_TEXT, "Dear Seller, I'm interested in your Ad, please contact me soon" + "");  //Email text
+
+                                try {
+                                    startActivity(Intent.createChooser(Email, "Hi, I'm interested"));
+                                } catch (android.content.ActivityNotFoundException ex) {
+                                    Toast.makeText(getApplicationContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                                }
+
+                                Snackbar snackbar1 = Snackbar.make(view1, "Message is sent", Snackbar.LENGTH_LONG);
+                                snackbar1.show();
+                            }
+                        }).show();
+
+
             }
         });
 
     }
 
-/*
+/* //TODO: possibile menu delle Opzioni già previsto
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -103,9 +131,9 @@ public class SeeNearAds extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-           View rootView = inflater.inflate(R.layout.fragment_ad, container, false);
-          //  TextView textView = (TextView) rootView.findViewById(R.id.);
-           // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+           View rootView = inflater.inflate(R.layout.fragment_see_near_ads, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
@@ -123,11 +151,11 @@ public class SeeNearAds extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
+
+
+            //qui si può aggiungere il download della foto dell'annuncio, il titolo il prezzo e tutto il resto
+
             // Return a PlaceholderFragment (defined as a static inner class below).
-
-            //qui bisogna aggiungere la foto dell'annuncio, il titolo il prezzo e tutto il resto
-
-
             return PlaceholderFragment.newInstance(position + 1);
         }
 
@@ -146,7 +174,7 @@ public class SeeNearAds extends AppCompatActivity {
             int i;
             for(i=0; i< numberOfAds; i++) {
                 if(position==i)  {
-                    String cc="SECTION "+String.valueOf(i);
+                    String cc="AD "+String.valueOf(i+1);
                     return cc;}
 
             }return null;

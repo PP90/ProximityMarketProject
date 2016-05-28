@@ -32,7 +32,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 TextView meters=(TextView) findViewById(R.id.meters);
                 distance=String.valueOf(progress);
                 meters.setText(distance);
-                if(progress==5000) Log.i("UserActivity","Progress max");
+                if(progress==500) Log.i("UserActivity","Progress max");
 
 
             }
@@ -62,7 +62,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent goToSeeNearAdActivity=new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
                 //The result of the query must be passed to the next activity
-                goToSeeNearAdActivity.putExtra("searchResult",6);
+                goToSeeNearAdActivity.putExtra("searchResult",9);
                 startActivity(goToSeeNearAdActivity);
                 break;
 
@@ -76,7 +76,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
+// TODO : e questa dovrebbe per caso preparare i file che ricevera la see near ads?
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
 
 

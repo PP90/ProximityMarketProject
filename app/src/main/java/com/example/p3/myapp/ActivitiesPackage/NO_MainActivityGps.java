@@ -23,11 +23,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 
 
-public class NO_MainActivityGps extends AppCompatActivity implements
+public class no_MainActivityGps extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, ResultCallback<Status>,LocationListener {
 
-    protected static final String TAG = "NO_MainActivityGps";
+    protected static final String TAG = "no_MainActivityGps";
 
 
     protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
@@ -37,7 +37,7 @@ public class NO_MainActivityGps extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.NO_activity_main_activity_gps);
+        setContentView(R.layout.no_activity_main_activity_gps);
         tvlocation = (TextView) findViewById(R.id.tvLocation);
         buildGoogleApiClient();
     }

@@ -35,9 +35,9 @@
         <activity android:name=".ActivitiesPackage.InsertAd" />
         <activity android:name=".ActivitiesPackage.RegisterNewUser" />
         <activity android:name=".ActivitiesPackage.UserActivity" />
-        <activity android:name=".ActivitiesPackage.NO_AdActivity" />
+        <activity android:name=".ActivitiesPackage.no_AdActivity" />
         <activity android:name=".ActivitiesPackage.MyAds" />
-        <activity android:name=".ActivitiesPackage.NO_MainActivityGps" />
+        <activity android:name=".ActivitiesPackage.no_MainActivityGps" />
         <activity
             android:name=".ActivitiesPackage.SeeNearAds"
             android:label="@string/title_activity_see_near_ads"

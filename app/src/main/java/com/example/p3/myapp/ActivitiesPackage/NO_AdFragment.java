@@ -13,12 +13,12 @@ import com.example.p3.myapp.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NO_AdFragment.OnFragmentInteractionListener} interface
+ * {@link no_AdFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NO_AdFragment#newInstance} factory method to
+ * Use the {@link no_AdFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NO_AdFragment extends Fragment {
+public class no_AdFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class NO_AdFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public NO_AdFragment() {
+    public no_AdFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class NO_AdFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NO_AdFragment.
+     * @return A new instance of fragment no_AdFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NO_AdFragment newInstance(String param1, String param2) {
-        NO_AdFragment fragment = new NO_AdFragment();
+    public static no_AdFragment newInstance(String param1, String param2) {
+        no_AdFragment fragment = new no_AdFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

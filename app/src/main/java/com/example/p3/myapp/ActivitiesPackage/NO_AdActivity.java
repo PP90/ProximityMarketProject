@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.example.p3.myapp.R;
 
-public class NO_AdActivity extends AppCompatActivity {
+public class no_AdActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.NO_activity_ad);
+        setContentView(R.layout.no_activity_ad);
     }
 }

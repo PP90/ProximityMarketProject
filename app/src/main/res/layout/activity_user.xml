@@ -15,6 +15,9 @@
         android:layout_height="wrap_content"
         android:text="@string/see_my_ads_btn"
         android:id="@+id/button_see_my_ads"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:layout_marginTop="95dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -31,7 +34,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimary" />
 
     <Button
         android:layout_width="wrap_content"
@@ -43,19 +48,22 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/buttonSeeNearAds"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimary" />
 
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/distance"
-        android:layout_below="@+id/buttonSeeNearAds"
+        android:max="5000"
+        android:indeterminate="false"
+        android:layout_above="@+id/space"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:max="5000"
-        android:indeterminate="false" />
+        android:layout_alignRight="@+id/button_log_out"
+        android:layout_alignEnd="@+id/button_log_out" />
 
     <Button
         android:layout_width="wrap_content"
@@ -72,9 +80,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Find services within"
         android:id="@+id/textView"
-        android:layout_centerVertical="true"
+        android:layout_above="@+id/space6"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="36dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -97,4 +106,47 @@
         android:layout_alignBottom="@+id/meters"
         android:layout_alignLeft="@+id/button_log_out"
         android:layout_alignStart="@+id/button_log_out" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space3"
+        android:layout_above="@+id/space4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space4"
+        android:layout_above="@+id/space5"
+        android:layout_toEndOf="@+id/space"
+        android:layout_alignTop="@+id/space5"
+        android:layout_alignLeft="@+id/space5"
+        android:layout_alignStart="@+id/space5" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space5"
+        android:layout_above="@+id/distance"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space"
+        android:layout_above="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_above="@+id/button_log_out"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/space6" />
+
 </RelativeLayout>

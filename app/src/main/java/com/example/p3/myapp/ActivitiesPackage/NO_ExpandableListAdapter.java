@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Created by p3 on 19/05/2016.
  */
-public class NO_ExpandableListAdapter extends BaseExpandableListAdapter {
+public class no_ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
-    public NO_ExpandableListAdapter(Context context, List<String> listDataHeader,
+    public no_ExpandableListAdapter(Context context, List<String> listDataHeader,
                                     HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
@@ -50,7 +50,7 @@ public class NO_ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.NO_list_item, null);
+            convertView = infalInflater.inflate(R.layout.no_list_item, null);
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
@@ -86,7 +86,7 @@ public class NO_ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.NO_list_group, null);
+            convertView = infalInflater.inflate(R.layout.no_list_group, null);
         }
 
         TextView lblListHeader = (TextView) convertView

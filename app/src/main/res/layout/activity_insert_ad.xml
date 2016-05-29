@@ -186,18 +186,6 @@
         android:layout_alignRight="@+id/DescriptionEditText"
         android:layout_alignEnd="@+id/DescriptionEditText" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/radioGroup"
-        android:layout_alignBottom="@+id/textView6"
-        android:layout_toLeftOf="@+id/textView6"
-        android:layout_alignTop="@+id/textView6"
-        android:layout_alignLeft="@+id/findradioButton"
-        android:layout_alignStart="@+id/findradioButton">
-
-    </RadioGroup>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -221,24 +209,38 @@
         android:layout_alignLeft="@+id/button_upload_img_ad"
         android:layout_alignStart="@+id/button_upload_img_ad" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find"
-        android:id="@+id/findradioButton"
-        android:checked="true"
-        android:layout_alignBottom="@+id/radioGroup"
-        android:layout_toLeftOf="@+id/UntilEditText"
-        android:layout_toStartOf="@+id/UntilEditText" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/radioGroup"
+        android:layout_alignLeft="@+id/findradioButton"
+        android:layout_alignStart="@+id/findradioButton"
+        android:weightSum="1"
+        android:layout_below="@+id/UntilEditText"
+        android:layout_toLeftOf="@+id/textView6"
+        android:layout_toStartOf="@+id/textView6"
+        android:layout_above="@+id/progressBar"
+        android:gravity="right">
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Offer"
-        android:id="@+id/radioButton2"
-        android:checked="true"
-        android:layout_alignTop="@+id/findradioButton"
-        android:layout_toRightOf="@+id/findradioButton"
-        android:layout_toEndOf="@+id/findradioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Offer"
+            android:id="@+id/radioButton2"
+            android:checked="false"
+            android:layout_alignTop="@+id/findradioButton"
+            android:layout_toRightOf="@+id/findradioButton"
+            android:layout_toEndOf="@+id/findradioButton"
+            android:layout_gravity="center_horizontal" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find"
+            android:id="@+id/radioButton"
+            android:checked="true"
+            android:layout_gravity="center_horizontal" />
+
+    </RadioGroup>
 
 </RelativeLayout>

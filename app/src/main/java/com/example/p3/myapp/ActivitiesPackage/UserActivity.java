@@ -10,20 +10,27 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
     private String distance;
+    private GPSClass gps;
+    private int nNearAds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
-        addNewAd.setOnClickListener(this);
-        Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
-        seeNearAds.setOnClickListener(this);
         Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
+        Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
+        gps=new GPSClass(this);
+        gps.onCreateActivity(this);
+        seeNearAds.setOnClickListener(this);
+        addNewAd.setOnClickListener(this);
         seeMyAds.setOnClickListener(this);
+
+
         SeekBar seekBar=(SeekBar)findViewById(R.id.distance);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -32,7 +39,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 TextView meters=(TextView) findViewById(R.id.meters);
                 distance=String.valueOf(progress);
                 meters.setText(distance);
-                if(progress==500) Log.i("UserActivity","Progress max");
+                if(progress==5000) Log.i("UserActivity","Progress max");
 
 
             }
@@ -50,6 +57,18 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        gps.onStartActivity();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gps.onStopActivity();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_add_ads:
@@ -63,6 +82,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i("UserActivity", "See near ad button pressed");
                 //The result of the query must be passed to the next activity
                 goToSeeNearAdActivity.putExtra("searchResult",9);
+                String latitude=String.valueOf(gps.getLatitude());
+                String longitude=String.valueOf(gps.getLongitude());
+                SearchNearAds searchNearAds=new SearchNearAds();
+                searchNearAds.execute(latitude,longitude,distance);
+                nNearAds=6;
+                goToSeeNearAdActivity.putExtra("searchResult",nNearAds);
                 startActivity(goToSeeNearAdActivity);
                 break;
 
@@ -82,7 +107,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected Integer doInBackground(String... params) {
+            ConnectionToServer connToServer=new ConnectionToServer();
+            connToServer.connectToTheServer(true, true);
+            String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR,"+UserStatus.username, params);
+            if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
 
+
+            }
             //
             return null;
         }

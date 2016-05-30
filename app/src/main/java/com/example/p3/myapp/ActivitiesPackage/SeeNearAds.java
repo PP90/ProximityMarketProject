@@ -80,7 +80,7 @@ public class SeeNearAds extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                                 }
 
-                                Snackbar snackbar1 = Snackbar.make(view1, "Message is sent", Snackbar.LENGTH_LONG);
+                                Snackbar snackbar1 = Snackbar.make(view1, "send the Message from your preferred Email Client", Snackbar.LENGTH_LONG);
                                 snackbar1.show();
                             }
                         }).show();

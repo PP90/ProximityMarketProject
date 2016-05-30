@@ -22,21 +22,6 @@
         android:layout_toLeftOf="@+id/textView6"
         android:textColor="#000000" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:background="@color/button_material_light"
-        android:ems="10"
-        android:id="@+id/DescriptionEditText"
-        android:layout_alignRight="@+id/button_upload_img_ad"
-        android:layout_alignEnd="@+id/button_upload_img_ad"
-        android:layout_above="@+id/FromEditText"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="false"
-        android:textAlignment="inherit" />
-
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
@@ -128,7 +113,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/EditTextTitle"
         android:hint="Insert title"
@@ -171,8 +156,8 @@
         android:layout_alignBottom="@+id/textView4"
         android:layout_alignLeft="@+id/UntilEditText"
         android:layout_alignStart="@+id/UntilEditText"
-        android:layout_alignRight="@+id/DescriptionEditText"
-        android:layout_alignEnd="@+id/DescriptionEditText" />
+        android:layout_alignRight="@+id/UntilEditText"
+        android:layout_alignEnd="@+id/UntilEditText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -183,8 +168,8 @@
         android:hint="Tomorrow"
         android:layout_alignBottom="@+id/textView5"
         android:layout_toRightOf="@+id/textView4"
-        android:layout_alignRight="@+id/DescriptionEditText"
-        android:layout_alignEnd="@+id/DescriptionEditText" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -203,44 +188,87 @@
         android:ems="10"
         android:id="@+id/priceEditText"
         android:layout_below="@+id/textView5"
-        android:layout_alignRight="@+id/UntilEditText"
-        android:layout_alignEnd="@+id/UntilEditText"
         android:numeric="signed"
         android:layout_alignLeft="@+id/button_upload_img_ad"
-        android:layout_alignStart="@+id/button_upload_img_ad" />
+        android:layout_alignStart="@+id/button_upload_img_ad"
+        android:layout_alignRight="@+id/button_upload_img_ad"
+        android:layout_alignEnd="@+id/button_upload_img_ad" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/radioGroup"
-        android:layout_alignLeft="@+id/findradioButton"
-        android:layout_alignStart="@+id/findradioButton"
         android:weightSum="1"
-        android:layout_below="@+id/UntilEditText"
-        android:layout_toLeftOf="@+id/textView6"
-        android:layout_toStartOf="@+id/textView6"
-        android:layout_above="@+id/progressBar"
-        android:gravity="right">
+        android:gravity="right"
+        android:layout_alignTop="@+id/scrollView"
+        android:layout_toEndOf="@+id/scrollView"
+        android:layout_above="@+id/textView4"
+        android:layout_alignLeft="@+id/priceEditText"
+        android:layout_alignStart="@+id/priceEditText">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Offer"
-            android:id="@+id/radioButton2"
-            android:checked="false"
+            android:text="Buy"
+            android:id="@+id/radioButton_buy2"
+            android:checked="true"
             android:layout_alignTop="@+id/findradioButton"
             android:layout_toRightOf="@+id/findradioButton"
             android:layout_toEndOf="@+id/findradioButton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="left" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find"
+            android:text="Sell"
             android:id="@+id/radioButton"
-            android:checked="true"
-            android:layout_gravity="center_horizontal" />
+            android:checked="false"
+            android:layout_gravity="left" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exchange"
+            android:id="@+id/radioButton_exchange2"
+            android:checked="false"
+            android:layout_gravity="left" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donate"
+            android:id="@+id/radioButton_donate2"
+            android:checked="false"
+            android:layout_gravity="left" />
 
     </RadioGroup>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/FromEditText"
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/priceEditText"
+        android:layout_toStartOf="@+id/priceEditText">
+
+    </ScrollView>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:background="@color/button_material_light"
+        android:ems="10"
+        android:id="@+id/DescriptionEditText"
+        android:textAlignment="inherit"
+        android:layout_alignTop="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/radioGroup"
+        android:layout_toStartOf="@+id/radioGroup"
+        android:layout_alignBottom="@+id/scrollView" />
 
 </RelativeLayout>

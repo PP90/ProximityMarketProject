@@ -17,12 +17,12 @@
         android:id="@+id/button_see_my_ads"
         android:background="@color/colorPrimary"
         android:textColor="#ffffff"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="38dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -45,13 +45,14 @@
         android:id="@+id/buttonSeeNearAds"
         android:layout_marginTop="33dp"
         android:layout_below="@+id/button_add_ads"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/buttonSeeNearAds"
         android:textColor="#ffffff"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:layout_alignLeft="@+id/meters"
+        android:layout_alignStart="@+id/meters"
+        android:layout_above="@+id/space3" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -148,5 +149,45 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/space6" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/buttonSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/space3"
+        android:layout_toLeftOf="@+id/buttonSeeNearAds"
+        android:layout_toStartOf="@+id/buttonSeeNearAds">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:id="@+id/radioButton_buy"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sell"
+            android:id="@+id/radioButton_sell"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exchange"
+            android:id="@+id/radioButton_exchange"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donate"
+            android:id="@+id/radioButton_donate"
+            android:checked="false" />
+
+    </RadioGroup>
 
 </RelativeLayout>

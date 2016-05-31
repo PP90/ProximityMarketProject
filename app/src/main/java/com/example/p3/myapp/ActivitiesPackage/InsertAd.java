@@ -6,13 +6,14 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
@@ -24,12 +25,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,13 +43,18 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     static EditText priceEditText;
     static boolean fromSelected;
     static boolean untilSelected;
-
+    static final int COMPRESSION_RATIO=100;
     final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
     final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
     final private String directoryName="/ProximityMarket";
     static final int REQUEST_TAKE_PHOTO = 1;
 
     static String TAG="InsertAd";
+    //TODO: These below four message must be put in the Format message library
+    private final String BUY="buy";
+    private final String SELL="sell";
+    private final String EXCHANGE="exchange";
+    private final String DONATE="donate";
 
     private static final int SELECT_PICTURE = 10;
 
@@ -67,7 +73,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
-        thumbnail=(ImageView) findViewById(R.id.thumbtailImage);
+        thumbnail=(ImageView) findViewById(R.id.thumbnailImage);
         priceEditText=(EditText)findViewById(R.id.priceEditText);
         fromSelected=false;
         untilSelected=false;
@@ -75,6 +81,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         shot.setOnClickListener(this);
         chooseFromGalley.setOnClickListener(this);
         dateEditFrom.setOnClickListener(this);
+
         //If there is a focus on the date edit texts, then the date and time picker are shown
         dateEditFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -115,7 +122,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     }
     private void dispatchTakePictureIntent() {
         Log.i(TAG, "startPIC");
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); // Ensure that there's a camera activity to handle the intent
+        // Ensure that there's a camera activity to handle the intent
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -128,12 +136,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             }
             else{
                 Log.i(TAG, "photo file is NULL");
-
             }
         }
     }
 
-
+    //Giving the path image as input the thumbnail of the image is set
     private void setThumbnail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
         Log.i(TAG, "Size of image(byte): " + image.getByteCount());
@@ -144,16 +151,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     //An image view is converted to byte array in order to be sent to the server through the socket.
     private byte[] imageViewToByteConverter(ImageView imageView){
-        imageView.setDrawingCacheEnabled(true);
-        imageView.buildDrawingCache();
-        Bitmap bm = imageView.getDrawingCache();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        Log.i(TAG,"The size is:"+byteArray.length);
-        return byteArray;
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESSION_RATIO, stream);
+        byte[] imageInByte=stream.toByteArray();
+        return imageInByte;
     }
-
     //A file is created in the ProximityMarket folder. It is under the directory picture folder.
     //The file format is shown below.
     private File createImageFile(){
@@ -166,16 +169,44 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         return file;
     }
 
-    /*private String getAdTitle(){
-        EditText titleEditText=(EditText) findViewById(R.id.EditTextTitle);
-         return titleEditText.getText().toString();
+    //Depending which radio button is selected, then this function return the relative string that specifies the typology of offer
+    private String getTypology(){
+       RadioButton buy=(RadioButton) findViewById(R.id.radioButton_buy2);
+        if(buy.isChecked()) return BUY;
+
+        RadioButton sell=(RadioButton) findViewById(R.id.radioButton_sell2);
+        if(sell.isChecked()) return SELL;
+
+        RadioButton exchange=(RadioButton) findViewById(R.id.radioButton_exchange2);
+        if(exchange.isChecked()) return EXCHANGE;
+
+        RadioButton donate=(RadioButton) findViewById(R.id.radioButton_donate2);
+        if(donate.isChecked()) return DONATE;
+
+        return "Generic";
     }
-    */
 
     private String getAdDescription(){
         EditText descriptionEditText=(EditText) findViewById(R.id.DescriptionEditText);
-        return descriptionEditText.getText().toString();
+        if(descriptionEditText.getText().toString().isEmpty()) return "No description";
+        else return descriptionEditText.getText().toString();
     }
+
+    private String getPrice(){
+        String priceString=(priceEditText.getText().toString());
+        if(priceString==null | priceString.isEmpty())priceString= "0";
+        return priceString;
+    }
+
+    private String getFrom(){
+        //If the string is empty, then is taken the actual timestamp
+        return null;
+    }
+    private String getUntil(){
+        //If the string is empty, then is taken the farest timestamp
+        return null;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -183,33 +214,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         switch(idView){
             case R.id.buttonSendAd:
-                RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?//Sara fanculizzati :D
+                RegisterNewAd registerNewAd=new RegisterNewAd();
                 String fromDBFormat=Util.changeDateFormat(dateEditFrom.getText().toString());
                 String untilDBFormat= Util.changeDateFormat(dateEditUntil.getText().toString());
-
-                RadioButton buyRadioButton=(RadioButton) findViewById(R.id.radioButton_buy2);
-                boolean buy=buyRadioButton.isChecked();
-                RadioButton sellRadioButton=(RadioButton) findViewById(R.id.radioButton_sell2);
-                boolean sell=sellRadioButton.isChecked();
-                RadioButton donateRadioButton=(RadioButton) findViewById(R.id.radioButton_donate2);
-                boolean donate=donateRadioButton.isChecked();
-                RadioButton exchangeRadioButton=(RadioButton) findViewById(R.id.radioButton_exchange2);
-                boolean exchange=exchangeRadioButton.isChecked();
-                //String exchangeOfferString=String.valueOf(exchange);
-                String offer="1";
-                if(buy) offer="1";
-                if(sell)offer="2";
-                if(donate) offer="3";
-                if(exchange) offer="4";
-
-                String priceString=(priceEditText.getText().toString());
                 String latitude=String.valueOf(gps.getLatitude());
                 String longitude=String.valueOf(gps.getLongitude());
-
-                registerNewAd.execute(//getAdTitle(),//title
-                    getAdDescription(),//description
-                        offer,//true or false
-                        priceString,//the price
+                registerNewAd.execute(getTypology(),//title
+                        getAdDescription(),//description
+                        getPrice(),//the price
                         latitude,longitude,//the position
                         fromDBFormat, untilDBFormat);//The parsed data
                 break;
@@ -232,6 +244,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 thumbnail.setImageURI(selectedImageUri);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
                 UploadPhoto uploadPhoto=new UploadPhoto();
+                //TODO: it must be checked if the async task of the upload image has been finished
                 if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
                 return;
             }
@@ -243,11 +256,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 setThumbnail(path);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
                 UploadPhoto uploadPhoto=new UploadPhoto();
+                //TODO: it must be checked if the async task of the upload image has been finished
                 if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
                 return;
-             }
             }
         }
+    }
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
@@ -261,22 +275,26 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     private class UploadPhoto extends  AsyncTask<byte[], Void, Integer>{
 
-
         @Override
         protected Integer doInBackground(byte[]... params) {
-                String strImage;
-                ConnectionToServer connectionToServer=new ConnectionToServer();
-                connectionToServer.connectToTheServer(true, true);
+            ConnectionToServer connectionToServer=new ConnectionToServer();
+            connectionToServer.connectToTheServer(true, true);
+            String strImage = Base64.encodeToString(params[0] , Base64.DEFAULT);
+            Log.i(TAG,"The size of image sent is: "+params[0].length);
+            UserStatus.username="pippo@pippo.it";
+            int result=connectionToServer.sendToServer("AD,IMG,"+UserStatus.username+","+strImage);
+            if(result==ConnectionToServer.OK) {
+                connectionToServer.closeConnection();
+            }
+            return result;
+        }
 
-                strImage = Base64.encodeToString(params[0] , Base64.DEFAULT);
-                Log.i(TAG,"The size of image sent is: "+params[0].length);
-            UserStatus.username="pippo";
-            if(connectionToServer.sendToServer("AD,IMG,"+UserStatus.username+","+strImage)==ConnectionToServer.OK) {
-                    connectionToServer.closeConnection();
-                }
+        protected void onPostExecute(Integer a) {
+            if (a == ConnectionToServer.NULL_POINTER_EXC |
+                    a== ConnectionToServer.TIMEOUT_EXCEPTION |
+                    a== ConnectionToServer.IO_EXCEPTION){ Toast.makeText(getApplicationContext(), "Network error. Retry", Toast.LENGTH_SHORT).show();
+        }
 
-
-            return null;
         }
     }
 
@@ -286,16 +304,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         protected Integer doInBackground(String... params) {
-            //3. The data must be in the correct format
-            //4. The image must be added, too and then compressed. See Upload Image asyncTask
-            //5. Send all stuff to the server
-
-            //1. The connection to the server must be established
             ArrayList<String> dataFromServer;
+            //1. The connection to the server is established
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
             //2. The fields from the activity must be get
-            UserStatus.username="pippo@pippo.it"; //TODO: to delete when it works
+            UserStatus.username="pippo"; //TODO: to delete when it works
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
             int resultSend=connectionToServer.sendToServer(newAdString);
             if(resultSend==ConnectionToServer.OK){
@@ -309,11 +323,13 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
 
         protected void onPostExecute(Integer a) {
-           if (a == 1) {
-               Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
-               finish();
-           }
-            else if (a == -1) Toast.makeText(getApplicationContext(), "Network error. Retry", Toast.LENGTH_SHORT).show();
+            if (a == ConnectionToServer.OK) {
+                Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else if (a == ConnectionToServer.NULL_POINTER_EXC |
+                    a== ConnectionToServer.TIMEOUT_EXCEPTION |
+                    a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error. Retry", Toast.LENGTH_SHORT).show();
         }
     }
 

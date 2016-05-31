@@ -32,7 +32,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ActivitiesPackage.InsertAd" />
+        <activity android:name=".ActivitiesPackage.InsertAd"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ActivitiesPackage.RegisterNewUser" />
         <activity android:name=".ActivitiesPackage.UserActivity" />
         <activity android:name=".ActivitiesPackage.no_AdActivity" />

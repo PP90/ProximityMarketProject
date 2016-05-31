@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Infos of your AD"
-        android:hint="Insert title"
         android:id="@+id/textView_title_ad"
         android:shadowColor="#5b0101"
         android:layout_alignParentTop="true"
@@ -143,7 +142,7 @@
         android:layout_above="@+id/progressBar"
         android:layout_toRightOf="@+id/progressBar"
         android:layout_toEndOf="@+id/progressBar"
-        android:inputType="numberSigned" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <RadioGroup
         android:layout_width="match_parent"

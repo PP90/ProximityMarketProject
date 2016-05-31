@@ -2,12 +2,12 @@
     <string name="app_name">ProximityMarket</string>
     <string name="async_butto">Start Async Task</string>
     <string name="login_button">Login</string>
-    <string name="register_new_account_text"> Not a member yet? Sign up now</string>
-    <string name="register_new_account_button">Register new account</string>
+    <string name="register_new_account_text"> Not a member yet? Sign up </string>
+    <string name="register_new_account_button">now</string>
     <string name="insert_login_credential_text">Insert credential</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
-    <string name="insert_email_text">Email</string>
+    <string name="insert_email_text">E-mail</string>
     <string name="register_password">Password</string>
     <string name="confirm_reg_pwd_text">Confirm password</string>
     <string name="insert_your_name_here_to_reg">Insert your name here</string>

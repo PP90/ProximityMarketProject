@@ -54,7 +54,7 @@
         android:layout_toEndOf="@+id/textView" />
 
     <SeekBar
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/distance"
         android:max="5000"

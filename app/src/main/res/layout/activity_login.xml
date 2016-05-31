@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -21,44 +22,25 @@
         android:layout_centerHorizontal="true"
         android:textColor="#000000" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/username_text"
-        android:id="@+id/textView_username"
-        android:layout_above="@+id/editText_insertEmailAsUsername"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/password_text"
-        android:id="@+id/textView_password"
-        android:layout_above="@+id/editText_insert_password"
-        android:layout_alignLeft="@+id/textView_username"
-        android:layout_alignStart="@+id/textView_username"
-        android:textColor="#000000" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
+        android:hint="Email"
         android:ems="10"
         android:id="@+id/editText_insertEmailAsUsername"
-        android:layout_above="@+id/textView_password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/editText_insert_password"
         android:layout_alignEnd="@+id/editText_insert_password"
-        android:background="@color/button_material_light" />
+        android:background="@color/button_material_light"
+        android:layout_above="@+id/editText_insert_password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:hint="Password"
         android:ems="10"
         android:id="@+id/editText_insert_password"
         android:layout_above="@+id/button_login"
@@ -98,7 +80,6 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         android:elegantTextHeight="true"
-        android:enabled="false"
         android:focusable="false"
         android:nestedScrollingEnabled="false"
         android:textColor="#ffffff" />
@@ -119,10 +100,10 @@
         android:layout_height="20px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/textView_username"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView_loginCredential" />
+        android:layout_below="@+id/textView_loginCredential"
+        android:layout_above="@+id/editText_insertEmailAsUsername" />
 
     <Space
         android:layout_width="20px"

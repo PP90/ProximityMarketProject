@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -16,21 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/insert_email_text"
-        android:id="@+id/textView_insert_email"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/editText_insert_surname_to_reg"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/register_password"
         android:id="@+id/textView_register_password_"
-        android:layout_marginTop="42dp"
-        android:layout_below="@+id/textView_insert_email"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/editText_email_here_to_reg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -60,9 +50,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignEnd="@+id/editText_insert_pwd_to_reg"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -74,9 +64,9 @@
         android:layout_below="@+id/editText_insert_name_to_reg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignEnd="@+id/editText_insert_pwd_to_reg"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_alignRight="@+id/editText_email_here_to_reg"
+        android:layout_alignEnd="@+id/editText_email_here_to_reg" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -85,12 +75,12 @@
         android:ems="10"
         android:hint="@string/insert_your_email_here_to_reg_text"
         android:id="@+id/editText_email_here_to_reg"
-        android:layout_alignBottom="@+id/textView_insert_email"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/textView_insert_email"
-        android:layout_toEndOf="@+id/textView_insert_email"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_below="@+id/editText_insert_surname_to_reg"
+        android:layout_alignRight="@+id/space7"
+        android:layout_alignEnd="@+id/space7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -98,12 +88,11 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignBottom="@+id/textView_register_password_"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/textView_register_password_"
-        android:layout_alignLeft="@+id/textView_agreeTermsOfUse"
-        android:layout_alignStart="@+id/textView_agreeTermsOfUse" />
+        android:layout_alignTop="@+id/textView_register_password_"
+        android:layout_alignLeft="@+id/editText_confirm_insert_pwd_to_reg"
+        android:layout_alignStart="@+id/editText_confirm_insert_pwd_to_reg"
+        android:layout_alignRight="@+id/space8"
+        android:layout_alignEnd="@+id/space8" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -112,10 +101,9 @@
         android:ems="10"
         android:id="@+id/editText_confirm_insert_pwd_to_reg"
         android:layout_below="@+id/editText_insert_pwd_to_reg"
+        android:layout_toRightOf="@+id/textView_confirm_reg_pwd"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignParentLeft="false" />
+        android:layout_alignParentEnd="true" />
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -165,10 +153,19 @@
     <Space
         android:layout_width="20px"
         android:layout_height="20px"
-        android:layout_below="@+id/textView_insert_email"
+        android:layout_alignTop="@+id/editText_insert_pwd_to_reg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/space8" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:id="@+id/space7"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/editText_email_here_to_reg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignRight="@+id/editText_email_here_to_reg"
-        android:layout_alignEnd="@+id/editText_email_here_to_reg" />
+        android:layout_above="@+id/editText_insert_pwd_to_reg" />
 </RelativeLayout>

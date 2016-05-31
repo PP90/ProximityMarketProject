@@ -166,10 +166,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         return file;
     }
 
-    private String getAdTitle(){
+    /*private String getAdTitle(){
         EditText titleEditText=(EditText) findViewById(R.id.EditTextTitle);
          return titleEditText.getText().toString();
     }
+    */
 
     private String getAdDescription(){
         EditText descriptionEditText=(EditText) findViewById(R.id.DescriptionEditText);
@@ -185,15 +186,29 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 RegisterNewAd registerNewAd=new RegisterNewAd(); // che roba è costi ?//Sara fanculizzati :D
                 String fromDBFormat=Util.changeDateFormat(dateEditFrom.getText().toString());
                 String untilDBFormat= Util.changeDateFormat(dateEditUntil.getText().toString());
-                RadioButton findRadioButton=(RadioButton) findViewById(R.id.findradioButton);
+
+                RadioButton buyRadioButton=(RadioButton) findViewById(R.id.radioButton_buy2);
+                boolean buy=buyRadioButton.isChecked();
+                RadioButton sellRadioButton=(RadioButton) findViewById(R.id.radioButton_sell2);
+                boolean sell=sellRadioButton.isChecked();
+                RadioButton donateRadioButton=(RadioButton) findViewById(R.id.radioButton_donate2);
+                boolean donate=donateRadioButton.isChecked();
+                RadioButton exchangeRadioButton=(RadioButton) findViewById(R.id.radioButton_exchange2);
+                boolean exchange=exchangeRadioButton.isChecked();
+                //String exchangeOfferString=String.valueOf(exchange);
+                String offer="1";
+                if(buy) offer="1";
+                if(sell)offer="2";
+                if(donate) offer="3";
+                if(exchange) offer="4";
+
                 String priceString=(priceEditText.getText().toString());
                 String latitude=String.valueOf(gps.getLatitude());
                 String longitude=String.valueOf(gps.getLongitude());
-                boolean find=findRadioButton.isChecked();
-                String findOfferString=String.valueOf(find);
-                registerNewAd.execute(getAdTitle(),//title
+
+                registerNewAd.execute(//getAdTitle(),//title
                     getAdDescription(),//description
-                        findOfferString,//true or false
+                        offer,//true or false
                         priceString,//the price
                         latitude,longitude,//the position
                         fromDBFormat, untilDBFormat);//The parsed data

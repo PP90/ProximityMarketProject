@@ -81,7 +81,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent goToSeeNearAdActivity=new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
                 //The result of the query must be passed to the next activity
-                goToSeeNearAdActivity.putExtra("searchResult",9);
+                goToSeeNearAdActivity.putExtra("searchResult",9); // questa non va più
+
                 String latitude=String.valueOf(gps.getLatitude());
                 String longitude=String.valueOf(gps.getLongitude());
                 SearchNearAds searchNearAds=new SearchNearAds();

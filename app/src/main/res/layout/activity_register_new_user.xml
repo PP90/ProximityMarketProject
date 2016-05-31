@@ -30,15 +30,14 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/confirm_reg_pwd_text"
         android:id="@+id/textView_confirm_reg_pwd"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="true"
         android:layout_alignWithParentIfMissing="false"
         android:layout_below="@+id/textView_register_password_"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@+id/textView_agreeTermsOfUse"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -136,10 +135,10 @@
         android:layout_height="wrap_content"
         android:text="@string/button_create_new_account"
         android:id="@+id/button_create_new_account"
-        android:layout_above="@+id/textView_agreeTermsOfUse"
         android:background="@color/colorPrimary"
-        android:layout_toRightOf="@+id/textView_register_password_"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_above="@+id/textView_agreeTermsOfUse"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"

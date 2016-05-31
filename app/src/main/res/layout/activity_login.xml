@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:padding="11dp"
         android:inputType="textEmailAddress"
-        android:hint="E-mail"
+        android:hint=" E-mail"
         android:ems="10"
         android:background="@drawable/edittext_top"
         android:drawableLeft="@drawable/emial_icon"
@@ -48,13 +48,12 @@
         android:text="@string/login_button"
         android:id="@+id/button_login"
         android:padding="10dp"
-        android:layout_margin="4dp"
         android:elegantTextHeight="true"
         android:textColor="#ffffff"
-        android:background="@color/design_textinput_error_color_light"
-        android:layout_marginBottom="78dp"
+        android:background="#d90000"
         android:layout_above="@+id/textView_register_new_account"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,24 +62,24 @@
         android:text="@string/register_new_account_text"
         android:id="@+id/textView_register_new_account"
         android:textColor="#e90000"
+        android:layout_alignBottom="@+id/button_registerNewAccount"
         android:layout_alignRight="@+id/editText_insert_password"
-        android:layout_alignEnd="@+id/editText_insert_password"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignEnd="@+id/editText_insert_password" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_new_account_button"
         android:id="@+id/button_registerNewAccount"
-        android:background="@color/design_textinput_error_color_light"
+        android:background="#d90000"
         android:elegantTextHeight="true"
         android:focusable="false"
         android:nestedScrollingEnabled="false"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/GoOnButton"
-        android:layout_alignEnd="@+id/GoOnButton"
-        android:layout_alignTop="@+id/textView_register_new_account"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/editText_insert_password"
         android:layout_alignLeft="@+id/GoOnButton"
         android:layout_alignStart="@+id/GoOnButton" />
 
@@ -105,5 +104,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/GoOnButton"
         android:layout_alignEnd="@+id/GoOnButton" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_toLeftOf="@+id/button_registerNewAccount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/textView_register_new_account"
+        android:layout_alignTop="@+id/button_registerNewAccount" />
 
 </RelativeLayout>

@@ -38,6 +38,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         EditText surname=(EditText) findViewById(R.id.editText_insert_surname_to_reg);
         EditText username=(EditText) findViewById(R.id.editText_email_here_to_reg);
         EditText pwd=(EditText) findViewById(R.id.editText_insert_pwd_to_reg);
+        EditText pwdC=(EditText) findViewById(R.id.editText_confirm_insert_pwd_to_reg);
         RadioButton isMale=(RadioButton) findViewById(R.id.male_radiobutton);
         String sexString;
         if(isMale.isSelected()) sexString="1";
@@ -45,9 +46,13 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
             // added email check - controllo correttezza email aggiunto
             boolean emailOK= isValidEmail(username.getText().toString());
+            boolean pwdOK= isTheSame(pwd.getText().toString(),pwdC.getText().toString());
             if(emailOK){
-            addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
-            } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
+                if (pwdOK){addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
+                            }
+                if (!pwdOK) {Toast.makeText(getApplicationContext(),"Insert the same password in both boxes",Toast.LENGTH_SHORT).show();
+                            }
+                } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
         }
     }
     public final static boolean isValidEmail(CharSequence target) {
@@ -57,6 +62,15 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
     }
+
+
+    public final static boolean isTheSame(String pwd,String pwdC ){
+        if (pwd==pwdC) return true;
+        else return false;
+
+    };
+
+
     private class AddNewUserTask extends AsyncTask<String, Void, Integer>{
 
         @Override

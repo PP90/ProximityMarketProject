@@ -63,9 +63,8 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-
     public final static boolean isTheSame(String pwd,String pwdC ){
-        if (pwd==pwdC) return true;
+        if (pwd.equalsIgnoreCase(pwdC)) return true;
         else return false;
 
     };

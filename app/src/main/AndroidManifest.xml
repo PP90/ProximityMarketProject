@@ -3,10 +3,11 @@
     package="com.example.p3.myapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -33,7 +34,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ActivitiesPackage.InsertAd"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".ActivitiesPackage.RegisterNewUser" />
         <activity android:name=".ActivitiesPackage.UserActivity" />
         <activity android:name=".ActivitiesPackage.no_AdActivity" />

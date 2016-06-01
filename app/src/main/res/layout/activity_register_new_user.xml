@@ -9,8 +9,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ActivitiesPackage.RegisterNewUser"
-    android:backgroundTint="#75fed6"
-    android:backgroundTintMode="screen"
     android:clickable="false">
 
     <TextView
@@ -19,7 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/register_password"
         android:id="@+id/textView_register_password_"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/editText_email_here_to_reg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -30,12 +28,10 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/confirm_reg_pwd_text"
         android:id="@+id/textView_confirm_reg_pwd"
-        android:layout_alignBottom="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_alignParentBottom="false"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_below="@+id/textView_register_password_"
         android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/textView_agreeTermsOfUse"
+        android:textColor="#000000"
+        android:layout_below="@+id/editText_insert_pwd_to_reg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -76,8 +72,21 @@
         android:id="@+id/editText_email_here_to_reg"
         android:textColor="#000000"
         android:layout_below="@+id/editText_insert_surname_to_reg"
-        android:layout_alignRight="@+id/space7"
-        android:layout_alignEnd="@+id/space7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText_insert_pwd_to_reg"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/space8"
+        android:layout_alignEnd="@+id/space8"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -86,32 +95,22 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText_insert_pwd_to_reg"
-        android:layout_alignTop="@+id/textView_register_password_"
-        android:layout_alignLeft="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_alignStart="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_alignRight="@+id/space8"
-        android:layout_alignEnd="@+id/space8" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
         android:id="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_below="@+id/editText_insert_pwd_to_reg"
-        android:layout_toRightOf="@+id/textView_confirm_reg_pwd"
+        android:layout_below="@+id/textView_confirm_reg_pwd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editText_confirm_insert_pwd_to_reg"
         android:layout_toStartOf="@+id/button_create_new_account"
         android:layout_alignRight="@+id/editText_confirm_insert_pwd_to_reg"
         android:layout_alignEnd="@+id/editText_confirm_insert_pwd_to_reg"
-        android:layout_above="@+id/button_create_new_account">
+        android:layout_above="@+id/button_create_new_account"
+        android:orientation="horizontal"
+        android:layout_below="@+id/editText_confirm_insert_pwd_to_reg">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -135,10 +134,10 @@
         android:layout_height="wrap_content"
         android:text="@string/button_create_new_account"
         android:id="@+id/button_create_new_account"
-        android:background="@color/colorPrimary"
         android:textColor="#ffffff"
         android:layout_above="@+id/textView_agreeTermsOfUse"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/optionscreen_bottomrectangle" />
 
     <TextView
         android:layout_width="wrap_content"

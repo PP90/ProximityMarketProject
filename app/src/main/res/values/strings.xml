@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProximityMarket</string>
+    <string name="app_name">Proximity Market</string>
     <string name="async_butto">Start Async Task</string>
     <string name="login_button">Login</string>
     <string name="register_new_account_text"> Not a member yet? Sign up </string>
@@ -16,10 +16,10 @@
     <string name="male_radiobutton">Male</string>
     <string name="female_radiobuttonv8">Female</string>
     <string name="button_create_new_account">Create new account</string>
-    <string name="agreeTermOfUse_text">Agree term of use</string>
+    <string name="agreeTermOfUse_text">I Agree to the Terms and Conditions</string>
     <string name="see_my_ads_btn">See my ads</string>
     <string name="add_ad_btn">Add ads</string>
-    <string name="see_near_ads_btn">See near ads</string>
+    <string name="see_near_ads_btn">Find Ads</string>
     <string name="log_out_btn">Logout</string>
     <string name="title_ad_text">Ad</string>
     <string name="pricea_text">Price</string>

@@ -10,18 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ActivitiesPackage.InsertAd">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Infos of your AD"
-        android:id="@+id/textView_title_ad"
-        android:shadowColor="#5b0101"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/textView6"
-        android:layout_toLeftOf="@+id/textView6"
-        android:textColor="#000000" />
-
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
@@ -34,8 +22,9 @@
         android:layout_above="@+id/buttonSendAd"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button_upload_img_ad"
-        android:layout_toStartOf="@+id/button_upload_img_ad" />
+        android:layout_toStartOf="@+id/button_upload_img_ad"
+        android:layout_alignRight="@+id/thumbtailImage"
+        android:layout_alignEnd="@+id/thumbtailImage" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -47,7 +36,8 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/choseFromGallery"
         android:textColor="#ffffff"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@drawable/optionscreen_bottomrectangle"
+         />
 
     <Button
         android:layout_width="wrap_content"
@@ -60,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ffffff"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@drawable/optionscreen_bottomrectangle" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -69,19 +59,21 @@
         android:background="@drawable/edit_text_style"
         android:ems="10"
         android:id="@+id/thumbtailImage"
-        android:layout_alignTop="@+id/button_upload_img_ad"
         android:layout_alignBottom="@+id/choseFromGallery"
-        android:layout_alignRight="@+id/textView6"
-        android:layout_alignEnd="@+id/textView6" />
+        android:layout_alignTop="@+id/button_upload_img_ad"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/button_upload_img_ad"
+        android:layout_alignRight="@+id/UntilEditText"
+        android:layout_alignEnd="@+id/UntilEditText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Description :"
         android:id="@+id/textView2"
-        android:textColor="#000000"
-        android:layout_below="@+id/textView_title_ad" />
+        android:textColor="#000000" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -95,20 +87,19 @@
         android:layout_alignLeft="@+id/button_upload_img_ad"
         android:layout_alignStart="@+id/button_upload_img_ad"
         android:textColor="#ffffff"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@drawable/optionscreen_bottomrectangle" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="datetime"
-        android:hint="From"
+        android:hint="Date From"
         android:ems="10"
         android:id="@+id/FromEditText"
-        android:layout_alignRight="@+id/UntilEditText"
-        android:layout_alignEnd="@+id/UntilEditText"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2" />
+        android:layout_above="@+id/UntilEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -116,53 +107,58 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/UntilEditText"
-        android:hint="Until"
-        android:layout_below="@+id/FromEditText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/textView_title_ad"
-        android:layout_alignStart="@+id/textView_title_ad" />
+        android:hint="Date Until"
+        android:layout_alignTop="@+id/priceEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Price"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Price :"
+        android:hint="0"
         android:id="@+id/textView6"
-        android:layout_below="@+id/UntilEditText"
-        android:layout_toLeftOf="@+id/priceEditText"
-        android:layout_toStartOf="@+id/priceEditText" />
+        android:textColor="#000000"
+        android:layout_above="@+id/priceEditText"
+        android:layout_alignLeft="@+id/priceEditText"
+        android:layout_alignStart="@+id/priceEditText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/priceEditText"
-        android:numeric="signed"
         android:layout_above="@+id/progressBar"
-        android:layout_toRightOf="@+id/progressBar"
         android:layout_toEndOf="@+id/progressBar"
-        android:inputType="numberSigned|numberDecimal" />
+        android:inputType="numberSigned|numberDecimal"
+        android:textColor="#000000"
+        android:layout_alignLeft="@+id/button_upload_img_ad"
+        android:layout_alignStart="@+id/button_upload_img_ad" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/radioGroup"
         android:weightSum="1"
-        android:gravity="right"
-        android:layout_alignTop="@+id/scrollView"
-        android:layout_toEndOf="@+id/scrollView"
-        android:layout_alignLeft="@+id/priceEditText"
-        android:layout_alignStart="@+id/priceEditText"
-        android:layout_above="@+id/FromEditText">
+        android:orientation="horizontal"
+        android:layout_below="@+id/DescriptionEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/FromEditText"
+        android:layout_marginTop="15dp">
 
         <TextView
-            android:layout_width="95dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Typology"
+            android:text="Type :"
             android:id="@+id/textView_typology"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:layout_above="@+id/radioGroup"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="left" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -201,32 +197,51 @@
 
     </RadioGroup>
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/FromEditText"
-        android:layout_below="@+id/textView2"
-        android:layout_toLeftOf="@+id/priceEditText"
-        android:layout_toStartOf="@+id/priceEditText">
 
-    </ScrollView>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
+        android:lines="8"
+        android:minLines="8"
+        android:maxLines="20"
+        android:scrollbars="vertical"
         android:background="@color/button_material_light"
         android:ems="10"
         android:id="@+id/DescriptionEditText"
         android:textAlignment="inherit"
-        android:layout_alignTop="@+id/scrollView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/radioGroup"
         android:layout_toStartOf="@+id/radioGroup"
-        android:layout_alignBottom="@+id/scrollView" />
+
+        android:layout_below="@+id/textView2"
+        android:gravity="top|left"
+        android:layout_alignRight="@+id/radioGroup"
+        android:layout_alignEnd="@+id/radioGroup"
+        android:layout_marginTop="5dp">
+        <requestFocus/>
+    </EditText>
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_alignBottom="@+id/choseFromGallery"
+        android:layout_alignTop="@+id/choseFromGallery"
+        android:id="@+id/space"
+        android:layout_toRightOf="@+id/progressBar"
+        android:layout_toLeftOf="@+id/button_upload_img_ad"
+        android:layout_toStartOf="@+id/button_upload_img_ad" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:src="@drawable/camera_icon"
+        android:layout_alignTop="@+id/progressBar"
+        android:layout_above="@+id/choseFromGallery"
+        android:layout_toRightOf="@+id/progressBar"
+        android:layout_alignRight="@+id/space"
+        android:layout_alignEnd="@+id/space" />
 
 </RelativeLayout>

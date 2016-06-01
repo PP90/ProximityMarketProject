@@ -105,7 +105,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onStart() {
         super.onStart();
-        gps.onStartActivity();
+       // gps.onStartActivity();
     }
 
     @Override

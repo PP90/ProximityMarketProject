@@ -45,6 +45,7 @@ public class GPSClass implements
             Log.i(TAG, "build GoogleApiClient is not possible");
             return  ;
         }
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder( this.context).addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
@@ -56,7 +57,6 @@ public class GPSClass implements
 public void onCreateActivity(Context context){
     buildGoogleApiClient();
 }
-
 
 
     public void onStartActivity(){
@@ -87,19 +87,20 @@ public void onCreateActivity(Context context){
     public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_FINE_LOCATION) //ActivityCompat -> use ContextCompat as this has compatibility with older API levels
                 != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                || ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
         {
             Log.i(TAG, "Connection to GoogleApiClient is not possible, you needs permissions");
             return;
         }
+
         Log.i(TAG, "Connected to GoogleApiClient");
 //        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,LR, (com.google.android.gms.location.LocationListener) this);
         mCurrentLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mCurrentLoc != null) {
             latitude=mCurrentLoc.getLatitude();
-            longitude=+mCurrentLoc.getLongitude();
+            longitude=+mCurrentLoc.getLongitude(); // TODO: che è sto più ???
          //   Toast.makeText(context, "Your position is: LAT: "+latitude+" LONG: "+longitude, Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText( this.context, "No location detected", Toast.LENGTH_LONG).show();

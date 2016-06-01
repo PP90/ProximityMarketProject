@@ -68,7 +68,7 @@ public class ConnectionToServer {
     }
 
     public int sendToServer(String sendToServer){
-        System.out.println("Send to server string: "+sendToServer);
+        Log.i(TAG,"Send to server string: "+sendToServer);
         try {
             out.writeUTF(sendToServer);
             return OK;
@@ -79,11 +79,13 @@ public class ConnectionToServer {
             npe.printStackTrace();
             return NULL_POINTER_EXC;
         }
+
         catch (SocketTimeoutException ste){
             System.out.println("Timeout reached");
             ste.printStackTrace();
             return this.TIMEOUT_EXCEPTION;
         }
+
         catch (IOException e) {
             System.out.println("IO ERROR");
             e.printStackTrace();

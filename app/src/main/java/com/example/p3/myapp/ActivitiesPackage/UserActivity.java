@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,6 +24,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     public EditText searchVV; //questo è l'edittext d'appoggio
     public SearchView searchView; // questa è la variabile in cui l'utente inserisce il dato
 
+    //TODO: These below four message must be put in the Format message library
+    private final String BUY="buy";
+    private final String SELL="sell";
+    private final String EXCHANGE="exchange";
+    private final String DONATE="donate";
+    private final String TAG="UserActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,34 +99,30 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_add_ads:
-                Intent goToAddNewAddActivity=new Intent(this, InsertAd.class);
+                Intent goToAddNewAddActivity = new Intent(this, InsertAd.class);
                 Log.i("UserActivity", "Add new ad button pressed");
                 startActivity(goToAddNewAddActivity);
                 break;
 
             case R.id.buttonSeeNearAds:
-                Intent goToSeeNearAdActivity=new Intent(this, SeeNearAds.class);
+                Intent goToSeeNearAdActivity = new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
                 //The result of the query must be passed to the next activity
-                goToSeeNearAdActivity.putExtra("searchResult",9);
-                // questa di sopra non va più ma poi dovrà passare il reale valore degli annunci trovati
+                goToSeeNearAdActivity.putExtra("searchResult", 9);
 
-                searchVV.setText(searchView.getQuery());
-                searchV=searchVV.getText().toString();
-                String latitude=String.valueOf(gps.getLatitude());
-                String longitude=String.valueOf(gps.getLongitude());
-                SearchNearAds searchNearAds=new SearchNearAds();
-                searchNearAds.execute(latitude,longitude,distance);
-
-                nNearAds=6;
-                goToSeeNearAdActivity.putExtra("searchResult",nNearAds);
+                String latitude = String.valueOf(gps.getLatitude());
+                String longitude = String.valueOf(gps.getLongitude());
+                SearchNearAds searchNearAds = new SearchNearAds();
+                UserStatus.username="pippo@pippo.it";
+                Log.i(TAG,"username is: "+UserStatus.username);
+                searchNearAds.execute(UserStatus.username, getTypology(), latitude, longitude, getDistance());
                 startActivity(goToSeeNearAdActivity);
                 break;
 
             case R.id.button_see_my_ads:
-                Intent goToSeeMyAdActivity=new Intent(this, MyAds.class);
+                Intent goToSeeMyAdActivity = new Intent(this, MyAds.class);
                 Log.i("UserActivity", "My ads button pressed");
                 startActivity(goToSeeMyAdActivity);
                 break;
@@ -128,6 +131,30 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    private String getDistance(){
+        if(distance==null)distance="1000";
+        Log.i(TAG,"Distance is: "+distance);
+        return distance;
+    }
+    private String getTypology(){
+        RadioButton buy=(RadioButton) findViewById(R.id.radioButton_buy);
+        if(buy.isChecked()) return BUY;
+
+        RadioButton sell=(RadioButton) findViewById(R.id.radioButton_sell);
+        if(sell.isChecked()) return SELL;
+
+        RadioButton exchange=(RadioButton) findViewById(R.id.radioButton_exchange);
+        if(exchange.isChecked()) return EXCHANGE;
+
+        RadioButton donate=(RadioButton) findViewById(R.id.radioButton_donate);
+        if(donate.isChecked()) return DONATE;
+
+        return "Generic";
+    }
+
+
+
 // TODO : e questa dovrebbe per caso preparare i file che ricevera la see near ads?
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
 
@@ -136,7 +163,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         protected Integer doInBackground(String... params) {
             ConnectionToServer connToServer=new ConnectionToServer();
             connToServer.connectToTheServer(true, true);
-            String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR,"+UserStatus.username, params);
+            String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
 
 

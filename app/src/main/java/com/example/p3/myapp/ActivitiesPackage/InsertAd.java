@@ -9,11 +9,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
@@ -25,12 +25,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,7 +73,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
-        thumbnail=(ImageView) findViewById(R.id.thumbnailImage);
+        thumbnail=(ImageView) findViewById(R.id.thumbtailImage);
         priceEditText=(EditText)findViewById(R.id.priceEditText);
         fromSelected=false;
         untilSelected=false;

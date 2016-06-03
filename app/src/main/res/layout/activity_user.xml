@@ -38,19 +38,18 @@
 
 
     <Button
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/see_my_ads_btn"
         android:id="@+id/button_see_my_ads"
         android:background="@drawable/optionscreen_bottomrectangle"
         android:textColor="#ffffff"
-        android:layout_marginBottom="30dp"
-        android:layout_above="@+id/space6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageButton_sfondo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="15dp"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -59,10 +58,11 @@
         android:id="@+id/button_add_ads"
         android:textColor="#ffffff"
         android:background="@drawable/optionscreen_bottomrectangle"
-        android:layout_above="@+id/button_see_my_ads"
+
+        android:layout_below="@+id/button_see_my_ads"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
         android:layout_alignParentEnd="true" />
 
     <SeekBar

@@ -19,10 +19,6 @@ import com.example.p3.myapp.R;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener,SearchView.OnQueryTextListener {
     private String distance;
     private GPSClass gps;
-    private int nNearAds;
-    public String searchV; // questa è la stringa del campo di ricerca che passo
-    public EditText searchVV; //questo è l'edittext d'appoggio
-    public SearchView searchView; // questa è la variabile in cui l'utente inserisce il dato
 
     //TODO: These below four message must be put in the Format message library
     private final String BUY="buy";
@@ -34,9 +30,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        searchView= (SearchView) findViewById(R.id.searchView_ads);
-        searchV="";
-        searchVV=null;
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
         Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
         Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
@@ -114,15 +107,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
-
-                searchVV.setText(searchView.getQuery());
-                searchV=searchVV.getText().toString();
-
-
                 SearchNearAds searchNearAds = new SearchNearAds();
                 UserStatus.username="pippo@pippo.it";
                 Log.i(TAG,"username is: "+UserStatus.username);
-                searchNearAds.execute(UserStatus.username, getTypology(), latitude, longitude, getDistance());
+                searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
                 startActivity(goToSeeNearAdActivity);
                 break;
 
@@ -136,6 +124,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    private String getKeywords(){
+        EditText keyword=(EditText) findViewById(R.id.searchView_ads);
+        String kw=keyword.getText().toString();
+       if(kw!=null)  return kw;
+        else return "";
+    }
+
 
     private String getDistance(){
         if(distance==null)distance="1000";
@@ -158,9 +154,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         return "Generic";
     }
 
-
-
-// TODO : e questa dovrebbe per caso preparare i file che ricevera la see near ads?
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
 
 
@@ -170,8 +163,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             connToServer.connectToTheServer(true, true);
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
-
-
+                return 1;
             }
             //
             return null;

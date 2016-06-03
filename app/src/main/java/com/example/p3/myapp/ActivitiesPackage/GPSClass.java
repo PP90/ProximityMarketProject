@@ -84,7 +84,7 @@ public void onCreateActivity(Context context){
 
     }
     @Override
-    public void onConnected(Bundle bundle) {//Su nexus 5 da' problemi.  
+    public void onConnected(Bundle bundle) {//Su nexus 5 da' problemi.
         if (ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_FINE_LOCATION) //ActivityCompat -> use ContextCompat as this has compatibility with older API levels
                 != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_COARSE_LOCATION)

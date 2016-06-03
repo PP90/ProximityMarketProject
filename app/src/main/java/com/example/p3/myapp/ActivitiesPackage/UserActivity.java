@@ -114,6 +114,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
+
+                searchVV.setText(searchView.getQuery());
+                searchV=searchVV.getText().toString();
+
+
                 SearchNearAds searchNearAds = new SearchNearAds();
                 UserStatus.username="pippo@pippo.it";
                 Log.i(TAG,"username is: "+UserStatus.username);

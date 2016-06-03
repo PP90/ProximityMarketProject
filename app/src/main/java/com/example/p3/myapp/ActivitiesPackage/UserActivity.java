@@ -4,23 +4,32 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserActivity extends AppCompatActivity implements View.OnClickListener,SearchView.OnQueryTextListener {
     private String distance;
     private GPSClass gps;
     private int nNearAds;
+    public String searchV; // questa è la stringa del campo di ricerca che passo
+    public EditText searchVV; //questo è l'edittext d'appoggio
+    public SearchView searchView; // questa è la variabile in cui l'utente inserisce il dato
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        searchView= (SearchView) findViewById(R.id.searchView_ads);
+        searchV="";
+        searchVV=null;
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
         Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
         Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
@@ -29,6 +38,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         seeNearAds.setOnClickListener(this);
         addNewAd.setOnClickListener(this);
         seeMyAds.setOnClickListener(this);
+
 
 
         SeekBar seekBar=(SeekBar)findViewById(R.id.distance);
@@ -55,6 +65,18 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // User pressed the search button
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // User changed the text in the search button
+        return false;
+    }
+
 
     @Override
     protected void onStart() {
@@ -81,12 +103,16 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Intent goToSeeNearAdActivity=new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
                 //The result of the query must be passed to the next activity
-                goToSeeNearAdActivity.putExtra("searchResult",9); // questa non va più
+                goToSeeNearAdActivity.putExtra("searchResult",9);
+                // questa di sopra non va più ma poi dovrà passare il reale valore degli annunci trovati
 
+                searchVV.setText(searchView.getQuery());
+                searchV=searchVV.getText().toString();
                 String latitude=String.valueOf(gps.getLatitude());
                 String longitude=String.valueOf(gps.getLongitude());
                 SearchNearAds searchNearAds=new SearchNearAds();
                 searchNearAds.execute(latitude,longitude,distance);
+
                 nNearAds=6;
                 goToSeeNearAdActivity.putExtra("searchResult",nNearAds);
                 startActivity(goToSeeNearAdActivity);

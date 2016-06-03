@@ -225,7 +225,7 @@
     <SearchView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView"
+        android:id="@+id/searchView_ads"
         android:layout_alignTop="@+id/buttonSeeNearAds"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

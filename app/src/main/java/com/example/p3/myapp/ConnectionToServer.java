@@ -75,7 +75,7 @@ public class ConnectionToServer {
         }
 
         catch(NullPointerException npe){
-            System.out.println("Null point exception");
+            System.out.println("Null point exception after send to server string");
             npe.printStackTrace();
             return NULL_POINTER_EXC;
         }

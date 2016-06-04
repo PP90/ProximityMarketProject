@@ -143,7 +143,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //Giving the path image as input the thumbnail of the image is set
     private void setThumbnail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
-        Log.i(TAG, "Size of image(byte): " + image.getByteCount());
+        //Log.i(TAG, "Size of image(byte): " + image.getByteCount());
         thumbnail.setImageBitmap(image);
         Log.i(TAG, "The image has been set");
 

@@ -32,7 +32,7 @@ public class GPSClass implements
         private Context context;
         private double latitude;
         private double longitude;
-        private final int MIN_SDK_VERSION=16;
+        private final int MIN_SDK_VERSION=16;//TODO: GET IN SOMEWAY FROM THE MANIFEST
         private final int FASTEST_INTERVAL_MS=5000;
         private final int INTERVAL_MS=10000;
 

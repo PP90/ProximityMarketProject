@@ -164,12 +164,10 @@ public class ConnectionToServer {
         }
     }
 
-    //TODO: Is this function used ??
     public String getStringtoSendToServer(String typeOfMsg, String ...params){
         for(int i=0; i<params.length; i++){
             typeOfMsg+=","+params[i];
         }
-        System.out.println("The parsed message is: "+typeOfMsg);
         return typeOfMsg;
     }
 }

@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import EntityClasses.FormatMessage;
+
 public class InsertAd extends AppCompatActivity implements View.OnClickListener {
 
     static EditText dateEditFrom;
@@ -50,11 +52,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     static final int REQUEST_TAKE_PHOTO = 1;
 
     static String TAG="InsertAd";
-    //TODO: These below four message must be put in the Format message library
-    private final String BUY="buy";
-    private final String SELL="sell";
-    private final String EXCHANGE="exchange";
-    private final String DONATE="donate";
 
     private static final int SELECT_PICTURE = 10;
 
@@ -172,16 +169,16 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //Depending which radio button is selected, then this function return the relative string that specifies the typology of offer
     private String getTypology(){
        RadioButton buy=(RadioButton) findViewById(R.id.radioButton_buy2);
-        if(buy.isChecked()) return BUY;
+        if(buy.isChecked()) return FormatMessage.BUY;
 
         RadioButton sell=(RadioButton) findViewById(R.id.radioButton_sell2);
-        if(sell.isChecked()) return SELL;
+        if(sell.isChecked()) return FormatMessage.SELL;
 
         RadioButton exchange=(RadioButton) findViewById(R.id.radioButton_exchange2);
-        if(exchange.isChecked()) return EXCHANGE;
+        if(exchange.isChecked()) return FormatMessage.EXCHANGE;
 
         RadioButton donate=(RadioButton) findViewById(R.id.radioButton_donate2);
-        if(donate.isChecked()) return DONATE;
+        if(donate.isChecked()) return FormatMessage.DONATE;
 
         return "Generic";
     }
@@ -329,7 +326,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             }
             else if (a == ConnectionToServer.NULL_POINTER_EXC |
                     a== ConnectionToServer.TIMEOUT_EXCEPTION |
-                    a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error. Retry", Toast.LENGTH_SHORT).show();
+                    a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
         }
     }
 

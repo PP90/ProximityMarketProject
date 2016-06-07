@@ -44,14 +44,13 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         if(isMale.isSelected()) sexString="1";
         else sexString="0";
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
-            // added email check - controllo correttezza email aggiunto
             boolean emailOK= isValidEmail(username.getText().toString());
             boolean pwdOK= isTheSame(pwd.getText().toString(),pwdC.getText().toString());
             if(emailOK){
-                if (pwdOK){addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
-                            }
-                if (!pwdOK) {Toast.makeText(getApplicationContext(),"Insert the same password in both boxes",Toast.LENGTH_SHORT).show();
-                            }
+
+                if (pwdOK)addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
+                else Toast.makeText(getApplicationContext(),"Insert the same password in both boxes",Toast.LENGTH_SHORT).show();
+
                 } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
         }
     }
@@ -64,7 +63,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
     }
 
     public final static boolean isTheSame(String pwd,String pwdC ){
-        if (pwd.equalsIgnoreCase(pwdC)) return true;
+        if (pwd.equalsIgnoreCase(pwdC)) return true;//TODO: it is case sensitive ?
         else return false;
 
     };
@@ -80,11 +79,10 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
             String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
             connectionToServer.connectToTheServer(true, true);
             int connServerResult=connectionToServer.sendToServer(insertUserString);
-            if(connServerResult==ConnectionToServer.OK) {
-                // System.out.println("Data sent correctly");
-                dataFromServer = connectionToServer.receiveFromServer();
-                //   System.out.println("Data received correctly"+dataFromServer.toString());
-            }else return connServerResult;
+
+            if(connServerResult==ConnectionToServer.OK) dataFromServer = connectionToServer.receiveFromServer();
+            else return connServerResult;
+
             connectionToServer.closeConnection();
             if(dataFromServer.get(0).equals(FormatMessage.INSERT_USER)) {
                 if (dataFromServer.get(1).equals("OK")) return 1;//these 3 strings should be in format message (?)
@@ -96,11 +94,11 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
         protected void onPostExecute(Integer a) {
             if (a == 1) {
-                Toast.makeText(getApplicationContext(), "Registration goes good", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Congratulation! You are in ProximityMarket!", Toast.LENGTH_SHORT).show();
                 finish();
-            } else if (a == -2) Toast.makeText(getApplicationContext(), "Username already taken", Toast.LENGTH_SHORT).show();
-            else if (a == ConnectionToServer.TIMEOUT_EXCEPTION) Toast.makeText(getApplicationContext(), "The server maybe is down", Toast.LENGTH_SHORT).show();
-            else if (a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Error during login", Toast.LENGTH_SHORT).show();
+            }
+            else if (a == -2) Toast.makeText(getApplicationContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+            else if (a == ConnectionToServer.TIMEOUT_EXCEPTION | a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
        }
     }
 }

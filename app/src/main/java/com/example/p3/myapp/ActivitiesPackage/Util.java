@@ -18,7 +18,7 @@ public class Util {
     static final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
     static final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
     static final String TAG="Util";
-    private final String PATH_IMAGES="/ProximityMarket";
+    static final String PATH_IMAGES="/ProximityMarket";
 
     //The date format get from the editText is different from the date format in the DB. For this reason must be converted.
     static public  String changeDateFormat(String oldDateFormat){
@@ -34,6 +34,18 @@ public class Util {
         return dateNewFormat;
     }
 
+    static String getCurrentTs(){
+        SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);
+        return s.format(new Date());
+    }
+
+    static String getMaxValueDate(){
+        SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);
+        Date maxDate=new Date();
+        maxDate.setYear(2099);
+        Log.i(TAG,"Max date is :"+maxDate.toString());
+        return s.format(maxDate);
+    }
 
     static public int receiveImage(){
         try {

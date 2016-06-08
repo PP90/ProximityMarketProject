@@ -40,14 +40,13 @@ import EntityClasses.FormatMessage;
 
 public class InsertAd extends AppCompatActivity implements View.OnClickListener {
 
-    static EditText dateEditFrom;
-    static EditText dateEditUntil;
-    static EditText priceEditText;
-    static boolean fromSelected;
-    static boolean untilSelected;
+    private static EditText dateEditFrom;
+    private static EditText dateEditUntil;
+    private static EditText priceEditText;
+
+    private static boolean fromSelected;
+    private static boolean untilSelected;
     static final int COMPRESSION_RATIO=100;
-    final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
-    final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
     final private String directoryName="/ProximityMarket";
     static final int REQUEST_TAKE_PHOTO = 1;
 
@@ -109,7 +108,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onStart() {
         super.onStart();
-       // gps.onStartActivity();
+        gps.onStartActivity();
     }
 
     @Override
@@ -195,16 +194,19 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         return priceString;
     }
 
-    private String getFrom(){
-        //If the string is empty, then is taken the actual timestamp
-        return null;
-    }
-    private String getUntil(){
-        //If the string is empty, then is taken the farest timestamp
-        return null;
-    }
+    private String getFromDate(){
+        String from=dateEditFrom.getText().toString();
+       if(from==null){ return Util.getCurrentTs();}
+        else if (from.isEmpty()){ return Util.getCurrentTs();}
+        else{ return Util.changeDateFormat(dateEditFrom.getText().toString());}
+        }
 
-
+    private String getUntilDate(){
+        String from=dateEditFrom.getText().toString();
+        if(from==null) return Util.getMaxValueDate();
+        else if (from.isEmpty()){ return Util.getMaxValueDate();}
+        else return Util.changeDateFormat(dateEditFrom.getText().toString());
+    }
     @Override
     public void onClick(View v) {
         int idView=v.getId();
@@ -212,15 +214,13 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         switch(idView){
             case R.id.buttonSendAd:
                 RegisterNewAd registerNewAd=new RegisterNewAd();
-                String fromDBFormat=Util.changeDateFormat(dateEditFrom.getText().toString());
-                String untilDBFormat= Util.changeDateFormat(dateEditUntil.getText().toString());
                 String latitude=String.valueOf(gps.getLatitude());
                 String longitude=String.valueOf(gps.getLongitude());
                 registerNewAd.execute(getTypology(),//title
                         getAdDescription(),//description
                         getPrice(),//the price
                         latitude,longitude,//the position
-                        fromDBFormat, untilDBFormat);//The parsed data
+                        getFromDate(), getUntilDate());//The parsed data
                 break;
 
             case R.id.button_upload_img_ad:

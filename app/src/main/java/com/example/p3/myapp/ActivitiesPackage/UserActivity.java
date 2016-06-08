@@ -171,6 +171,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             connToServer.connectToTheServer(true, true);
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
+               Log.i(TAG,connToServer.receiveFromServer().toString());
                 return 1;
             }else return -1;
 

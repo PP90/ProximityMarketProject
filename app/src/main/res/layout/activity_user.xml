@@ -34,23 +34,24 @@
         android:layout_marginTop="15dp"
         android:layout_below="@+id/logo_top"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp" />
 
 
     <Button
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/see_my_ads_btn"
         android:id="@+id/button_see_my_ads"
         android:background="@drawable/optionscreen_bottomrectangle"
         android:textColor="#ffffff"
-        android:layout_marginBottom="30dp"
-        android:layout_above="@+id/space6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageButton_sfondo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="15dp"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible" />
 
     <Button
         android:layout_width="wrap_content"
@@ -59,10 +60,11 @@
         android:id="@+id/button_add_ads"
         android:textColor="#ffffff"
         android:background="@drawable/optionscreen_bottomrectangle"
-        android:layout_above="@+id/button_see_my_ads"
+
+        android:layout_below="@+id/button_see_my_ads"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
         android:layout_alignParentEnd="true" />
 
     <SeekBar
@@ -149,8 +151,7 @@
             android:text="Buy"
             android:id="@+id/radioButton_buy"
             android:checked="true"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginRight="1dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -158,8 +159,8 @@
             android:text="Sell"
             android:id="@+id/radioButton_sell"
             android:checked="false"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -167,8 +168,8 @@
             android:text="Exchange"
             android:id="@+id/radioButton_exchange"
             android:checked="false"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -176,8 +177,7 @@
             android:text="Donate"
             android:id="@+id/radioButton_donate"
             android:checked="false"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginLeft="1dp" />
 
     </RadioGroup>
 

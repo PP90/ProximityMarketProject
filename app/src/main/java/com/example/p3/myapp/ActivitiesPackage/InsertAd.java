@@ -46,8 +46,9 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     private static boolean fromSelected;
     private static boolean untilSelected;
-    static final int COMPRESSION_RATIO=100;
-    final private String directoryName="/ProximityMarket";
+    private final int COMPRESSION_RATIO=100;
+    private final double SCALING_FACTOR=0.25;
+    final private String directoryName="/ProximityMarket/";
     static final int REQUEST_TAKE_PHOTO = 1;
 
     static String TAG="InsertAd";
@@ -148,8 +149,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //An image view is converted to byte array in order to be sent to the server through the socket.
     private byte[] imageViewToByteConverter(ImageView imageView){
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        Bitmap resized=bitmap;
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, COMPRESSION_RATIO, stream);
+        int maxSize=48900;
+        while(resized.getByteCount()>maxSize) {
+            resized = Bitmap.createScaledBitmap(resized, (int) (resized.getWidth() * 0.95), (int) (resized.getHeight() * 0.95), true);
+            Log.i(TAG,"The size is: "+resized.getByteCount());
+        }
+        resized.compress(Bitmap.CompressFormat.JPEG, COMPRESSION_RATIO, stream);
         byte[] imageInByte=stream.toByteArray();
         return imageInByte;
     }
@@ -158,7 +165,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private File createImageFile(){
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         String pathDir = storageDir.getPath() + directoryName;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat(Util.TS_FORMAT).format(new Date());
         nameFile="JPEG_"+timeStamp+".jpg";
         File file = new File(pathDir, nameFile);
         Log.i(TAG, "The file path is "+file.getPath());
@@ -279,10 +286,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             String strImage = Base64.encodeToString(params[0] , Base64.DEFAULT);
             Log.i(TAG,"The size of image sent is: "+params[0].length);
             UserStatus.username="pippo@pippo.it";
-            int result=connectionToServer.sendToServer("AD,IMG,"+UserStatus.username+","+strImage);
-            if(result==ConnectionToServer.OK) {
-                connectionToServer.closeConnection();
-            }
+            String toSend="AD,IMG,"+UserStatus.username+","+strImage;
+            int result=connectionToServer.sendToServer(toSend);
+                if(result==ConnectionToServer.OK) {
+                    connectionToServer.closeConnection();
+             }
             return result;
         }
 

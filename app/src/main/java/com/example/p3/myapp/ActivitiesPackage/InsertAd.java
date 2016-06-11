@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -28,6 +29,12 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,14 +50,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private static EditText dateEditFrom;
     private static EditText dateEditUntil;
     private static EditText priceEditText;
-
+    private final String STORAGE_REF="gs://proximitymarketdb.appspot.com/";
     private static boolean fromSelected;
     private static boolean untilSelected;
     private final int COMPRESSION_RATIO=100;
     private final double SCALING_FACTOR=0.25;
     final private String directoryName="/ProximityMarket/";
     static final int REQUEST_TAKE_PHOTO = 1;
-
+    private FirebaseStorage storage;
     static String TAG="InsertAd";
 
     private static final int SELECT_PICTURE = 10;
@@ -63,8 +70,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
+
         gps=new GPSClass(this);
         gps.onCreateActivity(this);
+
+        storage = FirebaseStorage.getInstance();
         Button shot=(Button)findViewById(R.id.button_upload_img_ad);
         Button chooseFromGalley=(Button) findViewById(R.id.choseFromGallery);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
@@ -247,10 +257,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 Uri selectedImageUri = data.getData();
                 thumbnail.setImageURI(selectedImageUri);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
+                UploadPhotoOnFireBase uploadPhotoOnFireBase=new UploadPhotoOnFireBase();
+                if(uploadPhotoOnFireBase.getStatus()== AsyncTask.Status.PENDING) uploadPhotoOnFireBase.execute(byteArray);
+                return;
+                /*
                 UploadPhoto uploadPhoto=new UploadPhoto();
                 //TODO: it must be checked if the async task of the upload image has been finished
                 if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
-                return;
+                return;*/
             }
 
             if(requestCode==REQUEST_TAKE_PHOTO){
@@ -259,10 +273,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 Log.i(TAG, "The path to retrieve the image from is: " + path);
                 setThumbnail(path);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
+                UploadPhotoOnFireBase uploadPhotoOnFireBase=new UploadPhotoOnFireBase();
+                if(uploadPhotoOnFireBase.getStatus()== AsyncTask.Status.PENDING) uploadPhotoOnFireBase.execute(byteArray);
+                return;
+                /*
                 UploadPhoto uploadPhoto=new UploadPhoto();
                 //TODO: it must be checked if the async task of the upload image has been finished
                 if(uploadPhoto.getStatus()== AsyncTask.Status.PENDING) uploadPhoto.execute(byteArray);
-                return;
+                return;*/
             }
         }
     }
@@ -276,6 +294,51 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
+
+    private class UploadPhotoOnFireBase extends  AsyncTask<byte[], Void, Integer> {
+
+
+        private int sendPhoto(byte[] data, String name){
+            int result;
+            StorageReference storageRef = storage.getReferenceFromUrl(STORAGE_REF).child("images/"+name);
+            UploadTask uploadTask = storageRef.putBytes(data);
+
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    Log.i(TAG,"The progress is: "+progress);
+                }
+            });
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i(TAG,"ERROR_UPLOAD"+e);
+                }
+            });
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.i(TAG,"UPLOAD_SUCCESS");
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                   Log.i(TAG,"The URI is "+downloadUrl.toString());
+                }
+            });
+                    return 1;
+        }
+
+
+        @Override
+        protected Integer doInBackground(byte[]... params) {
+            sendPhoto(params[0], "JPEG_"+Util.getCurrentTs()+".jpg");
+            return 1;
+        }
+    }
+
+
 
     private class UploadPhoto extends  AsyncTask<byte[], Void, Integer>{
 

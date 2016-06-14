@@ -16,7 +16,7 @@ import java.util.Date;
 public class Util {
 
     static final String OLD_FORMAT = "dd/MM/yyyy HH:mm";
-    static final String NEW_FORMAT = "yyyy-MM-dd HH:mm:00";
+    static final String NEW_FORMAT = "yyyy-MM-dd HH:mm:ss";
     static final String TS_FORMAT="yyyyMMdd_HHmmss";
     static final String TAG="Util";
     static final String PATH_IMAGES="/ProximityMarket";

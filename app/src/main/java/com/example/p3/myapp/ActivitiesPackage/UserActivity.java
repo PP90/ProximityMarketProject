@@ -31,14 +31,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
-        Button seeMyAds=(Button) findViewById(R.id.button_see_my_ads);
         Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
         SeekBar seekBar=(SeekBar)findViewById(R.id.distance);
         gps=new GPSClass(this);
         gps.onCreateActivity(this);
         seeNearAds.setOnClickListener(this);
         addNewAd.setOnClickListener(this);
-        seeMyAds.setOnClickListener(this);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -97,12 +95,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 goToSeeNearAdActivity.putExtra("searchResult", 9);
                 goToSeeNearAdActivity.putStringArrayListExtra("adList",getAdList());//HARDCODED
                 startActivity(goToSeeNearAdActivity);
-                break;
-
-            case R.id.button_see_my_ads:
-                Intent goToSeeMyAdActivity = new Intent(this, MyAds.class);
-                Log.i("UserActivity", "My ads button pressed");
-                startActivity(goToSeeMyAdActivity);
                 break;
 
             default:

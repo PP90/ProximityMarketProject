@@ -10,26 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ActivitiesPackage.InsertAd">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:max="100"
-        android:progress="@android:integer/config_longAnimTime"
-        android:indeterminate="false"
-        android:layout_alignTop="@+id/thumbtailImage"
-        android:layout_above="@+id/buttonSendAd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/button_upload_img_ad"
-        android:layout_alignRight="@+id/thumbtailImage"
-        android:layout_alignEnd="@+id/thumbtailImage" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insert ad"
+        android:text="Publish adverstesimemt"
         android:id="@+id/buttonSendAd"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -50,19 +36,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/button_upload_img_ad"
-        android:layout_alignTop="@+id/space"
-        android:layout_alignRight="@+id/textView_description"
-        android:layout_alignEnd="@+id/textView_description"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp" />
+        android:paddingRight="5dp"
+        android:layout_alignTop="@+id/imageButton2"
+        android:layout_toLeftOf="@+id/button_upload_img_ad" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="           Description :        "
+        android:text="           Advertisement description :        "
         android:id="@+id/textView_description"
         android:textColor="#000000"
         android:layout_alignParentTop="true"
@@ -73,32 +58,29 @@
         android:layout_height="wrap_content"
         android:inputType="datetime"
         android:hint="Date From"
+        android:textSize="12dp"
         android:ems="10"
         android:id="@+id/FromEditText"
         android:paddingBottom="2dp"
         android:paddingRight="2dp"
         android:paddingTop="2dp"
         android:paddingLeft="2dp"
-        android:layout_alignTop="@+id/UntilEditText"
+        android:layout_below="@+id/priceEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/UntilEditText"
-        android:layout_above="@+id/progressBar"
-        android:layout_toLeftOf="@+id/UntilEditText" />
+        android:layout_marginTop="43dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
+        android:textSize="12dp"
         android:id="@+id/UntilEditText"
         android:hint="Date Until"
-        android:layout_alignBottom="@+id/priceEditText"
-        android:layout_alignLeft="@+id/textView_description"
-        android:layout_alignStart="@+id/textView_description"
-        android:layout_toStartOf="@+id/imageButton"
-        android:layout_alignRight="@+id/progressBar"
-        android:layout_alignEnd="@+id/progressBar" />
+        android:layout_below="@+id/FromEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -106,86 +88,38 @@
         android:ems="10"
         android:id="@+id/priceEditText"
         android:hint="Price"
-
+        android:textSize="12dp"
         android:inputType="numberSigned|numberDecimal"
         android:textColor="#000000"
-        android:layout_below="@+id/DescriptionEditText"
-        android:layout_marginTop="44dp"
-        android:layout_alignRight="@+id/imageButton"
-        android:layout_alignEnd="@+id/imageButton"
-        android:layout_toRightOf="@+id/space"
-        android:layout_toEndOf="@+id/space" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/radioGroup"
-        android:weightSum="1"
-        android:orientation="horizontal"
-        android:layout_below="@+id/DescriptionEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
-        android:layout_above="@+id/FromEditText">
+        android:layout_below="@+id/DescriptionEditText"
+        android:layout_toStartOf="@+id/textView_description"
+        android:layout_alignRight="@+id/FromEditText"
+        android:layout_alignEnd="@+id/FromEditText" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Type :"
-            android:id="@+id/textView_typology"
-            android:textColor="#000000"
-            android:layout_above="@+id/radioGroup"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Buy"
-            android:id="@+id/radioButton_buy2"
-            android:checked="true"
-            android:layout_alignTop="@+id/findradioButton"
-            android:layout_toRightOf="@+id/findradioButton"
-            android:layout_toEndOf="@+id/findradioButton"
-            android:layout_gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sell"
-            android:id="@+id/radioButton_sell2"
-            android:checked="false"
-            android:layout_gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exchange"
-            android:id="@+id/radioButton_exchange2"
-            android:checked="false"
-            android:layout_gravity="left" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Donate"
-            android:id="@+id/radioButton_donate2"
-            android:checked="false"
-            android:layout_gravity="left" />
-
-    </RadioGroup>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Type :"
+        android:id="@+id/textView_typology"
+        android:textColor="#000000"
+        android:gravity="left"
+        android:layout_marginRight="52dp"
+        android:layout_marginEnd="52dp"
+        android:layout_alignTop="@+id/priceEditText"
+        android:layout_alignRight="@+id/textView_description"
+        android:layout_alignEnd="@+id/textView_description" />
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:lines="6"
-        android:minLines="6"
-        android:maxLines="20"
+        android:lines="3"
+        android:minLines="4"
+        android:maxLines="10"
         android:scrollbars="vertical"
         android:background="@color/button_material_light"
         android:ems="10"
@@ -193,86 +127,121 @@
         android:textAlignment="inherit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/radioGroup"
 
         android:layout_below="@+id/textView_description"
         android:gravity="top|left"
-        android:layout_alignRight="@+id/radioGroup"
-        android:layout_alignEnd="@+id/radioGroup"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_alignRight="@+id/button_upload_img_ad"
+        android:layout_alignEnd="@+id/button_upload_img_ad"
+        android:layout_toStartOf="@+id/textView_description">
         <requestFocus/>
     </EditText>
 
-    <Space
-        android:layout_width="20px"
-        android:layout_height="20px"
-        android:id="@+id/space"
-        android:layout_below="@+id/UntilEditText"
-        android:layout_toRightOf="@+id/progressBar"
-        android:layout_above="@+id/buttonSendAd" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:visibility="invisible"
-        android:cropToPadding="false"
-        android:src="@drawable/camera_icon"
-        android:layout_below="@+id/priceEditText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/space"
-        android:layout_toEndOf="@+id/space"
-        android:scaleType="centerCrop" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take a photo"
+        android:text="@string/take_a_photo"
         android:id="@+id/button_upload_img_ad"
         android:textColor="#ffffff"
-        android:background="@drawable/optionscreen_bottomrectangle"
+        android:background="@drawable/botton_style"
         android:visibility="visible"
+        android:width="10dp"
         android:layout_alignRight="@+id/buttonSendAd"
         android:layout_alignEnd="@+id/buttonSendAd"
-        android:layout_toEndOf="@+id/textView_description"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_below="@+id/UntilEditText"
-        android:layout_toRightOf="@+id/textView_description"
-        android:width="10dp" />
+        android:layout_above="@+id/choseFromGallery"
+        android:layout_alignLeft="@+id/textView_typology"
+        android:layout_alignStart="@+id/textView_typology" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton2"
         android:layout_above="@+id/buttonSendAd"
-        android:layout_toLeftOf="@+id/button_upload_img_ad"
-        android:layout_toEndOf="@+id/imageButton"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
         android:cropToPadding="false"
         android:src="@drawable/gallery_icon"
         android:scaleType="centerCrop"
-        android:layout_alignLeft="@+id/imageButton"
-        android:layout_alignStart="@+id/imageButton"
-        android:layout_alignTop="@+id/choseFromGallery"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/button_upload_img_ad"
+        android:layout_toStartOf="@+id/button_upload_img_ad"
+        android:layout_toLeftOf="@+id/button_upload_img_ad" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chose from gallery"
+        android:text="From gallery"
         android:id="@+id/choseFromGallery"
         android:layout_above="@+id/buttonSendAd"
         android:layout_alignRight="@+id/buttonSendAd"
         android:layout_alignEnd="@+id/buttonSendAd"
         android:textColor="#ffffff"
-        android:background="@drawable/optionscreen_bottomrectangle"
+        android:background="@drawable/botton_style"
         android:visibility="visible"
-        android:layout_toEndOf="@+id/progressBar"
-        android:layout_below="@+id/imageButton"
-        android:layout_toRightOf="@+id/progressBar" />
+        android:layout_toEndOf="@+id/thumbtailImage"
+        android:layout_alignLeft="@+id/button_upload_img_ad"
+        android:layout_alignStart="@+id/button_upload_img_ad" />
+<RadioGroup
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_toEndOf="@+id/FromEditText"
+    android:id="@+id/radioGroup"
+    android:layout_alignBottom="@+id/UntilEditText"
+    android:layout_below="@+id/textView_typology"
+    android:layout_alignLeft="@+id/textView_typology"
+    android:layout_alignStart="@+id/textView_typology">
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy"
+        android:textSize="12dp"
+        android:id="@+id/radioButton_buy2"
+        android:checked="true"
+        android:layout_alignTop="@+id/FromEditText"
+        android:layout_toLeftOf="@+id/radioButton_donate2"
+        android:layout_alignLeft="@+id/radioButton_exchange2"
+        android:layout_alignStart="@+id/radioButton_exchange2" />
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sell"
+        android:textSize="12dp"
+        android:id="@+id/radioButton_sell2"
+        android:checked="false"
+        android:layout_above="@+id/radioButton_donate2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/radioButton_exchange2" />
+
+    <RadioButton
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:text="Donate"
+        android:textSize="12dp"
+        android:id="@+id/radioButton_donate2"
+        android:checked="false"
+        android:layout_alignBottom="@+id/UntilEditText"
+        android:layout_alignRight="@+id/button_upload_img_ad"
+        android:layout_alignEnd="@+id/button_upload_img_ad"
+        android:layout_toEndOf="@+id/radioButton_exchange2" />
+
+    <RadioButton
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:text="Exchange"
+        android:textSize="12dp"
+        android:id="@+id/radioButton_exchange2"
+        android:checked="false"
+        android:layout_below="@+id/FromEditText"
+        android:layout_toRightOf="@+id/FromEditText"
+        android:layout_toEndOf="@+id/FromEditText" />
+
+</RadioGroup>
+
 
 </RelativeLayout>

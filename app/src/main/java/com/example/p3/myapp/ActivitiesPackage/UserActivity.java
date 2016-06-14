@@ -100,20 +100,26 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.buttonSeeNearAds:
-                ReceiveImageAsyncTask riat=new ReceiveImageAsyncTask();
-                riat.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
+
                 Intent goToSeeNearAdActivity = new Intent(this, SeeNearAds.class);
-                Log.i("UserActivity", "See near ad button pressed");
+
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
                 SearchNearAds searchNearAds = new SearchNearAds();
+
+
                 UserStatus.username="pippo@pippo.it";
                 Log.i(TAG,"username is: "+UserStatus.username);
                 searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
                 //The result of the query must be passed to the next activity
 
-                goToSeeNearAdActivity.putExtra("searchResult", 9);
+                ReceiveImageAsyncTask riat=new ReceiveImageAsyncTask();
+                riat.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
+
+
+                goToSeeNearAdActivity.putExtra("searchResult", 3);
                 goToSeeNearAdActivity.putStringArrayListExtra("adList",getAdList());//HARDCODED
+              //  goToAddNewAddActivity.putExtra("image",image);
                 startActivity(goToSeeNearAdActivity);
                 break;
 
@@ -127,7 +133,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<String> getAdList(){
         ArrayList<String> adList=new ArrayList<>();
-        adList.add(0,"Description1,buy,10,20,30,40");
+        adList.add(0,"Description announce,buy,10,20,300");//Description, type, price, distance (in meters)
         return adList;
 
     }

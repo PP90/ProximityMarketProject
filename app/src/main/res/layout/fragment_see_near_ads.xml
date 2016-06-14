@@ -17,9 +17,104 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Ad "
+        android:text="Description:"
         android:id="@+id/TitleAd_textView"
-        android:layout_below="@+id/section_label"
-        android:layout_toRightOf="@+id/section_label"
-        android:layout_toEndOf="@+id/section_label" />
+        android:layout_below="@+id/typeEditTextSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Here will be the body of the description"
+        android:id="@+id/descriptionEditTextSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:width="10dp"
+        android:layout_alignRight="@+id/typeEditTextSeeNearAds"
+        android:layout_alignEnd="@+id/typeEditTextSeeNearAds"
+        android:layout_above="@+id/distEditText"
+        android:layout_below="@+id/TitleAd_textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Type: typeOfTheService"
+        android:id="@+id/typeEditTextSeeNearAds"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/validUntilEditTextSeeNearAds"
+        android:layout_toEndOf="@+id/validUntilEditTextSeeNearAds" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Price: PriceValue"
+
+        android:id="@+id/priceEditTextSeeNearAds"
+        android:layout_above="@+id/validFromEditTextSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="ValidFrom: ValidFrom"
+        android:id="@+id/validFromEditTextSeeNearAds"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="ValidUntil: ValidUntil"
+        android:id="@+id/validUntilEditTextSeeNearAds"
+        android:layout_below="@+id/validFromEditTextSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/validUntilEditTextSeeNearAds"
+        android:layout_marginTop="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/typeEditTextSeeNearAds"
+        android:layout_alignEnd="@+id/typeEditTextSeeNearAds"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Distance: distance"
+        android:id="@+id/distEditText"
+        android:layout_above="@+id/priceEditTextSeeNearAds"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="24dp" />
+
 </RelativeLayout>

@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.R;
 
+import java.util.ArrayList;
+
 public class SeeNearAds extends AppCompatActivity {
 
     static final String TAG="SeeNearAds";
@@ -55,6 +57,10 @@ public class SeeNearAds extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
+        ArrayList<String> adList=getIntent().getStringArrayListExtra("adList");
+        Log.i(TAG, adList.toString());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +169,6 @@ public class SeeNearAds extends AppCompatActivity {
         public int getCount() {
             // Show numberOfAds total pages.
              Intent intent = getIntent();
-             Log.i(TAG, "The value passed from previous activity is " + intent.getIntExtra("searchResult", 1));
              numberOfAds =intent.getIntExtra("searchResult", 1);
             return numberOfAds;
         }
@@ -174,7 +179,7 @@ public class SeeNearAds extends AppCompatActivity {
             int i;
             for(i=0; i< numberOfAds; i++) {
                 if(position==i)  {
-                    String cc="AD "+String.valueOf(i+1);
+                    String cc=String.valueOf(i+1);
                     return cc;}
 
             }return null;

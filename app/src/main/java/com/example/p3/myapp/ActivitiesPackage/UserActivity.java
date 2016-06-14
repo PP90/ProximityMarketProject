@@ -1,6 +1,7 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,11 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import EntityClasses.FormatMessage;
@@ -23,6 +28,11 @@ import EntityClasses.FormatMessage;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
     private String distance;
     private GPSClass gps;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private StorageReference childRef;
+    private StorageReference imageRef;
+
     private final String TAG="UserActivity";
     private final String DEFAULT_DISTANCE="1000"; //Expressed in meters
     private ArrayList<String> adList;
@@ -30,13 +40,20 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
         Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
         SeekBar seekBar=(SeekBar)findViewById(R.id.distance);
+
         gps=new GPSClass(this);
         gps.onCreateActivity(this);
         seeNearAds.setOnClickListener(this);
         addNewAd.setOnClickListener(this);
+
+        storage=FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl(InsertAd.STORAGE_REF);
+        childRef=storageRef.child(InsertAd.CHILD_REF);
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -83,6 +100,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.buttonSeeNearAds:
+                ReceiveImageAsyncTask riat=new ReceiveImageAsyncTask();
+                riat.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
                 Intent goToSeeNearAdActivity = new Intent(this, SeeNearAds.class);
                 Log.i("UserActivity", "See near ad button pressed");
                 String latitude = String.valueOf(gps.getLatitude());
@@ -92,6 +111,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i(TAG,"username is: "+UserStatus.username);
                 searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
                 //The result of the query must be passed to the next activity
+
                 goToSeeNearAdActivity.putExtra("searchResult", 9);
                 goToSeeNearAdActivity.putStringArrayListExtra("adList",getAdList());//HARDCODED
                 startActivity(goToSeeNearAdActivity);
@@ -101,6 +121,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
+
 
     private ArrayList<String> getAdList(){
         ArrayList<String> adList=new ArrayList<>();
@@ -140,13 +163,23 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //TODO: This task must be tested with the timestamp filename
-    private class ReceiveImageFromServer extends AsyncTask<Void, Void, Integer>{
+    private class ReceiveImageAsyncTask extends AsyncTask<String, Void, Integer>{
 
         private final String TAG="ReceiverImage";
 
         @Override
-        protected Integer doInBackground(Void... params) {
-            return Util.receiveImage();
+        protected Integer doInBackground(String... params) {
+
+
+                try {
+                    Bitmap image=Picasso.with(getApplicationContext()).load(params[0]).get();
+                    Log.i(TAG,"bytes: "+image.getByteCount());
+                    return 1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return -1;
+                }
+
         }
         protected void onPostExecute(Integer a) {
 

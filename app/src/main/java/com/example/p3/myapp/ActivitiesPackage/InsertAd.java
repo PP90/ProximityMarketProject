@@ -49,19 +49,24 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private static EditText dateEditFrom;
     private static EditText dateEditUntil;
     private static EditText priceEditText;
-    private final String STORAGE_REF="gs://proximitymarketdb.appspot.com/";
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private StorageReference childRef;
+    private StorageReference imageRef;
+    static final String STORAGE_REF="gs://proximitymarketdb.appspot.com/";
+    static final String CHILD_REF="images/";
+    static final private String directoryName="/ProximityMarket/";
+
     private static boolean fromSelected;
     private static boolean untilSelected;
+
     private final int COMPRESSION_RATIO=100;
-    final private String directoryName="/ProximityMarket/";
     static final int REQUEST_TAKE_PHOTO = 1;
 
     static String TAG="InsertAd";
     private String uriIMG;
-    private FirebaseStorage storage;
-    StorageReference storageRef;
-    StorageReference childRef;
-    StorageReference imageRef;
+
 
     private static final int SELECT_PICTURE = 10;
 
@@ -69,7 +74,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private ImageView thumbnail;
     private GPSClass gps;
 
-    private double progessUpload=-1;
+    private double progressUpload=-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +85,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         storage=FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl(STORAGE_REF);
-        childRef=storageRef.child("images/");
+        childRef=storageRef.child(CHILD_REF);
         imageRef = childRef.child(Util.getCurrentTs());
 
 
@@ -174,7 +179,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                progessUpload = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressUpload = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
             }
         });
@@ -337,13 +342,13 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             //Before to connect to the server a check of the image is performed.
             //If the image URI is not empty and the image is not uploaded yet, then the async task returns.
 
-            Log.i(TAG,"The progress is: "+progessUpload);
-            int partialProgress=(int)progessUpload;
+            Log.i(TAG,"The progress is: "+progressUpload);
+            int partialProgress=(int)progressUpload;
             if( partialProgress>-1 && partialProgress<100){
 //                Toast.makeText(getApplicationContext(), "Please wait uploading image.. Progress: "+partialProgress+" %", Toast.LENGTH_SHORT).show();
                 return 0;
             }
-
+        //From this point the connection to the server is established if the image is uploaded into Firebase cloud
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
@@ -363,7 +368,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
         protected void onPostExecute(Integer a) {
             if (a == ConnectionToServer.OK) {
-                Toast.makeText(getApplicationContext(), "Ad insert correctly", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Advertisement inserted correctly!", Toast.LENGTH_SHORT).show();
                 finish();
             }
             else if (a == ConnectionToServer.NULL_POINTER_EXC |

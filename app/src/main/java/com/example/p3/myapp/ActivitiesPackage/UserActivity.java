@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -28,14 +26,11 @@ import EntityClasses.FormatMessage;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
     private String distance;
     private GPSClass gps;
-    private FirebaseStorage storage;
-    private StorageReference storageRef;
-    private StorageReference childRef;
-    private StorageReference imageRef;
 
     private final String TAG="UserActivity";
     private final String DEFAULT_DISTANCE="1000"; //Expressed in meters
     private ArrayList<String> adList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +44,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         gps.onCreateActivity(this);
         seeNearAds.setOnClickListener(this);
         addNewAd.setOnClickListener(this);
-
-        storage=FirebaseStorage.getInstance();
-        storageRef = storage.getReferenceFromUrl(InsertAd.STORAGE_REF);
-        childRef=storageRef.child(InsertAd.CHILD_REF);
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -101,26 +91,23 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.buttonSeeNearAds:
 
-                Intent goToSeeNearAdActivity = new Intent(this, SeeNearAds.class);
+
 
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
-                SearchNearAds searchNearAds = new SearchNearAds();
 
 
                 UserStatus.username="pippo@pippo.it";
                 Log.i(TAG,"username is: "+UserStatus.username);
+
+                SearchNearAds searchNearAds = new SearchNearAds();
                 searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
-                //The result of the query must be passed to the next activity
-
-                ReceiveImageAsyncTask riat=new ReceiveImageAsyncTask();
-                riat.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
 
 
-                goToSeeNearAdActivity.putExtra("searchResult", 3);
-                goToSeeNearAdActivity.putStringArrayListExtra("adList",getAdList());//HARDCODED
-              //  goToAddNewAddActivity.putExtra("image",image);
-                startActivity(goToSeeNearAdActivity);
+             //   DownloadImageAsyncTask dIm=new DownloadImageAsyncTask();
+            //    dIm.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
+
+
                 break;
 
             default:
@@ -128,22 +115,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-
-
-    private ArrayList<String> getAdList(){
-        ArrayList<String> adList=new ArrayList<>();
-        adList.add(0,"Description announce,buy,10,20,300");//Description, type, price, distance (in meters)
-        return adList;
-
-    }
     private String getKeywords(){
         EditText keyword=(EditText) findViewById(R.id.searchView_ads);
         String kw=keyword.getText().toString();
        if(kw!=null)  return kw;
         else return "";
     }
-
 
     private String getDistance(){
         if(distance==null)distance=DEFAULT_DISTANCE;
@@ -168,48 +145,34 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    //TODO: This task must be tested with the timestamp filename
-    private class ReceiveImageAsyncTask extends AsyncTask<String, Void, Integer>{
-
-        private final String TAG="ReceiverImage";
-
-        @Override
-        protected Integer doInBackground(String... params) {
-
-
-                try {
-                    Bitmap image=Picasso.with(getApplicationContext()).load(params[0]).get();
-                    Log.i(TAG,"bytes: "+image.getByteCount());
-                    return 1;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return -1;
-                }
-
-        }
-        protected void onPostExecute(Integer a) {
-
-        }
-        //TODO: implement onPostExecuteMethod in which a message is shown to the user
-    }
-
-
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
-
+        private final int OK_RESULT=1;
+        private final int NO_RESULT=-1;
         @Override
         protected Integer doInBackground(String... params) {
             ConnectionToServer connToServer=new ConnectionToServer();
             connToServer.connectToTheServer(true, true);
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
-               Log.i(TAG,connToServer.receiveFromServer().toString());
-                return 1;
-            }else return -1;
+             adList=connToServer.receiveFromServer();
 
+               Log.i(TAG,"n ad="+adList.size());
+               connToServer.closeConnection();
+               return OK_RESULT;
+            }else {
+                connToServer.closeConnection();
+                return NO_RESULT;
+            }
         }
         protected void onPostExecute(Integer result) {
-            if(result==1)  Toast.makeText(getApplicationContext(), "Connection established with the server", Toast.LENGTH_SHORT).show();
-            else  Toast.makeText(getApplicationContext(), "Error connection", Toast.LENGTH_SHORT).show();
+            if(result==OK_RESULT) {
+
+                Intent goToSeeNearAdActivity = new Intent(getBaseContext(), SeeNearAds.class);
+                //TODO: Check if the adList is empty or null
+                goToSeeNearAdActivity.putExtra("numberOfAds", adList.size()/SeeNearAds.N_PARAMS_AD);
+                goToSeeNearAdActivity.putStringArrayListExtra("adList",adList);
+                startActivity(goToSeeNearAdActivity);
+            }else  Toast.makeText(getApplicationContext(), "Error connection", Toast.LENGTH_SHORT).show();
         }
     }
 }

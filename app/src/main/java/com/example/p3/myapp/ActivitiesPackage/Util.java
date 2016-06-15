@@ -47,39 +47,4 @@ public class Util {
         Log.i(TAG,"Max date is :"+maxDate.toString());
         return s.format(maxDate);
     }
-
-    static public int receiveImage(){
-        try {
-            byte[] receivedImage=null;
-            ConnectionToServer connectionToServer=new ConnectionToServer();
-            connectionToServer.connectToTheServer(true, true);
-            int reqMyIdImages= connectionToServer.sendToServer("AD, MY_AD");
-            if(reqMyIdImages==ConnectionToServer.OK) {
-                receivedImage=connectionToServer.receiveImageFromTheServer();
-            }
-            //The path of images is get and then the file is saved there.
-            if(receivedImage!=null) {
-                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                //TODO: make a check: if the directory path images does not exist, then it will be created.
-                String pathDir = storageDir.getPath() + PATH_IMAGES;
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                Log.i(TAG, "The buffer size is " + receivedImage.length + "\nThe path is " + pathDir);
-                File file = new File(pathDir, "JPEG_"+timeStamp+".jpg");
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(receivedImage);
-                fos.flush();
-                fos.close();
-                connectionToServer.closeConnection();
-                return 1;
-            }else{
-                connectionToServer.closeConnection();
-                return -1;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -2;
-        }
-
-
-    }
 }

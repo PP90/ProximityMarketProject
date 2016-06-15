@@ -1,6 +1,8 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.p3.myapp.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SeeNearAds extends AppCompatActivity {
@@ -39,6 +43,23 @@ public class SeeNearAds extends AppCompatActivity {
 
     /*** The {@link ViewPager} that will host the section contents.     */
     private ViewPager mViewPager;
+    private ArrayList<String> adListRaw;
+    static final int N_PARAMS_AD=8;
+
+    private ArrayList<ArrayList<String>> adListParsed(){
+        ArrayList<ArrayList<String>> adListParsed=new ArrayList<ArrayList<String>>();
+        ArrayList<String> adTemp;
+        int countAds=adListRaw.size()/N_PARAMS_AD;
+
+
+        for(int j=0; j<countAds; j++){
+                adTemp = new ArrayList<>(adListRaw.subList(j*N_PARAMS_AD, (j+1)*N_PARAMS_AD));
+                Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
+                adListParsed.add(adTemp);
+            }
+      return adListParsed;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +79,10 @@ public class SeeNearAds extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        adListRaw=getIntent().getStringArrayListExtra("adList");
+        Log.i(TAG, "Ad list is:"+adListRaw.toString());
 
-        ArrayList<String> adList=getIntent().getStringArrayListExtra("adList");
-        Log.i(TAG, adList.toString());
-
+        adListParsed();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +115,7 @@ public class SeeNearAds extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -169,7 +191,7 @@ public class SeeNearAds extends AppCompatActivity {
         public int getCount() {
             // Show numberOfAds total pages.
              Intent intent = getIntent();
-             numberOfAds =intent.getIntExtra("searchResult", 1);
+             numberOfAds =intent.getIntExtra("numberOfAds", 1);
             return numberOfAds;
         }
 
@@ -185,4 +207,31 @@ public class SeeNearAds extends AppCompatActivity {
             }return null;
         }
     }
+
+
+
+    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Integer> {
+
+        private final String TAG="ReceiverImage";
+
+        @Override
+        protected Integer doInBackground(String... params) {
+
+
+            try {
+                Bitmap image= Picasso.with(getApplicationContext()).load(params[0]).get();
+                Log.i(TAG,"bytes: "+image.getByteCount());
+                return 1;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return -1;
+            }
+
+        }
+        protected void onPostExecute(Integer a) {
+
+        }
+        //TODO: implement onPostExecuteMethod in which a message is shown to the user
+    }
+
 }

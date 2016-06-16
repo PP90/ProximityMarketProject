@@ -45,9 +45,10 @@ public class SeeNearAds extends AppCompatActivity {
     private ViewPager mViewPager;
     private ArrayList<String> adListRaw;
     static final int N_PARAMS_AD=8;
+    private  ArrayList<ArrayList<String>> adListParsed;
 
-    private ArrayList<ArrayList<String>> adListParsed(){
-        ArrayList<ArrayList<String>> adListParsed=new ArrayList<ArrayList<String>>();
+    private void adListParsed(){
+        adListParsed=new ArrayList<ArrayList<String>>();
         ArrayList<String> adTemp;
         int countAds=adListRaw.size()/N_PARAMS_AD;
 
@@ -57,9 +58,13 @@ public class SeeNearAds extends AppCompatActivity {
                 Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
                 adListParsed.add(adTemp);
             }
-      return adListParsed;
     }
 
+
+    private void setFieldsFrag(){
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +81,13 @@ public class SeeNearAds extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         adListRaw=getIntent().getStringArrayListExtra("adList");
-        Log.i(TAG, "Ad list is:"+adListRaw.toString());
-
         adListParsed();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +153,7 @@ public class SeeNearAds extends AppCompatActivity {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() { }
+
         // Returns a new instance of this fragment for the given section number.
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
@@ -157,12 +163,13 @@ public class SeeNearAds extends AppCompatActivity {
             return fragment;
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
            View rootView = inflater.inflate(R.layout.fragment_see_near_ads, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+           textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+           return rootView;
         }
     }
 
@@ -173,6 +180,7 @@ public class SeeNearAds extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
+
             super(fm);
         }
 
@@ -180,8 +188,10 @@ public class SeeNearAds extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
+            Log.i(TAG, "getItem->(position): "+position);
 
             //qui si può aggiungere il download della foto dell'annuncio, il titolo il prezzo e tutto il resto
+            //Come???
 
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
@@ -198,6 +208,7 @@ public class SeeNearAds extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             // fragment creation FG
+            Log.i(TAG, "getPageTitle");
             int i;
             for(i=0; i< numberOfAds; i++) {
                 if(position==i)  {

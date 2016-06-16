@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class SeeNearAds extends AppCompatActivity {
 
     static final String TAG="SeeNearAds";
+    static String currentPublisher;
     int numberOfAds;
 
     /**
@@ -44,14 +45,15 @@ public class SeeNearAds extends AppCompatActivity {
     /*** The {@link ViewPager} that will host the section contents.     */
     private ViewPager mViewPager;
     private ArrayList<String> adListRaw;
-    static final int N_PARAMS_AD=8;
-    private  ArrayList<ArrayList<String>> adListParsed;
+    static final int N_PARAMS_AD=9;
+    static  ArrayList<ArrayList<String>> adListParsed;
+    private TabLayout tabLayout;
 
-    private void adListParsed(){
+    private void getAdListParsed(){
         adListParsed=new ArrayList<ArrayList<String>>();
         ArrayList<String> adTemp;
         int countAds=adListRaw.size()/N_PARAMS_AD;
-
+        Log.i(TAG,"The n params is: "+N_PARAMS_AD);
 
         for(int j=0; j<countAds; j++){
                 adTemp = new ArrayList<>(adListRaw.subList(j*N_PARAMS_AD, (j+1)*N_PARAMS_AD));
@@ -60,11 +62,6 @@ public class SeeNearAds extends AppCompatActivity {
             }
     }
 
-
-    private void setFieldsFrag(){
-
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +79,11 @@ public class SeeNearAds extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         adListRaw=getIntent().getStringArrayListExtra("adList");
-        adListParsed();
-
+        getAdListParsed();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +98,9 @@ public class SeeNearAds extends AppCompatActivity {
                                 //TODO: take email address from the account of the user of the app (from Login?) and put inside Intent Email
                                 Intent Email = new Intent(Intent.ACTION_SEND);
                                 Email.setType("text/email");
-                                Email.putExtra(Intent.EXTRA_EMAIL,new String[]{"fabiogreco3@gmail.com"});  //seller's email
+                                Email.putExtra(Intent.EXTRA_EMAIL,new String[]{currentPublisher});  //seller's email
                                 Email.putExtra(Intent.EXTRA_SUBJECT,"Hi, I'm interested in your Ad"); // Email's Object
-                                Email.putExtra(Intent.EXTRA_TEXT, "Dear Seller, I'm interested in your Ad, please contact me soon" + "");  //Email text
+                                Email.putExtra(Intent.EXTRA_TEXT, "Dear Seller, I'm interested in your advertisement, please contact me soon" + "");  //Email text
 
                                 try {
                                     startActivity(Intent.createChooser(Email, "Hi, I'm interested"));
@@ -147,6 +143,26 @@ public class SeeNearAds extends AppCompatActivity {
     }
     */
 
+
+
+///Mio codice
+    public static String POSITION = "POSITION";
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(POSITION, tabLayout.getSelectedTabPosition());
+        Log.i(TAG,"onSaveInstanceState: "+tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mViewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
+        int pippo=savedInstanceState.getInt(POSITION);
+        Log.i(TAG,"onRestoreInstanceState: "+pippo);
+    }
+
     // A placeholder fragment containing a simple view.
     public static class PlaceholderFragment extends Fragment {
         // The fragment argument representing the section number for this fragment.
@@ -164,11 +180,41 @@ public class SeeNearAds extends AppCompatActivity {
         }
 
 
+        private void setFieldsTab(View rootView, int pos){
+
+            currentPublisher=adListParsed.get(pos-1).get(1);
+
+            TextView type=(TextView) rootView.findViewById(R.id.typeEditTextSeeNearAds);
+            type.setText("Type: "+adListParsed.get(pos-1).get(2));
+
+            TextView description=(TextView) rootView.findViewById(R.id.descriptionEditTextSeeNearAds);
+            description.setText("Description: "+adListParsed.get(pos-1).get(3));
+
+            //TODO: SET THE URI IMG SOMEWHERE
+        //    DownloadImageAsyncTask diat=new DownloadImageAsyncTask();
+          //  diat.execute(adListParsed.get(pos-1).get(5));
+            TextView price=(TextView) rootView.findViewById(R.id.priceEditTextSeeNearAds);
+            price.setText("Price: "+adListParsed.get(pos-1).get(5));
+
+            TextView from=(TextView) rootView.findViewById(R.id.validFromEditTextSeeNearAds);
+            from.setText("From: "+adListParsed.get(pos-1).get(6));
+
+            TextView until=(TextView) rootView.findViewById(R.id.validUntilEditTextSeeNearAds);
+            until.setText("Until: "+adListParsed.get(pos-1).get(7));
+
+            TextView distance=(TextView) rootView.findViewById(R.id.distEditText);
+            distance.setText("Distance: "+adListParsed.get(pos-1).get(8));
+        }
+
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
            View rootView = inflater.inflate(R.layout.fragment_see_near_ads, container, false);
-           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-           textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            int currentTab= getArguments().getInt(ARG_SECTION_NUMBER);
+            Log.i(TAG,"current Tab: "+currentTab);
+            setFieldsTab(rootView, currentTab);
+         //  TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+         //  textView.setText(getString(R.string.section_format,currentTab));
            return rootView;
         }
     }

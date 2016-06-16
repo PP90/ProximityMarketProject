@@ -352,7 +352,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
-            UserStatus.username="pippo"; //TODO: to delete when it works
+            UserStatus.username="pippo@pippo.it"; //TODO: to delete when it works
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
             Log.i(TAG,"Send to the server: "+newAdString);
             int resultSend=connectionToServer.sendToServer(newAdString);

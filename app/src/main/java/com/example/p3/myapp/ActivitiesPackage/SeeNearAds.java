@@ -2,7 +2,6 @@ package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,20 +16,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.p3.myapp.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SeeNearAds extends AppCompatActivity {
 
     static final String TAG="SeeNearAds";
     static String currentPublisher;
-    int numberOfAds;
+    private int numberOfAds;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -48,12 +47,12 @@ public class SeeNearAds extends AppCompatActivity {
     static final int N_PARAMS_AD=9;
     static  ArrayList<ArrayList<String>> adListParsed;
     private TabLayout tabLayout;
+    static ImageView thumbnail;
 
     private void getAdListParsed(){
-        adListParsed=new ArrayList<ArrayList<String>>();
+        adListParsed=new ArrayList<>();
         ArrayList<String> adTemp;
         int countAds=adListRaw.size()/N_PARAMS_AD;
-        Log.i(TAG,"The n params is: "+N_PARAMS_AD);
 
         for(int j=0; j<countAds; j++){
                 adTemp = new ArrayList<>(adListRaw.subList(j*N_PARAMS_AD, (j+1)*N_PARAMS_AD));
@@ -144,23 +143,18 @@ public class SeeNearAds extends AppCompatActivity {
     */
 
 
-
-///Mio codice
     public static String POSITION = "POSITION";
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(POSITION, tabLayout.getSelectedTabPosition());
-        Log.i(TAG,"onSaveInstanceState: "+tabLayout.getSelectedTabPosition());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mViewPager.setCurrentItem(savedInstanceState.getInt(POSITION));
-        int pippo=savedInstanceState.getInt(POSITION);
-        Log.i(TAG,"onRestoreInstanceState: "+pippo);
     }
 
     // A placeholder fragment containing a simple view.
@@ -179,7 +173,6 @@ public class SeeNearAds extends AppCompatActivity {
             return fragment;
         }
 
-
         private void setFieldsTab(View rootView, int pos){
 
             currentPublisher=adListParsed.get(pos-1).get(1);
@@ -190,20 +183,23 @@ public class SeeNearAds extends AppCompatActivity {
             TextView description=(TextView) rootView.findViewById(R.id.descriptionEditTextSeeNearAds);
             description.setText("Description: "+adListParsed.get(pos-1).get(3));
 
-            //TODO: SET THE URI IMG SOMEWHERE
-        //    DownloadImageAsyncTask diat=new DownloadImageAsyncTask();
-          //  diat.execute(adListParsed.get(pos-1).get(5));
+            String imgUrl=adListParsed.get(pos-1).get(4);
+            thumbnail = (ImageView) rootView.findViewById(R.id.imageViewAd);
+            Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
+
             TextView price=(TextView) rootView.findViewById(R.id.priceEditTextSeeNearAds);
-            price.setText("Price: "+adListParsed.get(pos-1).get(5));
+            price.setText("Price: "+adListParsed.get(pos-1).get(5)+" €");
 
             TextView from=(TextView) rootView.findViewById(R.id.validFromEditTextSeeNearAds);
-            from.setText("From: "+adListParsed.get(pos-1).get(6));
+            String fromNewFormat=Util.newToOldDateFormat(adListParsed.get(pos-1).get(6));
+            from.setText("From: "+fromNewFormat);
 
             TextView until=(TextView) rootView.findViewById(R.id.validUntilEditTextSeeNearAds);
-            until.setText("Until: "+adListParsed.get(pos-1).get(7));
+            String untilNewFormat=Util.newToOldDateFormat(adListParsed.get(pos-1).get(7));
+            until.setText("Until: "+untilNewFormat);
 
             TextView distance=(TextView) rootView.findViewById(R.id.distEditText);
-            distance.setText("Distance: "+adListParsed.get(pos-1).get(8));
+            distance.setText("Distance: "+adListParsed.get(pos-1).get(8)+" meters");
         }
 
 
@@ -213,6 +209,7 @@ public class SeeNearAds extends AppCompatActivity {
             int currentTab= getArguments().getInt(ARG_SECTION_NUMBER);
             Log.i(TAG,"current Tab: "+currentTab);
             setFieldsTab(rootView, currentTab);
+            //TODO: To be deleted ?
          //  TextView textView = (TextView) rootView.findViewById(R.id.section_label);
          //  textView.setText(getString(R.string.section_format,currentTab));
            return rootView;
@@ -263,32 +260,8 @@ public class SeeNearAds extends AppCompatActivity {
 
             }return null;
         }
-    }
 
 
-
-    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Integer> {
-
-        private final String TAG="ReceiverImage";
-
-        @Override
-        protected Integer doInBackground(String... params) {
-
-
-            try {
-                Bitmap image= Picasso.with(getApplicationContext()).load(params[0]).get();
-                Log.i(TAG,"bytes: "+image.getByteCount());
-                return 1;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return -1;
-            }
-
-        }
-        protected void onPostExecute(Integer a) {
-
-        }
-        //TODO: implement onPostExecuteMethod in which a message is shown to the user
     }
 
 }

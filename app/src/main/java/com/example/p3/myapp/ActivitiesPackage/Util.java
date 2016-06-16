@@ -19,7 +19,6 @@ public class Util {
     static final String NEW_FORMAT = "yyyy-MM-dd HH:mm:ss";
     static final String TS_FORMAT="yyyyMMdd_HHmmss";
     static final String TAG="Util";
-    static final String PATH_IMAGES="/ProximityMarket";
 
     //The date format get from the editText is different from the date format in the DB. For this reason must be converted.
     static public  String changeDateFormat(String oldDateFormat){
@@ -34,6 +33,20 @@ public class Util {
         Log.i(TAG,"The new format is: "+dateNewFormat);
         return dateNewFormat;
     }
+
+    static public  String newToOldDateFormat(String newDateFormat){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat(NEW_FORMAT).parse(newDateFormat);
+        } catch (ParseException e) {
+            Log.i(TAG, "Bad format error");
+            e.printStackTrace();
+        }
+        String dateNewFormat = new SimpleDateFormat(OLD_FORMAT).format(date);
+        Log.i(TAG,"The old format is: "+dateNewFormat);
+        return dateNewFormat;
+    }
+
 
     static String getCurrentTs(){
         SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);

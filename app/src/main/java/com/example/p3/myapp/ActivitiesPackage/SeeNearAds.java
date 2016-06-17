@@ -1,7 +1,6 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -233,9 +232,6 @@ public class SeeNearAds extends AppCompatActivity {
 
             Log.i(TAG, "getItem->(position): "+position);
 
-            //qui si può aggiungere il download della foto dell'annuncio, il titolo il prezzo e tutto il resto
-            //Come???
-
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
@@ -255,7 +251,7 @@ public class SeeNearAds extends AppCompatActivity {
             int i;
             for(i=0; i< numberOfAds; i++) {
                 if(position==i)  {
-                    String cc=String.valueOf(i+1);
+                    String cc=String.valueOf("[ "+(i+1)+" ]");
                     return cc;}
 
             }return null;

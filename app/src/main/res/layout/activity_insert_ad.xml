@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ActivitiesPackage.InsertAd">
+    tools:context=".ActivitiesPackage.InsertAd"
+    android:background="#ffffff">
 
 
 
@@ -32,7 +33,6 @@
         android:background="@drawable/edit_text_style"
         android:ems="10"
         android:id="@+id/thumbtailImage"
-        android:layout_alignBottom="@+id/choseFromGallery"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/button_upload_img_ad"
@@ -41,7 +41,26 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_alignTop="@+id/imageButton2"
+        android:layout_alignBottom="@+id/imageButton2"
         android:layout_toLeftOf="@+id/button_upload_img_ad" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="false"
+        android:cropToPadding="false"
+        android:src="@drawable/gallery_icon"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        android:layout_below="@+id/UntilEditText"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/buttonSendAd"
+        android:layout_alignRight="@+id/thumbtailImage"
+        android:layout_alignEnd="@+id/thumbtailImage" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,14 +80,9 @@
         android:textSize="12dp"
         android:ems="10"
         android:id="@+id/FromEditText"
-        android:paddingBottom="2dp"
-        android:paddingRight="2dp"
-        android:paddingTop="2dp"
-        android:paddingLeft="2dp"
         android:layout_below="@+id/priceEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -116,7 +130,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:lines="3"
+        android:lines="4"
         android:minLines="4"
         android:maxLines="10"
         android:scrollbars="vertical"
@@ -144,29 +158,13 @@
         android:text="@string/take_a_photo"
         android:id="@+id/button_upload_img_ad"
         android:textColor="#ffffff"
-        android:background="@drawable/botton_style"
-        android:visibility="visible"
-        android:width="10dp"
-        android:layout_alignRight="@+id/buttonSendAd"
-        android:layout_alignEnd="@+id/buttonSendAd"
-        android:layout_above="@+id/choseFromGallery"
-        android:layout_alignLeft="@+id/textView_typology"
-        android:layout_alignStart="@+id/textView_typology" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:layout_above="@+id/buttonSendAd"
-        android:adjustViewBounds="false"
-        android:baselineAlignBottom="false"
-        android:cropToPadding="false"
-        android:src="@drawable/gallery_icon"
-        android:scaleType="centerCrop"
         android:visibility="invisible"
-        android:layout_toStartOf="@+id/button_upload_img_ad"
-        android:layout_toLeftOf="@+id/button_upload_img_ad"
-        android:layout_below="@+id/UntilEditText" />
+        android:width="10dp"
+        android:layout_alignRight="@+id/radioGroup"
+        android:layout_alignEnd="@+id/radioGroup"
+        android:layout_below="@+id/radioGroup"
+        android:layout_toRightOf="@+id/textView_typology"
+        android:layout_toEndOf="@+id/textView_typology" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -174,24 +172,24 @@
         android:layout_height="wrap_content"
         android:text="From gallery"
         android:id="@+id/choseFromGallery"
-        android:layout_above="@+id/buttonSendAd"
-        android:layout_alignRight="@+id/buttonSendAd"
-        android:layout_alignEnd="@+id/buttonSendAd"
         android:textColor="#ffffff"
         android:background="@drawable/botton_style"
-        android:visibility="visible"
-        android:layout_toEndOf="@+id/thumbtailImage"
+        android:visibility="invisible"
+        android:layout_above="@+id/buttonSendAd"
         android:layout_alignLeft="@+id/button_upload_img_ad"
-        android:layout_alignStart="@+id/button_upload_img_ad" />
+        android:layout_alignStart="@+id/button_upload_img_ad"
+        android:layout_marginBottom="62dp"
+        android:layout_alignRight="@+id/button_upload_img_ad"
+        android:layout_alignEnd="@+id/button_upload_img_ad" />
 <RadioGroup
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_toEndOf="@+id/FromEditText"
     android:id="@+id/radioGroup"
-    android:layout_alignBottom="@+id/UntilEditText"
     android:layout_below="@+id/textView_typology"
     android:layout_alignLeft="@+id/textView_typology"
-    android:layout_alignStart="@+id/textView_typology">
+    android:layout_alignStart="@+id/textView_typology"
+    android:layout_above="@+id/thumbtailImage">
 
     <RadioButton
         android:layout_width="wrap_content"
@@ -241,6 +239,37 @@
         android:layout_toEndOf="@+id/FromEditText" />
 
 </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="€"
+        android:id="@+id/textView_euro"
+        android:layout_alignTop="@+id/priceEditText"
+        android:layout_toRightOf="@+id/priceEditText"
+        android:layout_toEndOf="@+id/priceEditText" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_upload_img_ad2"
+        android:src="@drawable/camera_icon"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignRight="@+id/button_upload_img_ad"
+        android:layout_alignEnd="@+id/button_upload_img_ad"
+        android:layout_alignBottom="@+id/button_upload_img_ad"
+        android:background="#ffffff" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/choseFromGallery2"
+        android:layout_alignTop="@+id/choseFromGallery"
+        android:layout_alignRight="@+id/choseFromGallery"
+        android:layout_alignEnd="@+id/choseFromGallery"
+        android:src="@drawable/gallery_icon48"
+        android:background="#ffffff" />
 
 
 </RelativeLayout>

@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
@@ -89,8 +90,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         imageRef = childRef.child(Util.getCurrentTs());
 
 
-        Button shot=(Button)findViewById(R.id.button_upload_img_ad);
-        Button chooseFromGalley=(Button) findViewById(R.id.choseFromGallery);
+        ImageButton shot=(ImageButton)findViewById(R.id.button_upload_img_ad2);
+        ImageButton chooseFromGalley=(ImageButton) findViewById(R.id.choseFromGallery2);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
 
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
@@ -289,11 +290,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                         getFromDate(), getUntilDate());//The parsed data
                 break;
 
-            case R.id.button_upload_img_ad:
+            case R.id.button_upload_img_ad2:
                 dispatchTakePictureIntent();
                 break;
 
-            case R.id.choseFromGallery:
+            case R.id.choseFromGallery2:
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
                 break;

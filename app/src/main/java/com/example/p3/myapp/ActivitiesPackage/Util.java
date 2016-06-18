@@ -1,15 +1,9 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
-import android.os.Environment;
 import android.util.Log;
-
-import com.example.p3.myapp.ConnectionToServer;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -54,6 +48,15 @@ public class Util {
     }
 
     static String getMaxValueDate(){
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2099);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 31);
+        SimpleDateFormat s2=new SimpleDateFormat(NEW_FORMAT);
+        s2.setCalendar(cal);
+        Log.i(TAG,"The date representation : "+ s2.toString());
+
         SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);
         Date maxDate=new Date();
         maxDate.setYear(2099);

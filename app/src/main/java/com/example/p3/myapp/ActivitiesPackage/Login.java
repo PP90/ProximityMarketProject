@@ -1,6 +1,7 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,12 +21,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private final String TAG="LOGIN";
     private String uname;
     private String upwd;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = pref.edit();
+
 
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
@@ -77,9 +83,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         @Override
         protected Integer doInBackground(String... params) {
             ArrayList<String> dataFromServer;
+
             ConnectionToServer connToServer=new ConnectionToServer();
             String myLoginString=connToServer.getStringtoSendToServer("LOGIN", params);
             connToServer.connectToTheServer(true, true);
+
             int connServerResult=connToServer.sendToServer(myLoginString);
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");
@@ -98,9 +106,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             Intent goToProfile=new Intent(getBaseContext(), UserActivity.class);
 
             if (a == 1){
-                UserStatus.username=uname;
-                UserStatus.isLogged=true; // dove sta isLogged ?
                 startActivity(goToProfile);
+                editor.putString("username", uname); // Storing uname
+                editor.putString("pwd", upwd); // Storing pwd
+                editor.commit(); // commit changes
             }
             else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION | a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();

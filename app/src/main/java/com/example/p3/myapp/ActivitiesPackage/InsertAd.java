@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -62,8 +63,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     static final private String directoryName="/ProximityMarket/";
 
     private final int COMPRESSION_RATIO=100;
-    static final int REQUEST_TAKE_PHOTO = 1234;
-    private final int SELECT_PICTURE = 1020;
+    static final int REQUEST_TAKE_PHOTO = 120;
+    private final int SELECT_PICTURE = 20;
 
     static String TAG="InsertAd";
 
@@ -75,10 +76,14 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     private double progressUpload=-1;
 
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
 
         gps=new GPSClass(this);
         gps.onCreateActivity(this);
@@ -165,7 +170,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //Giving the path image as input the thumbnail of the image is set
     private void setThumbnail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
-        //Log.i(TAG, "Size of image(byte): " + image.getByteCount());
+        Log.i(TAG, "Size of image(byte): " + image.getByteCount());
         thumbnail.setImageBitmap(image);
         Log.i(TAG, "The image has been set");
 
@@ -271,6 +276,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         if(uriIMG.isEmpty()) return "";
         return uriIMG;
     }
+
     @Override
     public void onClick(View v) {
         int idView=v.getId();
@@ -289,22 +295,27 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 break;
 
             case R.id.takeAPhotoImage:
+                Log.i(TAG,"take a photo");
                 dispatchTakePictureIntent();
+                Log.i(TAG,"The photocamera gallery has been started");
                 break;
 
             case R.id.choseFromGalleryImage:
-                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
+                Intent i = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, SELECT_PICTURE);
+                Log.i(TAG,"The activity gallery has been started");
                 break;
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG,"On Activity Result");
         if (resultCode == RESULT_OK) {
             Log.i(TAG,"Result is ok");
+            //If the image is taken from thee photocamera, then the image is set
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
-                Log.i(TAG,"The uri is:" +selectedImageUri.toString());
+                Log.i(TAG,"The local uri of image is:" +selectedImageUri.toString());
                 thumbnail.setImageURI(selectedImageUri);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
                 uploadImageOnFirebase(byteArray);
@@ -312,6 +323,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             }
 
             if(requestCode==REQUEST_TAKE_PHOTO){
+                Log.i(TAG,"The request code is the request take photo");
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 String path=storageDir.getPath()+directoryName + nameFile;
                 setThumbnail(path);
@@ -353,7 +365,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
-            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
+            String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+pref.getString("username", null), params);
             Log.i(TAG,"Send to the server: "+newAdString);
             int resultSend=connectionToServer.sendToServer(newAdString);
             if(resultSend==ConnectionToServer.OK){

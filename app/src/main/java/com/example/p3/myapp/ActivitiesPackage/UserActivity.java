@@ -1,6 +1,7 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +28,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private final String DEFAULT_DISTANCE="1000"; //Expressed in meters
     private ArrayList<String> adList;
 
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
 
         Button addNewAd=(Button) findViewById(R.id.button_add_ads);
         Button seeNearAds=(Button) findViewById(R.id.buttonSeeNearAds);
@@ -88,10 +93,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonSeeNearAds:
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
-                Log.i(TAG,"username is: "+UserStatus.username);
+                Log.i(TAG,"username is: "+pref.getString("username", null));
 
                 SearchNearAds searchNearAds = new SearchNearAds();
-                searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
+                searchNearAds.execute(pref.getString("username", null), getTypology(),
+                        getKeywords(), latitude, longitude, getDistance());
                 break;
 
             default:

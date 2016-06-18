@@ -208,9 +208,6 @@ public class SeeNearAds extends AppCompatActivity {
             int currentTab= getArguments().getInt(ARG_SECTION_NUMBER);
             Log.i(TAG,"current Tab: "+currentTab);
             setFieldsTab(rootView, currentTab);
-            //TODO: To be deleted ?
-         //  TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-         //  textView.setText(getString(R.string.section_format,currentTab));
            return rootView;
         }
     }

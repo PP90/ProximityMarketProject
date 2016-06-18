@@ -51,7 +51,7 @@
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
         android:cropToPadding="false"
-        android:src="@drawable/gallery_icon"
+        android:src="@drawable/gallery_icon48"
         android:scaleType="centerCrop"
         android:visibility="invisible"
         android:layout_below="@+id/UntilEditText"

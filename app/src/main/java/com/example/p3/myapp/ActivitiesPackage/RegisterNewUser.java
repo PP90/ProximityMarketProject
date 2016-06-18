@@ -77,10 +77,16 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
             connectionToServer.connectToTheServer(true, true);
             int connServerResult=connectionToServer.sendToServer(insertUserString);
 
-            if(connServerResult==ConnectionToServer.OK) dataFromServer = connectionToServer.receiveFromServer();
-            else return connServerResult;
+            if(connServerResult==ConnectionToServer.OK){
+                dataFromServer = connectionToServer.receiveFromServer();
+                connectionToServer.closeConnection();
+            }
+            else{
+                connectionToServer.closeConnection();
+                return connServerResult;
+            }
 
-            connectionToServer.closeConnection();
+
             if(dataFromServer.get(0).equals(FormatMessage.INSERT_USER)) {
                 if (dataFromServer.get(1).equals("OK")) return 1;//these 3 strings should be in format message (?)
                 else if (dataFromServer.get(1).equals("NO")) return -1;

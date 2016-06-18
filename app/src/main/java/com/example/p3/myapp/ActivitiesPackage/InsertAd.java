@@ -372,6 +372,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 dataFromServer = connectionToServer.receiveFromServer();
 //                Log.i(TAG, dataFromServer.toString());
             }else return resultSend;
+
             connectionToServer.closeConnection();
             if (dataFromServer.get(2).equals("OK")) return 1;
             else return -1;

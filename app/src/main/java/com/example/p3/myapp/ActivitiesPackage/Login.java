@@ -94,8 +94,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 dataFromServer = connToServer.receiveFromServer();
                 connToServer.closeConnection();//Added.
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
-            }else return connServerResult;
-            connToServer.closeConnection();
+            }else{
+                connToServer.closeConnection();
+                return connServerResult;
+            }
+
             if (dataFromServer.get(1).equals("OK")) return 1;
             else return -1;
 

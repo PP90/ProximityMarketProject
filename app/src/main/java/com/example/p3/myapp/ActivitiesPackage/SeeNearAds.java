@@ -58,9 +58,11 @@ public class SeeNearAds extends AppCompatActivity {
                 Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
                 adListParsed.add(adTemp);
             }
-        String lastElement=adListParsed.get(countAds-1).get(N_PARAMS_AD-1);
-        lastElement=lastElement.substring(0,lastElement.length()-1);
-        adListParsed.get(countAds-1).set(N_PARAMS_AD-1,lastElement);
+        if(countAds>0) {
+            String lastElement = adListParsed.get(countAds - 1).get(N_PARAMS_AD - 1);
+            lastElement = lastElement.substring(0, lastElement.length() - 1);
+            adListParsed.get(countAds - 1).set(N_PARAMS_AD - 1, lastElement);
+        }
     }
 
 
@@ -186,9 +188,12 @@ public class SeeNearAds extends AppCompatActivity {
             description.setText("Description: "+adListParsed.get(pos-1).get(3));
 
             String imgUrl=adListParsed.get(pos-1).get(4);
-            thumbnail = (ImageView) rootView.findViewById(R.id.imageViewAd);
-            Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
-
+            if(imgUrl!=null) {
+                if (!imgUrl.isEmpty()) {
+                    thumbnail = (ImageView) rootView.findViewById(R.id.imageViewAd);
+                    Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
+                }
+            }
             TextView price=(TextView) rootView.findViewById(R.id.priceEditTextSeeNearAds);
             price.setText("Price: "+adListParsed.get(pos-1).get(5)+" €");
 

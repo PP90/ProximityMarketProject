@@ -96,14 +96,16 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i(TAG,"username is: "+pref.getString("username", null));
 
                 SearchNearAds searchNearAds = new SearchNearAds();
-                searchNearAds.execute(pref.getString("username", null), getTypology(),
-                        getKeywords(), latitude, longitude, getDistance());
+                    if(searchNearAds.getStatus() == AsyncTask.Status.PENDING) {//In order
+                     searchNearAds.execute(pref.getString("username", null), getTypology(),
+                            getKeywords(), latitude, longitude, getDistance());
+                    }
                 break;
 
             default:
                 break;
+                }
         }
-    }
 
     private String getKeywords(){
         EditText keyword=(EditText) findViewById(R.id.searchView_ads);

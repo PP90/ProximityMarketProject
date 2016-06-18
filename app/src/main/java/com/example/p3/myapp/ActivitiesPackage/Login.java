@@ -18,20 +18,19 @@ import java.util.ArrayList;
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG="LOGIN";
-    String uname;
-    String upwd;
+    private String uname;
+    private String upwd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // ConnectionToServer.getServerIP();
+
         Button loginButton = (Button) findViewById(R.id.button_login);
         Button registerButton= (Button) findViewById(R.id.button_registerNewAccount);
-        Button goOnButton=(Button) findViewById(R.id.GoOnButton);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
-        goOnButton.setOnClickListener(this);
     }
 
     public final static boolean isValidEmail(CharSequence target) {
@@ -52,7 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
                 EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
                 if(loginTask.getStatus() == AsyncTask.Status.PENDING){
-                    // added email check - controllo correttezza email aggiunto
+                    // Check e-mail correctnel
                     boolean emailOK= isValidEmail(user.getText().toString());
                     if(emailOK){
                         uname=user.getText().toString();
@@ -68,10 +67,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(i2);
                 break;
 
-            case R.id.GoOnButton:
-                Intent i3=new Intent(this, UserActivity.class);
-                startActivity(i3);
-                break;
         }
 
 

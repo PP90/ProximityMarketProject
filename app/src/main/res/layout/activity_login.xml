@@ -88,17 +88,6 @@
         android:layout_toRightOf="@+id/textView_register_new_account"
         android:layout_toEndOf="@+id/textView_register_new_account" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GoOn"
-        android:id="@+id/GoOnButton"
-        android:layout_alignBaseline="@+id/editText_insert_password"
-        android:layout_alignBottom="@+id/editText_insert_password"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Space
         android:layout_width="20px"
         android:layout_height="20px"
@@ -106,9 +95,7 @@
         android:layout_above="@+id/editText_insertEmailAsUsername"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/GoOnButton"
-        android:layout_alignEnd="@+id/GoOnButton" />
+        android:layout_alignParentTop="true" />
 
     <Space
         android:layout_width="20px"

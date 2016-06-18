@@ -55,27 +55,26 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private StorageReference storageRef;
     private StorageReference childRef;
     private StorageReference imageRef;
+    private String uriIMG;
+
     static final String STORAGE_REF="gs://proximitymarketdb.appspot.com/";
     static final String CHILD_REF="images/";
     static final private String directoryName="/ProximityMarket/";
 
-    private static boolean fromSelected;
-    private static boolean untilSelected;
-
     private final int COMPRESSION_RATIO=100;
-    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_TAKE_PHOTO = 1234;
+    private final int SELECT_PICTURE = 1020;
 
     static String TAG="InsertAd";
-    private String uriIMG;
 
-
-    private static final int SELECT_PICTURE = 10;
-
+    private static boolean fromSelected;
+    private static boolean untilSelected;
     private String nameFile;
     private ImageView thumbnail;
     private GPSClass gps;
 
     private double progressUpload=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,9 +88,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         childRef=storageRef.child(CHILD_REF);
         imageRef = childRef.child(Util.getCurrentTs());
 
-
-        ImageButton shot=(ImageButton)findViewById(R.id.button_upload_img_ad2);
-        ImageButton chooseFromGalley=(ImageButton) findViewById(R.id.choseFromGallery2);
+        ImageButton shot=(ImageButton)findViewById(R.id.takeAPhotoImage);
+        ImageButton chooseFromGalley=(ImageButton) findViewById(R.id.choseFromGalleryImage);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
 
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
@@ -290,11 +288,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                         getFromDate(), getUntilDate());//The parsed data
                 break;
 
-            case R.id.button_upload_img_ad2:
+            case R.id.takeAPhotoImage:
                 dispatchTakePictureIntent();
                 break;
 
-            case R.id.choseFromGallery2:
+            case R.id.choseFromGalleryImage:
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
                 break;
@@ -303,8 +301,10 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            Log.i(TAG,"Result is ok");
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
+                Log.i(TAG,"The uri is:" +selectedImageUri.toString());
                 thumbnail.setImageURI(selectedImageUri);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
                 uploadImageOnFirebase(byteArray);
@@ -353,7 +353,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
-            UserStatus.username="pippo@pippo.it"; //TODO: to delete when it works
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+UserStatus.username, params);
             Log.i(TAG,"Send to the server: "+newAdString);
             int resultSend=connectionToServer.sendToServer(newAdString);

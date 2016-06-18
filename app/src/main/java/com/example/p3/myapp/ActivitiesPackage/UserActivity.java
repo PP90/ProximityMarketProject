@@ -1,7 +1,6 @@
 package com.example.p3.myapp.ActivitiesPackage;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +15,6 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 import EntityClasses.FormatMessage;
@@ -90,24 +86,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.buttonSeeNearAds:
-
-
-
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
-
-
-                UserStatus.username="pippo@pippo.it";
                 Log.i(TAG,"username is: "+UserStatus.username);
 
                 SearchNearAds searchNearAds = new SearchNearAds();
                 searchNearAds.execute(UserStatus.username, getTypology(), getKeywords(), latitude, longitude, getDistance());
-
-
-             //   DownloadImageAsyncTask dIm=new DownloadImageAsyncTask();
-            //    dIm.execute("https://firebasestorage.googleapis.com/v0/b/proximitymarketdb.appspot.com/o/images%2F2016-06-14+18%3A02%3A59?alt=media&token=fd1c885d-0fcc-496e-af05-59194d033ff9");
-
-
                 break;
 
             default:
@@ -146,8 +130,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
-        private final int OK_RESULT=1;
-        private final int NO_RESULT=-1;
+        private final int OK_RESULT=100;
+        private final int NO_RESULT=-100;
         @Override
         protected Integer doInBackground(String... params) {
             ConnectionToServer connToServer=new ConnectionToServer();
@@ -155,8 +139,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
              adList=connToServer.receiveFromServer();
-
-               Log.i(TAG,"n ad="+adList.size());
                connToServer.closeConnection();
                return OK_RESULT;
             }else {

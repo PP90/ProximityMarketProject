@@ -26,7 +26,7 @@ public class GPSClass implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, ResultCallback<Status>,LocationListener {
 
-        protected static final String TAG = "no_MainActivityGps";
+        protected static final String TAG = "GPSClass";
         protected GoogleApiClient mGoogleApiClient; // Provides the entry point to Google Play services.
         public Location mCurrentLoc; //this is the last location valid
         private Context context;

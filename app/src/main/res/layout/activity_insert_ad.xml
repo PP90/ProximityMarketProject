@@ -51,7 +51,7 @@
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
         android:cropToPadding="false"
-        android:src="@drawable/gallery_icon"
+        android:src="@drawable/gallery_icon48"
         android:scaleType="centerCrop"
         android:visibility="invisible"
         android:layout_below="@+id/UntilEditText"
@@ -253,7 +253,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_upload_img_ad2"
+        android:id="@+id/takeAPhotoImage"
         android:src="@drawable/camera_icon"
         android:layout_below="@+id/radioGroup"
         android:layout_alignRight="@+id/button_upload_img_ad"
@@ -264,7 +264,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/choseFromGallery2"
+        android:id="@+id/choseFromGalleryImage"
         android:layout_alignTop="@+id/choseFromGallery"
         android:layout_alignRight="@+id/choseFromGallery"
         android:layout_alignEnd="@+id/choseFromGallery"

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
@@ -40,32 +39,30 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         EditText pwd=(EditText) findViewById(R.id.editText_insert_pwd_to_reg);
         EditText pwdC=(EditText) findViewById(R.id.editText_confirm_insert_pwd_to_reg);
         RadioButton isMale=(RadioButton) findViewById(R.id.male_radiobutton);
+
         String sexString;
         if(isMale.isSelected()) sexString="1";
         else sexString="0";
+
         if(addNewUser.getStatus() == AsyncTask.Status.PENDING){
             boolean emailOK= isValidEmail(username.getText().toString());
             boolean pwdOK= isTheSame(pwd.getText().toString(),pwdC.getText().toString());
-            if(emailOK){
 
+            if(emailOK){
                 if (pwdOK)addNewUser.execute(username.getText().toString(), pwd.getText().toString(), name.getText().toString(), surname.getText().toString(),sexString );
                 else Toast.makeText(getApplicationContext(),"Insert the same password in both boxes",Toast.LENGTH_SHORT).show();
-
                 } else Toast.makeText(getApplicationContext(),"Invalid or null email address",Toast.LENGTH_SHORT).show();
         }
     }
+
     public final static boolean isValidEmail(CharSequence target) {
-        if (TextUtils.isEmpty(target)) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
+        if (TextUtils.isEmpty(target))return false;
+         else return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
     public final static boolean isTheSame(String pwd,String pwdC ){
         if (pwd.equalsIgnoreCase(pwdC)) return true;//TODO: it is case sensitive ?
         else return false;
-
     };
 
 

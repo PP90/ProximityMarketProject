@@ -58,6 +58,9 @@ public class SeeNearAds extends AppCompatActivity {
                 Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
                 adListParsed.add(adTemp);
             }
+        String lastElement=adListParsed.get(countAds-1).get(N_PARAMS_AD-1);
+        lastElement=lastElement.substring(0,lastElement.length()-1);
+        adListParsed.get(countAds-1).set(N_PARAMS_AD-1,lastElement);
     }
 
 

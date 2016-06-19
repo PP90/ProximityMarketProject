@@ -191,7 +191,6 @@ public class SeeNearAds extends AppCompatActivity {
             if(imgUrl!=null) {
                 if (!imgUrl.isEmpty()) {
                     Picasso.with(getContext()).load(imgUrl).error(R.drawable.loading_image).placeholder(R.drawable.loading_image).into(thumbnail);
-                //    Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
                 }
             }
 

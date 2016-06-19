@@ -267,7 +267,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private String getUntilDate(){
         String from=dateEditFrom.getText().toString();
         if(from==null) return Util.getMaxValueDate();
-        else if (from.isEmpty()){ return Util.getMaxValueDate();}
+        else if (from.isEmpty()){ return Util.MAX_DATE;}
         else return Util.changeDateFormat(dateEditFrom.getText().toString());
     }
 

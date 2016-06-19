@@ -3,7 +3,6 @@ package com.example.p3.myapp.ActivitiesPackage;
 import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -13,6 +12,7 @@ public class Util {
     static final String NEW_FORMAT = "yyyy-MM-dd HH:mm:ss";
     static final String TS_FORMAT="yyyyMMdd_HHmmss";
     static final String TAG="Util";
+    static final String MAX_DATE="2099-12-31 23:59:59";
 
     //The date format get from the editText is different from the date format in the DB. For this reason must be converted.
     static public  String changeDateFormat(String oldDateFormat){
@@ -48,22 +48,5 @@ public class Util {
     static String getCurrentTs(){
         SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);
         return s.format(new Date());
-    }
-
-    static String getMaxValueDate(){
-        //TODO: To complete
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2099);
-        cal.set(Calendar.MONTH, Calendar.DECEMBER);
-        cal.set(Calendar.DAY_OF_MONTH, 31);
-        SimpleDateFormat s2=new SimpleDateFormat(NEW_FORMAT);
-        s2.setCalendar(cal);
-        Log.i(TAG,"The date representation : "+ s2.toString());
-
-        SimpleDateFormat s = new SimpleDateFormat(NEW_FORMAT);
-        Date maxDate=new Date();
-        maxDate.setYear(2099);
-        Log.i(TAG,"Max date is :"+maxDate.toString());
-        return s.format(maxDate);
     }
 }

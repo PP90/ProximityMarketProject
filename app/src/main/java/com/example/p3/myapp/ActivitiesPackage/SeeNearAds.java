@@ -42,9 +42,11 @@ public class SeeNearAds extends AppCompatActivity {
 
     /*** The {@link ViewPager} that will host the section contents.     */
     private ViewPager mViewPager;
-    private ArrayList<String> adListRaw;
-    static final int N_PARAMS_AD=9;
+
     static  ArrayList<ArrayList<String>> adListParsed;
+    private ArrayList<String> adListRaw;
+
+    static final int N_PARAMS_AD=9;
     private TabLayout tabLayout;
     static ImageView thumbnail;
 
@@ -55,10 +57,10 @@ public class SeeNearAds extends AppCompatActivity {
 
         for(int j=0; j<countAds; j++){
                 adTemp = new ArrayList<>(adListRaw.subList(j*N_PARAMS_AD, (j+1)*N_PARAMS_AD));
-                Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
+               // Log.i(TAG,"The ad number "+(j+1)+" has the following elements: "+adTemp.toString());
                 adListParsed.add(adTemp);
             }
-        if(countAds>0) {
+        if(countAds>0) {//Remove from the last element the closed square bracket
             String lastElement = adListParsed.get(countAds - 1).get(N_PARAMS_AD - 1);
             lastElement = lastElement.substring(0, lastElement.length() - 1);
             adListParsed.get(countAds - 1).set(N_PARAMS_AD - 1, lastElement);
@@ -68,6 +70,7 @@ public class SeeNearAds extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_near_ads);
 
@@ -81,12 +84,13 @@ public class SeeNearAds extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         adListRaw=getIntent().getStringArrayListExtra("adList");
+
         getAdListParsed();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,14 +99,10 @@ public class SeeNearAds extends AppCompatActivity {
                         .setAction("SEND", new View.OnClickListener() {
                             @Override
                             public void onClick(View view1) {
-
-                                //TODO: take email of seller and put in EXTRA_EMAIL and remove my email
-                                //TODO: take title ad and put it in (EXTRA_SUBJECT, "..."+ID)
-                                //TODO: take email address from the account of the user of the app (from Login?) and put inside Intent Email
                                 Intent Email = new Intent(Intent.ACTION_SEND);
                                 Email.setType("text/email");
                                 Email.putExtra(Intent.EXTRA_EMAIL,new String[]{currentPublisher});  //seller's email
-                                Email.putExtra(Intent.EXTRA_SUBJECT,"Hi, I'm interested in your Ad"); // Email's Object
+                                Email.putExtra(Intent.EXTRA_SUBJECT,"Hi, I'm interested in your advertisement"); // Email's Object
                                 Email.putExtra(Intent.EXTRA_TEXT, "Dear Seller, I'm interested in your advertisement, please contact me soon" + "");  //Email text
 
                                 try {
@@ -115,12 +115,8 @@ public class SeeNearAds extends AppCompatActivity {
                                 snackbar1.show();
                             }
                         }).show();
-
-
             }
         });
-
-
     }
 
 /* //TODO: possibile menu delle Opzioni già previsto
@@ -179,7 +175,7 @@ public class SeeNearAds extends AppCompatActivity {
 
         private void setFieldsTab(View rootView, int pos){
 
-            currentPublisher=adListParsed.get(pos-1).get(1);
+            currentPublisher=adListParsed.get(pos-1).get(1);//The publisher of the ad
 
             TextView type=(TextView) rootView.findViewById(R.id.typeEditTextSeeNearAds);
             type.setText("Type: "+adListParsed.get(pos-1).get(2));
@@ -188,12 +184,14 @@ public class SeeNearAds extends AppCompatActivity {
             description.setText("Description: "+adListParsed.get(pos-1).get(3));
 
             String imgUrl=adListParsed.get(pos-1).get(4);
+
             if(imgUrl!=null) {
                 if (!imgUrl.isEmpty()) {
                     thumbnail = (ImageView) rootView.findViewById(R.id.imageViewAd);
                     Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
                 }
             }
+
             TextView price=(TextView) rootView.findViewById(R.id.priceEditTextSeeNearAds);
             price.setText("Price: "+adListParsed.get(pos-1).get(5)+" €");
 

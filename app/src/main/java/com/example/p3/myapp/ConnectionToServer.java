@@ -16,30 +16,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.103";//TO MODIFY EACH TIME OPEN YOUR IDE
+    private final static String SERVER_NAME = "192.168.0.103";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
-    private final String DELIMITS = "[,]";//Delimiter to parse the data
-    private Socket client;
-    public static final int OK=1;
+
     public static final int TIMEOUT_EXCEPTION=-5;
     public static final int IO_EXCEPTION=-3;
     public static final int NULL_POINTER_EXC=-7;
+    public static final int OK=1;
+
+    private final String DELIMITS = "[,]";//Delimiter to parse the data
+
+    private Socket client;
+
     private OutputStream outToServer;
     private DataOutputStream out;
 
     private InputStream inFromServer;
-
     private DataInputStream in;
-
-    private boolean isConnected;
 
     private final static String TAG="ConnectionToTheServer";
 
-
-    public ConnectionToServer(){
-        isConnected=false;
-    }
+    public ConnectionToServer(){    }
 
     public boolean connectToTheServer(boolean inputBuffer, boolean outputBuffer){
         client = new Socket();
@@ -105,18 +103,6 @@ public class ConnectionToServer {
         }
     }
 
-    public ArrayList<String> receiveAdListFromTheServer(){
-        try {
-            String dataFromServer=in.readUTF();
-            ArrayList<String> data=getAdListFromBuffer(dataFromServer);
-            System.out.println("Ads received from the server: " + data.toString());
-            return data;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
    // TODO: It doesn't work. delete ?
     public static void getServerIP() {
         try {
@@ -151,20 +137,6 @@ public class ConnectionToServer {
             return parsedInput;
 
         } else {
-            return null;
-        }
-    }
-
-    private ArrayList<String> getAdListFromBuffer(String dataFromBuffer) {
-        ArrayList<String> arrayListAdList = new ArrayList<>();
-        if (dataFromBuffer != null) {
-            Log.i(TAG, "Data is not null");
-            String[] myAds = dataFromBuffer.split(";");
-            arrayListAdList.addAll(Arrays.asList(myAds));
-            return arrayListAdList;
-
-        } else {
-            Log.i(TAG, "Data is null");
             return null;
         }
     }

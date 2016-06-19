@@ -19,10 +19,12 @@ public class Util {
         Date date = null;
         try {
             date = new SimpleDateFormat(OLD_FORMAT).parse(oldDateFormat);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             Log.i(TAG, "Bad format error");
             e.printStackTrace();
         }
+
         String dateNewFormat = new SimpleDateFormat(NEW_FORMAT).format(date);
         Log.i(TAG,"The new format is: "+dateNewFormat);
         return dateNewFormat;
@@ -32,7 +34,8 @@ public class Util {
         Date date = null;
         try {
             date = new SimpleDateFormat(NEW_FORMAT).parse(newDateFormat);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             Log.i(TAG, "Bad format error");
             e.printStackTrace();
         }
@@ -48,7 +51,7 @@ public class Util {
     }
 
     static String getMaxValueDate(){
-
+        //TODO: To complete
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2099);
         cal.set(Calendar.MONTH, Calendar.DECEMBER);

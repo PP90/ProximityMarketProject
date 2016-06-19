@@ -93,7 +93,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonSeeNearAds:
                 String latitude = String.valueOf(gps.getLatitude());
                 String longitude = String.valueOf(gps.getLongitude());
-                Log.i(TAG,"username is: "+pref.getString("username", null));
+              //  Log.i(TAG,"username is: "+pref.getString("username", null));
 
                 SearchNearAds searchNearAds = new SearchNearAds();
                     if(searchNearAds.getStatus() == AsyncTask.Status.PENDING) {//In order
@@ -138,8 +138,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private class SearchNearAds extends AsyncTask<String, Void, Integer>{
+
         private final int OK_RESULT=100;
         private final int NO_RESULT=-100;
+
         @Override
         protected Integer doInBackground(String... params) {
             ConnectionToServer connToServer=new ConnectionToServer();

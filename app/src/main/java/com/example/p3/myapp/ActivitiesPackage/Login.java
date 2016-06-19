@@ -80,41 +80,47 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private class LoginTask extends AsyncTask<String, Void, Integer> {
 
+        private final int OK=1;
+        private final int NO=-1;
+        private final int NO_CONNECTION=7;
         @Override
         protected Integer doInBackground(String... params) {
             ArrayList<String> dataFromServer;
 
             ConnectionToServer connToServer=new ConnectionToServer();
             String myLoginString=connToServer.getStringtoSendToServer("LOGIN", params);
-            connToServer.connectToTheServer(true, true);
+            boolean serverConn=connToServer.connectToTheServer(true, true);
+
+            if(!serverConn)return NO_CONNECTION;
 
             int connServerResult=connToServer.sendToServer(myLoginString);
+
             if(connServerResult==ConnectionToServer.OK) {
                 // System.out.println("Data sent correctly");
                 dataFromServer = connToServer.receiveFromServer();
                 connToServer.closeConnection();//Added.
                 //   System.out.println("Data received correctly"+dataFromServer.toString());
-            }else{
+            }
+            else {
                 connToServer.closeConnection();
                 return connServerResult;
             }
 
-            if (dataFromServer.get(1).equals("OK")) return 1;
-            else return -1;
-
-
+            if (dataFromServer.get(1).equals("OK")) return OK;
+            else return NO;
         }
 
         protected void onPostExecute(Integer a) {
             Intent goToProfile=new Intent(getBaseContext(), UserActivity.class);
 
-            if (a == 1){
+            if (a == OK){
                 startActivity(goToProfile);
                 editor.putString("username", uname); // Storing uname
-                editor.putString("pwd", upwd); // Storing pwd
+                editor.putString("pwd", upwd); // Storing pw
                 editor.commit(); // commit changes
             }
-            else if (a == -1) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
+            else if (a == NO) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
+            else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "Please, turn on the Wi-fi or data mobile", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION | a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
        }
     }

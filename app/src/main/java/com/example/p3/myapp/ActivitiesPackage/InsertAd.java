@@ -348,6 +348,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //This async task is called when the user wants insert a new AD.
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
         private final String TAG="RegisterNewAD";
+        private final int NOT_UPLOAD_YET=99;
 
         @Override
         protected Integer doInBackground(String... params) {
@@ -358,32 +359,40 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             Log.i(TAG,"The progress is: "+progressUpload);
             int partialProgress=(int)progressUpload;
             if( partialProgress>-1 && partialProgress<100){
-//                Toast.makeText(getApplicationContext(), "Please wait uploading image.. Progress: "+partialProgress+" %", Toast.LENGTH_SHORT).show();
-                return 0;
+                Log.i(TAG,"Image not upload yet");
+                return NOT_UPLOAD_YET;
             }
         //From this point the connection to the server is established if the image is uploaded into Firebase cloud
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             connectionToServer.connectToTheServer(true, true);
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+pref.getString("username", null), params);
-            Log.i(TAG,"Send to the server: "+newAdString);
+
+            Log.i(TAG,"Ad to send to the server: "+newAdString);
+
             int resultSend=connectionToServer.sendToServer(newAdString);
+
             if(resultSend==ConnectionToServer.OK){
                 dataFromServer = connectionToServer.receiveFromServer();
+                connectionToServer.closeConnection();
 //                Log.i(TAG, dataFromServer.toString());
-            }else return resultSend;
 
-            connectionToServer.closeConnection();
+            }else {
+                connectionToServer.closeConnection();
+                return resultSend;
+            }
+
             if (dataFromServer.get(2).equals("OK")) return 1;
             else return -1;
-        }
 
+        }
 
         protected void onPostExecute(Integer a) {
             if (a == ConnectionToServer.OK) {
                 Toast.makeText(getApplicationContext(), "Advertisement inserted correctly!", Toast.LENGTH_SHORT).show();
                 finish();
             }
+            else if (a == NOT_UPLOAD_YET)  Toast.makeText(getApplicationContext(), "Please wait uploading image..", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.NULL_POINTER_EXC |
                     a== ConnectionToServer.TIMEOUT_EXCEPTION |
                     a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
@@ -412,8 +421,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             if(untilSelected) dateEditUntil.setText(day + "/" + (month + 1) + "/" + year);
         }
     }
-
-
 
     public static class TimePickerFragment extends DialogFragment implements
             TimePickerDialog.OnTimeSetListener {

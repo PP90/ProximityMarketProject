@@ -145,24 +145,27 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             ConnectionToServer connToServer=new ConnectionToServer();
             connToServer.connectToTheServer(true, true);
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
+
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
              adList=connToServer.receiveFromServer();
-               connToServer.closeConnection();
+                connToServer.closeConnection();
                return OK_RESULT;
+
             }else {
                 connToServer.closeConnection();
                 return NO_RESULT;
             }
         }
-        protected void onPostExecute(Integer result) {
-            if(result==OK_RESULT) {
 
+        protected void onPostExecute(Integer result) {
+            //TODO: Check if the adList is empty or null
+            if(result==OK_RESULT) {
                 Intent goToSeeNearAdActivity = new Intent(getBaseContext(), SeeNearAds.class);
-                //TODO: Check if the adList is empty or null
                 goToSeeNearAdActivity.putExtra("numberOfAds", adList.size()/SeeNearAds.N_PARAMS_AD);
                 goToSeeNearAdActivity.putStringArrayListExtra("adList",adList);
                 startActivity(goToSeeNearAdActivity);
-            }else  Toast.makeText(getApplicationContext(), "Error connection", Toast.LENGTH_SHORT).show();
+            }
+            else if(result==NO_RESULT) Toast.makeText(getApplicationContext(), "Error connection", Toast.LENGTH_SHORT).show();
         }
     }
 }

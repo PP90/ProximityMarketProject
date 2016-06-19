@@ -117,7 +117,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 if(hasFocus){
                     fromSelected=true;
                     untilSelected=false;
-                    Log.i("TAG", "OneFocus From");
                     showTimePickerDialog(v);
                     showDatePickerDialog(v);
                 }
@@ -127,7 +126,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                    Log.i("TAG", "OneFrom Until");
                     fromSelected=false;
                     untilSelected=true;
                     showTimePickerDialog(v);
@@ -171,9 +169,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     //Giving the path image as input the thumbnail of the image is set
     private void setThumbnail(String pathImage){
         Bitmap image=BitmapFactory.decodeFile(pathImage);
-        Log.i(TAG, "Size of image(byte): " + image.getByteCount());
         thumbnail.setImageBitmap(image);
-        Log.i(TAG, "The image has been set");
 
     }
 
@@ -350,7 +346,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
         private final String TAG="RegisterNewAD";
         private final int NOT_UPLOAD_YET=99;
-
+        private int progress;
         private final int NO_CONNECTION=7;
 
         @Override
@@ -360,8 +356,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             //If the image URI is not empty and the image is not uploaded yet, then the async task returns.
 
             Log.i(TAG,"The progress is: "+progressUpload);
-            int partialProgress=(int)progressUpload;
-            if( partialProgress>-1 && partialProgress<100){
+            int progress=(int)progressUpload;
+            if( progress>-1 && progress<100){
                 Log.i(TAG,"Image not upload yet");
                 return NOT_UPLOAD_YET;
             }
@@ -400,7 +396,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 finish();
             }
             else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "No internet connection. Turn on the Wi-fi or data mobile", Toast.LENGTH_LONG).show();
-            else if (a == NOT_UPLOAD_YET)  Toast.makeText(getApplicationContext(), "Please wait uploading image..", Toast.LENGTH_SHORT).show();
+            else if (a == NOT_UPLOAD_YET)  Toast.makeText(getApplicationContext(), "Please wait uploading image.. "+progress+"%", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.NULL_POINTER_EXC |
                     a== ConnectionToServer.TIMEOUT_EXCEPTION |
                     a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();

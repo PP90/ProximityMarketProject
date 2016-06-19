@@ -234,9 +234,6 @@ public class SeeNearAds extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-
-            Log.i(TAG, "getItem->(position): "+position);
-
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
@@ -252,7 +249,6 @@ public class SeeNearAds extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             // fragment creation FG
-            Log.i(TAG, "getPageTitle");
             int i;
             for(i=0; i< numberOfAds; i++) {
                 if(position==i)  {

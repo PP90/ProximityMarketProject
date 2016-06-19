@@ -68,13 +68,17 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
     private class AddNewUserTask extends AsyncTask<String, Void, Integer>{
 
+        private final int NO_CONNECTION=7;
         @Override
         protected Integer doInBackground(String... params) {
 
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
             String insertUserString=connectionToServer.getStringtoSendToServer(FormatMessage.INSERT_USER, params);
-            connectionToServer.connectToTheServer(true, true);
+            boolean serverConn= connectionToServer.connectToTheServer(true, true);
+
+            if(!serverConn)return NO_CONNECTION;
+
             int connServerResult=connectionToServer.sendToServer(insertUserString);
 
             if(connServerResult==ConnectionToServer.OK){
@@ -88,7 +92,7 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
 
 
             if(dataFromServer.get(0).equals(FormatMessage.INSERT_USER)) {
-                if (dataFromServer.get(1).equals("OK")) return 1;//these 3 strings should be in format message (?)
+                if (dataFromServer.get(1).equals("OK")) return 1;
                 else if (dataFromServer.get(1).equals("NO")) return -1;
                 else if (dataFromServer.get(1).equals("DUPLICATE")) return -2;
             }
@@ -96,10 +100,12 @@ public class RegisterNewUser extends AppCompatActivity implements View.OnClickLi
         }
 
         protected void onPostExecute(Integer a) {
+
             if (a == 1) {
                 Toast.makeText(getApplicationContext(), "Congratulation! You are in ProximityMarket!", Toast.LENGTH_SHORT).show();
                 finish();
             }
+            else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "No internet connection. Turn on the Wi-fi or data mobile", Toast.LENGTH_LONG).show();
             else if (a == -2) Toast.makeText(getApplicationContext(), "Username already exists", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION | a== ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT).show();
        }

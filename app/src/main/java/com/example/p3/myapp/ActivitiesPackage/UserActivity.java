@@ -49,11 +49,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i("UserActivity","Progress: "+progress);
                 TextView meters=(TextView) findViewById(R.id.meters);
                 distance=String.valueOf(progress);
                 meters.setText(distance);
-                if(progress==5000) Log.i("UserActivity","Progress max");
+               // if(progress==5000) Log.i("UserActivity","Progress max");
 
 
             }
@@ -86,7 +85,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.button_add_ads:
                 Intent goToAddNewAddActivity = new Intent(this, InsertAd.class);
-                Log.i("UserActivity", "Add new ad button pressed");
                 startActivity(goToAddNewAddActivity);
                 break;
 
@@ -116,7 +114,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     private String getDistance(){
         if(distance==null)distance=DEFAULT_DISTANCE;
-        Log.i(TAG,"Distance is: "+distance);
         return distance;
     }
 
@@ -163,7 +160,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         protected void onPostExecute(Integer result) {
-            //TODO: Check if the adList is empty or null
             if(result==OK_RESULT) {
                 Intent goToSeeNearAdActivity = new Intent(getBaseContext(), SeeNearAds.class);
                 goToSeeNearAdActivity.putExtra("numberOfAds", adList.size()/SeeNearAds.N_PARAMS_AD);

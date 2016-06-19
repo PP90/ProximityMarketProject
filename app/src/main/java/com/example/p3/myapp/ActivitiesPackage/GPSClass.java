@@ -78,13 +78,13 @@ public void onCreateActivity(Context context){
     }
 
 
-    public void positionOnDemand(){//TODO: TO BE IMPLEMENTED ????
+    public void positionOnDemand(){//TODO: TO BE IMPLEMENTED ?
 
        LocationRequest lr = createLocationRequest();
 
     }
     @Override
-    public void onConnected(Bundle bundle) {//Su nexus 5 da' problemi.
+    public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_FINE_LOCATION) //ActivityCompat -> use ContextCompat as this has compatibility with older API levels
                 != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -100,10 +100,10 @@ public void onCreateActivity(Context context){
 
         if (mCurrentLoc != null) {
             latitude=mCurrentLoc.getLatitude();
-            longitude=+mCurrentLoc.getLongitude(); // TODO: che è sto più ???
+            longitude=+mCurrentLoc.getLongitude();
          //   Toast.makeText(context, "Your position is: LAT: "+latitude+" LONG: "+longitude, Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText( this.context, "No location detected", Toast.LENGTH_LONG).show();
+            Toast.makeText( this.context, "No location detected. Please Turn on your GPS.", Toast.LENGTH_LONG).show();
         }
         return;
     }

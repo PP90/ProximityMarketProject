@@ -78,6 +78,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     private SharedPreferences pref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,7 +267,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     private String getUntilDate(){
         String from=dateEditFrom.getText().toString();
-        if(from==null) return Util.getMaxValueDate();
+        if(from==null) return Util.MAX_DATE;
         else if (from.isEmpty()){ return Util.MAX_DATE;}
         else return Util.changeDateFormat(dateEditFrom.getText().toString());
     }
@@ -350,6 +351,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         private final String TAG="RegisterNewAD";
         private final int NOT_UPLOAD_YET=99;
 
+        private final int NO_CONNECTION=7;
+
         @Override
         protected Integer doInBackground(String... params) {
 
@@ -365,7 +368,11 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         //From this point the connection to the server is established if the image is uploaded into Firebase cloud
             ArrayList<String> dataFromServer;
             ConnectionToServer connectionToServer=new ConnectionToServer();
-            connectionToServer.connectToTheServer(true, true);
+
+            boolean serverConn= connectionToServer.connectToTheServer(true, true);
+
+            if(!serverConn)return NO_CONNECTION;
+
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+pref.getString("username", null), params);
 
             Log.i(TAG,"Ad to send to the server: "+newAdString);
@@ -392,6 +399,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 Toast.makeText(getApplicationContext(), "Advertisement inserted correctly!", Toast.LENGTH_SHORT).show();
                 finish();
             }
+            else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "No internet connection. Turn on the Wi-fi or data mobile", Toast.LENGTH_LONG).show();
             else if (a == NOT_UPLOAD_YET)  Toast.makeText(getApplicationContext(), "Please wait uploading image..", Toast.LENGTH_SHORT).show();
             else if (a == ConnectionToServer.NULL_POINTER_EXC |
                     a== ConnectionToServer.TIMEOUT_EXCEPTION |

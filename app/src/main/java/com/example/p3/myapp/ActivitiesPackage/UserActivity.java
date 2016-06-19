@@ -141,11 +141,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         private final int OK_RESULT=100;
         private final int NO_RESULT=-100;
+        private final int NO_CONNECTION=7;
 
         @Override
         protected Integer doInBackground(String... params) {
             ConnectionToServer connToServer=new ConnectionToServer();
-            connToServer.connectToTheServer(true, true);
+            boolean serverConn= connToServer.connectToTheServer(true, true);
+
+            if(!serverConn)return NO_CONNECTION;
             String seeNearAdsString=connToServer.getStringtoSendToServer("AD,SEE_NEAR", params);
 
             if(connToServer.sendToServer(seeNearAdsString)==ConnectionToServer.OK){
@@ -167,6 +170,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 goToSeeNearAdActivity.putStringArrayListExtra("adList",adList);
                 startActivity(goToSeeNearAdActivity);
             }
+            else if (result == NO_CONNECTION) Toast.makeText(getApplicationContext(), "No internet connection. Turn on the Wi-fi or data mobile", Toast.LENGTH_LONG).show();
+
             else if(result==NO_RESULT) Toast.makeText(getApplicationContext(), "Error connection", Toast.LENGTH_SHORT).show();
         }
     }

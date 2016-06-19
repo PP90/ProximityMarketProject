@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 editor.commit(); // commit changes
             }
             else if (a == NO) Toast.makeText(getApplicationContext(), "Login incorrect", Toast.LENGTH_SHORT).show();
-            else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "Please, turn on the Wi-fi or data mobile", Toast.LENGTH_SHORT).show();
+            else if (a == NO_CONNECTION) Toast.makeText(getApplicationContext(), "No internet connection. Turn on the Wi-fi or data mobile", Toast.LENGTH_LONG).show();
             else if (a == ConnectionToServer.TIMEOUT_EXCEPTION | a == ConnectionToServer.IO_EXCEPTION) Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
        }
     }

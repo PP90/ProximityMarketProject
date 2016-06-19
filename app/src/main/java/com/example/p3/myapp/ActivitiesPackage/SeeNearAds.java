@@ -185,10 +185,13 @@ public class SeeNearAds extends AppCompatActivity {
 
             String imgUrl=adListParsed.get(pos-1).get(4);
 
+            thumbnail = (ImageView) rootView.findViewById((R.id.imageViewAd));
+            thumbnail.setImageResource(R.drawable.loading_ico);
+
             if(imgUrl!=null) {
                 if (!imgUrl.isEmpty()) {
-                    thumbnail = (ImageView) rootView.findViewById(R.id.imageViewAd);
-                    Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
+                    Picasso.with(getContext()).load(imgUrl).error(R.drawable.loading_image).placeholder(R.drawable.loading_image).into(thumbnail);
+                //    Picasso.with(getActivity().getApplicationContext()).load(imgUrl).into(thumbnail);
                 }
             }
 

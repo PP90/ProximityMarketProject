@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,8 +64,9 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     static final private String directoryName="/ProximityMarket/";
 
     private final int COMPRESSION_RATIO=100;
-    static final int REQUEST_TAKE_PHOTO = 120;
-    private final int SELECT_PICTURE = 20;
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+    private final int SELECT_PICTURE = 2;
 
     static String TAG="InsertAd";
 
@@ -84,11 +86,13 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_ad);
 
+        Log.i(TAG,"OnCreateInsertAd");
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
 
         gps=new GPSClass(this);
         gps.onCreateActivity(this);
 
+        Firebase.setAndroidContext(this);
         storage=FirebaseStorage.getInstance();
         storageRef = storage.getReferenceFromUrl(STORAGE_REF);
         childRef=storageRef.child(CHILD_REF);
@@ -98,18 +102,18 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         ImageButton chooseFromGalley=(ImageButton) findViewById(R.id.choseFromGalleryImage);
         Button sendAd=(Button) findViewById(R.id.buttonSendAd);
 
+        priceEditText=(EditText)findViewById(R.id.priceEditText);
         dateEditFrom=(EditText)findViewById(R.id.FromEditText);
         dateEditUntil=(EditText)findViewById(R.id.UntilEditText);
-        thumbnail=(ImageView) findViewById(R.id.thumbtailImage);
-        priceEditText=(EditText)findViewById(R.id.priceEditText);
+
         fromSelected=false;
         untilSelected=false;
 
         sendAd.setOnClickListener(this);
         shot.setOnClickListener(this);
         chooseFromGalley.setOnClickListener(this);
-        dateEditFrom.setOnClickListener(this);
 
+        dateEditFrom.setOnClickListener(this);
         //If there is a focus on the date edit texts, then the date and time picker are shown
         dateEditFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -146,6 +150,8 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         super.onStop();
         gps.onStopActivity();
     }
+
+
     private void dispatchTakePictureIntent() {
         Log.i(TAG, "startPIC");
         // Ensure that there's a camera activity to handle the intent
@@ -154,11 +160,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = createImageFile();
-
+            Log.i(TAG,"The image is created");
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                return;
             }
             else{
                 Log.i(TAG, "photo file is NULL");
@@ -181,6 +188,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 progressUpload = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.i(TAG,""+progressUpload);
 
             }
         });
@@ -262,9 +270,9 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         }
 
     private String getUntilDate(){
-        String from=dateEditFrom.getText().toString();
-        if(from==null) return Util.MAX_DATE;
-        else if (from.isEmpty()){ return Util.MAX_DATE;}
+        String until=dateEditUntil.getText().toString();
+        if(until==null) return Util.MAX_DATE;
+        else if (until.isEmpty()){ return Util.MAX_DATE;}
         else return Util.changeDateFormat(dateEditFrom.getText().toString());
     }
 
@@ -277,6 +285,12 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         int idView=v.getId();
+
+        if(idView==R.id.choseFromGalleryImage){
+            Intent intentGallery = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intentGallery, SELECT_PICTURE);
+            return;
+        }
 
         switch(idView){
             case R.id.buttonSendAd:
@@ -298,21 +312,20 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 break;
 
             case R.id.choseFromGalleryImage:
-                Intent i = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, SELECT_PICTURE);
-                Log.i(TAG,"The activity gallery has been started");
                 break;
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG,"On Activity Result");
+        thumbnail=(ImageView) findViewById(R.id.thumbtailImage);
         if (resultCode == RESULT_OK) {
             Log.i(TAG,"Result is ok");
             //If the image is taken from thee photocamera, then the image is set
             if (requestCode == SELECT_PICTURE) {
+                Log.i(TAG,"The request code is the request select picture");
                 Uri selectedImageUri = data.getData();
-                Log.i(TAG,"The local uri of image is:" +selectedImageUri.toString());
+               Log.i(TAG,"The local uri of image is:" +selectedImageUri.toString());
                 thumbnail.setImageURI(selectedImageUri);
                 byte[] byteArray=imageViewToByteConverter(thumbnail);
                 uploadImageOnFirebase(byteArray);
@@ -371,7 +384,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
             String newAdString=connectionToServer.getStringtoSendToServer("AD,NEW,"+pref.getString("username", null), params);
 
-            Log.i(TAG,"Ad to send to the server: "+newAdString);
+            Log.i(TAG,"Ad to send: "+newAdString);
 
             int resultSend=connectionToServer.sendToServer(newAdString);
 

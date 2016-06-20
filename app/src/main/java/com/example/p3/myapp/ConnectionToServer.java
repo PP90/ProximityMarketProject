@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.103";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
+    private final static String SERVER_NAME = "192.168.0.2";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
 

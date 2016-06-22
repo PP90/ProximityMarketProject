@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+/*
+* Util class in which some useful methods have been written.
+* */
 public class Util {
 
     static final String OLD_FORMAT = "dd/MM/yyyy HH:mm";

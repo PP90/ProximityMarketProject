@@ -22,6 +22,10 @@ import com.google.android.gms.location.LocationSettingsRequest;
 /**
  * Created by p3 on 17/05/2016.
  */
+/*
+* This GPSClass class exploits the Google API in order to get the coarser and the finer location of GPS.
+* It works with API version lower or equal than 21 and bigger or equal than 16.
+* */
 public class GPSClass implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, ResultCallback<Status>,LocationListener {
@@ -54,14 +58,18 @@ public class GPSClass implements
         }
     }
 
+    /*
+    * These three following methods are called when the activity of the Android application
+     * calls the methods OnCreate, OnStart and OnStop respectively.
+    * */
 public void onCreateActivity(Context context){
     buildGoogleApiClient();
 }
 
-
     public void onStartActivity(){
         mGoogleApiClient.connect();
     }
+
     public void onStopActivity(){
         if (mGoogleApiClient.isConnected())  mGoogleApiClient.disconnect();
     }
@@ -77,12 +85,21 @@ public void onCreateActivity(Context context){
         return mLocationRequest;
     }
 
+/*
+* This function is not used, but it was not removed because future works.
+* */
 
-    public void positionOnDemand(){//TODO: TO BE IMPLEMENTED ?
+    public void positionOnDemand(){
 
        LocationRequest lr = createLocationRequest();
 
     }
+
+/*
+* First to connect to Google API client, some check permissions has been performed.
+* After that the position is set to latitude and longitude respectively.
+*
+* */
     @Override
     public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission( this.context, Manifest.permission.ACCESS_FINE_LOCATION) //ActivityCompat -> use ContextCompat as this has compatibility with older API levels
@@ -108,17 +125,18 @@ public void onCreateActivity(Context context){
         return;
     }
 
-    double getLatitude(){
-        return latitude;
-    }
-    double getLongitude(){
-        return longitude;
-    }
+    /*
+    * Get functions
+    * */
+    double getLatitude(){        return latitude;    }
+    double getLongitude(){        return longitude;    }
+/*
+* onConnected() will be called again automatically when the service reconnects
+* */
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.i(TAG, "Connection suspended");
-        // onConnected() will be called again automatically when the service reconnects
         mGoogleApiClient.connect();
     }
 

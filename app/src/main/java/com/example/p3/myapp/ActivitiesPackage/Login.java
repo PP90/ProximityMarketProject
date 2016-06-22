@@ -15,7 +15,10 @@ import com.example.p3.myapp.ConnectionToServer;
 import com.example.p3.myapp.R;
 
 import java.util.ArrayList;
-
+/*
+* This class implements the Login activity of the Android application. It shows the edit text
+* of username and password. It shows also the button to permit the user to register a new account.
+* */
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG="LOGIN";
@@ -39,6 +42,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         registerButton.setOnClickListener(this);
     }
 
+    //Check on the email format.
     public final static boolean isValidEmail(CharSequence target) {
         if (TextUtils.isEmpty(target)) {
             return false;
@@ -49,15 +53,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 
     @Override
-    public void onClick(View v) {//TODO: when the application comes back to this activity and the login button is pressed with the
-        //TODO: correct username and password, the Login doesn't work. BUG TO FIX.
+    public void onClick(View v) {
         switch(v.getId()){
             case R.id.button_login:
                 LoginTask loginTask= new LoginTask();
                 EditText user=(EditText) findViewById(R.id.editText_insertEmailAsUsername);
                 EditText pwd=(EditText) findViewById(R.id.editText_insert_password);
                 if(loginTask.getStatus() == AsyncTask.Status.PENDING){
-                    // Check e-mail correctnel
+                    // Check e-mail correctness
                     boolean emailOK= isValidEmail(user.getText().toString());
                     if(emailOK){
                         uname=user.getText().toString();
@@ -78,6 +81,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+
+    /*
+    * /With this async task is established a connection to the server.
+    * The credentials are sent in order to verify the login correctness.
+    * If it goes good, the user can use the application
+    * */
     private class LoginTask extends AsyncTask<String, Void, Integer> {
 
         private final int OK=1;

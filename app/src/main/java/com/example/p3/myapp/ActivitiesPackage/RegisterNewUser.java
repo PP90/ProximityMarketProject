@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import EntityClasses.FormatMessage;
 
 
+/*
+* This class is the activity relative to the "register new user" functionality.
+* The user can insert: username, password, surname, sex and so on. After that it can register  to Proximity Market application.
+* */
 public class RegisterNewUser extends AppCompatActivity implements View.OnClickListener {
     static final String TAG="RegisterNewUser";
 

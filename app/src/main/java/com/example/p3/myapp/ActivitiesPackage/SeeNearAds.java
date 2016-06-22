@@ -189,9 +189,7 @@ public class SeeNearAds extends AppCompatActivity {
             thumbnail.setImageResource(R.drawable.loading_ico);
 
             if(imgUrl!=null) {
-                if (!imgUrl.isEmpty()) {
-                    Picasso.with(getContext()).load(imgUrl).error(R.drawable.loading_image).placeholder(R.drawable.loading_image).into(thumbnail);
-                }
+                if (!imgUrl.isEmpty())  Picasso.with(getContext()).load(imgUrl).error(R.drawable.loading_image).placeholder(R.drawable.loading_image).into(thumbnail);
             }
 
             TextView price=(TextView) rootView.findViewById(R.id.priceEditTextSeeNearAds);

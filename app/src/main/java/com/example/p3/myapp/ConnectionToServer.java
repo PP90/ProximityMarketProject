@@ -15,8 +15,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+* Connection to the server class. This class is used to manage, send to and receive from the server.
+* Before to send the data, are parsed correctly in order to respect the format of the message.
+* */
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.2";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
+    private final static String SERVER_NAME = "192.168.0.109";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
 
@@ -103,7 +107,7 @@ public class ConnectionToServer {
         }
     }
 
-   // TODO: It doesn't work. delete ?
+   // This function should get the server IP but it doesn't work
     public static void getServerIP() {
         try {
             String myIP;

@@ -47,6 +47,20 @@ import java.util.Date;
 
 import EntityClasses.FormatMessage;
 
+/*
+* This class is an activity class. It permits to insert an advertisement.
+* The advertisement is inserted in this way:
+* First the user fills the fields in which he\she specifies
+* the details of advertisement: Description, Type of, price, valid from, valid until and optionally
+* a photo.
+*
+* Second, the photo will be automatically uploaded to an hosting service called Firebase.
+* When the user clicks on "Publish advertisement", a request is sent to the server, and the advertisement is registered.
+*
+* Third, the position is taken in a transparent manner.
+*
+*
+* */
 public class InsertAd extends AppCompatActivity implements View.OnClickListener {
 
     private static EditText dateEditFrom;
@@ -79,7 +93,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     private double progressUpload=-1;
 
     private SharedPreferences pref;
-
+    UploadTask uploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +154,19 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
     }
 
     @Override
+    protected  void onPause(){
+        super.onPause();
+        if(uploadTask!=null)   uploadTask.pause();//Added
+
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        if(uploadTask!=null) uploadTask.resume();//Added
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         gps.onStartActivity();
@@ -151,7 +178,9 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         gps.onStopActivity();
     }
 
-
+/*
+* If the user decides to take a picture, this method will be called
+* */
     private void dispatchTakePictureIntent() {
         Log.i(TAG, "startPIC");
         // Ensure that there's a camera activity to handle the intent
@@ -180,18 +209,23 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-
+/*
+* This function is called when the user either selects an image from the gallery or take a picture.
+* After that the image is uploaded to the Firebase server.
+* According to the on-line Firebase documentation, the upload task is asynchronous respect to the activity.
+* For further implementation see this following reference: https://firebase.google.com/docs/reference/android/com/google/firebase/storage/UploadTask
+* */
     private void uploadImageOnFirebase(byte[] data) {
-        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask = imageRef.putBytes(data);
 
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 progressUpload = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 Log.i(TAG,""+progressUpload);
-
             }
         });
+
         uploadTask.addOnFailureListener(new OnFailureListener() {
 
             @Override
@@ -212,7 +246,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         });
     }
 
-    //An image view is converted to byte array in order to be sent to the server through the socket.
+    //An image view is converted to byte array in order to be sent to Firebase
     private byte[] imageViewToByteConverter(ImageView imageView){
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
@@ -311,8 +345,6 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
                 Log.i(TAG,"The photocamera gallery has been started");
                 break;
 
-            case R.id.choseFromGalleryImage:
-                break;
         }
     }
 
@@ -344,18 +376,20 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    //A dialog about the time about data is created
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    //A dialog about the date about data is created
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
 
-    //This async task is called when the user wants insert a new AD.
+    //This async task is called when the user wants insert a new advertisement.
     private class RegisterNewAd extends AsyncTask<String,Void,Integer>{
         private final String TAG="RegisterNewAD";
         private final int NOT_UPLOAD_YET=99;
@@ -369,7 +403,7 @@ public class InsertAd extends AppCompatActivity implements View.OnClickListener 
             //If the image URI is not empty and the image is not uploaded yet, then the async task returns.
 
             Log.i(TAG,"The progress is: "+progressUpload);
-            int progress=(int)progressUpload;
+            progress=(int)progressUpload;
             if( progress>-1 && progress<100){
                 Log.i(TAG,"Image not upload yet");
                 return NOT_UPLOAD_YET;

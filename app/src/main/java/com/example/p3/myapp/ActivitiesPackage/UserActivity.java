@@ -20,6 +20,14 @@ import java.util.ArrayList;
 
 import EntityClasses.FormatMessage;
 
+
+/*
+* This application represents the Home of the application.
+* The user can either publish an advertisement or see the near advertisement.
+* In the former case the relative activity is show, in the latter case is shown a seek bar
+* by which the user can decide how much "near" an offer would be. It can decide also the keywords
+* and the type of offer.
+* */
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
     private String distance;
     private GPSClass gps;

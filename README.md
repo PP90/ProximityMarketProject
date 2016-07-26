@@ -22,3 +22,7 @@ On the other hand, the user can find the "near" advertisements.
 The "nearness" depends on within how many meters the user decides to find the advertisements.
 So, he\she can decide, for instance, to find the "buy" advertisement within 1000 meters. 
 The application will show the "near" advertisements.
+
+You can found the slides about Proximity Market in this link. http://www.slideshare.net/PietroPiscione/proximity-market?qid=bc1b4f55-4cfd-4250-8d6b-794d9ca4925f&v=&b=&from_search=1
+
+For any doubts or questions, please don't esitate to contact me. 

@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -20,7 +20,8 @@ import java.util.Arrays;
 * Before to send the data, are parsed correctly in order to respect the format of the message.
 * */
 public class ConnectionToServer {
-    private final static String SERVER_NAME = "192.168.0.109";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
+    private final static String SERVER_NAME = "192.168.0.2";//TO MODIFY EACH TIME THE SERVER CHANGES ITS IP
+    private final static String HOST_NAME="proxmarserver.ddns.net";
     private final static int PORT = 8080;
     private final int TIMEOUT=10000;
 
@@ -46,9 +47,13 @@ public class ConnectionToServer {
     public boolean connectToTheServer(boolean inputBuffer, boolean outputBuffer){
         client = new Socket();
         try {
-            Log.i(TAG, "Try to connect to "+SERVER_NAME+" at "+PORT);
-            client.connect(new InetSocketAddress(SERVER_NAME, PORT), TIMEOUT);
-            Log.i(TAG, "Connected to " + SERVER_NAME + " at " + PORT);
+            /*Try to resolve the hostname*/
+            String serverAddress=getServerIP();
+            if(serverAddress==null) serverAddress=SERVER_NAME;
+
+            Log.i(TAG, "Try to connect to "+serverAddress+" at "+PORT);
+            client.connect(new InetSocketAddress(serverAddress, PORT), TIMEOUT);
+            Log.i(TAG, "Connected to " + serverAddress + " at " + PORT);
 
             if(inputBuffer){
                 inFromServer = client.getInputStream();
@@ -108,15 +113,15 @@ public class ConnectionToServer {
     }
 
    // This function should get the server IP but it doesn't work
-    public static void getServerIP() {
+    public static String getServerIP() {
         try {
-            String myIP;
-         //  Log.i(TAG,Inet4Address.getLocalHost().getAddress().toString());
-            Log.i(TAG, Inet4Address.getLocalHost().getHostAddress().toString());
 
+            InetAddress address= InetAddress.getByName(HOST_NAME);
+            Log.i(TAG,"The server address is: "+address.getHostAddress());
+            return address.getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-
+            return null;
         }
 
     }

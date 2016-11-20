@@ -1,4 +1,6 @@
-Currently (17/07/2016) This project is in the developing phase, more specifically an alpha version is available. 
+#Proximity Market: Android application for selling\buying\donating services and goodies near to you
+
+Currently (17/07/2016) This project is in the developing phase, more specifically a working alpha version is available. 
 
 ProximityMarket is an Android application that provides a service to find in the proximity some advertisements.
 The Android application exploits the GPS device in order to find the "near" advertisements.
